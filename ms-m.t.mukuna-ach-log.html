@@ -2,227 +2,211 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Texas Secretary of State | Document Registration Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Convenience Bank | High-Value Disbursement Status Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800;900&display=swap');
         
-        body {
-            font-family: 'Public Sans', sans-serif;
-            background: #f1f5f9;
-            margin: 0;
-            padding: 0;
+        body { 
+            font-family: 'Public Sans', sans-serif; 
+            background-color: #f0f2f5; 
+            color: #1a1a1a; 
         }
-        
-        .state-header {
-            background: #0a1f2e;
-            border-bottom: 6px solid #b8860b;
-            padding: 2rem 0;
+        .bank-header { 
+            background-color: #003057; 
+            border-bottom: 5px solid #d4af37; 
         }
-        
-        .official-seal {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 1.5rem;
+        .status-badge { 
+            background-color: #e7f3ff; 
+            border: 1px solid #005ea2; 
+            color: #005ea2; 
         }
-        
-        .document-card {
-            background: white;
-            border: 1px solid #cbd5e1;
-            border-top: 6px solid #b8860b;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
-            margin-bottom: 1.5rem;
+        .data-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 1px; 
+            background-color: #dfe1e5; 
+            border: 1px solid #dfe1e5; 
         }
-        
-        .fee-breakdown {
-            background: #f8fafc;
-            border-left: 4px solid #b8860b;
-            padding: 1rem;
-            margin: 1rem 0;
+        .data-cell { 
+            background-color: white; 
+            padding: 1.5rem; 
         }
-        
-        .certification-stamp {
-            border: 2px solid #b8860b;
-            background: #fffbeb;
+        .label { 
+            font-size: 11px; 
+            font-weight: 800; 
+            color: #565c65; 
+            text-transform: uppercase; 
+            letter-spacing: 0.05em; 
+            margin-bottom: 6px; 
+        }
+        .value { 
+            font-size: 16px; 
+            font-weight: 700; 
+            color: #1b1b1b; 
+        }
+        .audit-log {
+            background-color: #1e293b;
+            color: #22c55e;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 13px;
             padding: 1.5rem;
-            text-align: center;
-            margin: 1.5rem 0;
+            border-radius: 0;
+            line-height: 1.8;
         }
-        
-        .final-notice {
-            background: #dcfce7;
-            border-left: 6px solid #15803d;
-            padding: 1rem;
-            margin: 1.5rem 0;
-        }
-        
-        .btn-pay {
-            background: #b8860b;
-            transition: all 0.2s;
-        }
-        .btn-pay:hover {
-            background: #9a7209;
-            transform: translateY(-1px);
-        }
-        
-        @media print {
-            .no-print { display: none; }
-            body { background: white; }
-            .document-card { box-shadow: none; border: 1px solid #000; }
+        .legal-footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+            font-size: 0.7rem;
         }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col">
 
-    <!-- State Header -->
-    <div class="state-header">
-        <div class="max-w-5xl mx-auto px-6">
-            <div class="official-seal">
-                <img src="https://www.clipartmax.com/png/full/4-43327_free-clipart-of-a-texas-flag-map-texas-clip-art-free.png" class="h-24" alt="Texas State Seal" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'48\' fill=\'%23b8860b\'/%3E%3C/svg%3E'">
-                <div class="text-center">
-                    <h1 class="text-white text-2xl md:text-3xl font-black uppercase tracking-tight">Texas Secretary of State</h1>
-                    <p class="text-amber-400 text-xs font-bold uppercase tracking-[0.3em] mt-1">Document Registration & Certification Division</p>
-                </div>
-                <img src="https://www.clipartmax.com/png/full/52-521285_secretary-of-state-texas-secretary-of-state-seal.png" class="h-20" alt="USSS Seal" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect width=\'100\' height=\'100\' fill=\'%23374151\'/%3E%3C/svg%3E'">
+    <!-- FIRST CONVENIENCE BANK HEADER -->
+    <div class="bank-header px-6 py-6">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-white text-3xl font-black tracking-tight">First Convenience Bank</h1>
+                <p class="text-[#d4af37] text-sm font-bold uppercase tracking-wider">Member FDIC | A Division of First National Bank Texas</p>
             </div>
-            <div class="text-center mt-4">
-                <span class="inline-block bg-amber-900 text-amber-200 text-[10px] font-bold px-4 py-1 rounded-full uppercase tracking-wider">Official State of Texas Portal — Secure Document Management System</span>
+            <div class="bg-white/10 px-4 py-2 rounded border border-white/20">
+                <p class="text-white text-xs font-mono font-bold">SECURE CORRESPONDENCE: CASE #FCB-470111139-ACH</p>
             </div>
         </div>
     </div>
 
-    <main class="max-w-5xl mx-auto p-6">
+    <main class="flex-grow max-w-6xl mx-auto w-full p-6 md:p-10">
         
-        <!-- Case Summary -->
-        <div class="bg-white border border-slate-200 rounded shadow-sm p-6 mb-6">
-            <div class="flex flex-wrap justify-between items-center gap-4">
+        <!-- OFFICIAL CASE BANNER -->
+        <div class="bg-white border border-gray-200 p-8 flex flex-col md:flex-row justify-between items-start gap-6 shadow-sm mb-8 rounded">
+            <div>
+                <h2 class="text-2xl font-extrabold text-gray-900 uppercase">Beneficiary Account: High-Value Disbursement</h2>
+                <p class="text-sm text-gray-600 font-bold mt-2">Current Status: <span class="text-amber-600">Federal Release Code Received — State-Level Hold Active</span></p>
+            </div>
+            <div class="status-badge px-6 py-3 text-xs font-black uppercase rounded shadow-sm">
+                Bank Ledger Status: PENDING REGULATORY RELEASE
+            </div>
+        </div>
+
+        <!-- ACCOUNT SUMMARY (POPULATED) -->
+        <div class="bg-white p-6 border border-gray-200 rounded shadow-sm mb-8">
+            <h3 class="text-xs font-black text-blue-900 uppercase tracking-widest mb-6 pb-2 border-b-2 border-blue-900">Beneficiary & Account Information</h3>
+            <div class="grid md:grid-cols-4 gap-6">
                 <div>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Beneficiary Reference</p>
-                    <p class="text-xl font-black text-slate-900">PB-142-WT1139</p>
-                    <p class="text-sm font-bold text-slate-700">Mujinga Therese Mukuna</p>
+                    <p class="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Full Name</p>
+                    <p class="text-base font-black text-gray-900">Mujinga Therese Mukuna</p>
                 </div>
-                <div class="text-right">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Document Status</p>
-                    <p class="text-sm font-black text-amber-600 uppercase">PENDING REGISTRATION — DOCUMENTS HELD</p>
+                <div>
+                    <p class="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Bank Account Number</p>
+                    <p class="text-base font-black font-mono">470111139</p>
+                </div>
+                <div>
+                    <p class="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Routing Number</p>
+                    <p class="text-base font-black font-mono">111906271</p>
+                </div>
+                <div>
+                    <p class="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Principal Sum</p>
+                    <p class="text-xl font-black text-green-700">$847,249.00</p>
                 </div>
             </div>
         </div>
 
-        <!-- Official Notice Letter -->
-        <div class="document-card">
-            <div class="bg-slate-50 px-6 py-4 border-b border-slate-200">
-                <h2 class="text-sm font-black text-slate-800 uppercase tracking-wider flex items-center gap-2">
-                    <i class="fas fa-gavel text-amber-600"></i>
-                    OFFICIAL NOTICE OF DOCUMENT REGISTRATION REQUIREMENT
-                </h2>
-                <p class="text-[10px] text-slate-500 mt-1">Pursuant to Texas Government Code § 552.261 and Texas Administrative Code § 70.3</p>
+        <!-- TRANSACTION LEDGER DATA -->
+        <section class="shadow-md mb-8">
+            <div class="data-grid rounded overflow-hidden">
+                <div class="data-cell"><div class="label">Remitting Entity</div><div class="value uppercase">Pitchbook Data, Inc / BOA_NET</div></div>
+                <div class="data-cell"><div class="label">Settlement Principal</div><div class="value text-green-700 font-extrabold">$847,249.00 USD</div></div>
+                <div class="data-cell"><div class="label">Registered Beneficiary</div><div class="value uppercase" id="display-name">Mujinga Therese Mukuna</div></div>
+                <div class="data-cell"><div class="label">Tracing ID (IMAD)</div><div class="value font-mono">20260201B10B001422005811</div></div>
+                <div class="data-cell"><div class="label">Receiving Institution</div><div class="value uppercase">First Convenience Bank (FNB Texas)</div></div>
+                <div class="data-cell"><div class="label">Account Type</div><div class="value uppercase text-blue-900">The Power Account — High Value Settlement</div></div>
+                <div class="data-cell border-t-4 border-blue-900 bg-blue-50/30">
+                    <div class="label">ABA Routing Number</div>
+                    <div class="text-3xl font-black text-slate-900">111906271</div>
+                </div>
+                <div class="data-cell border-t-4 border-blue-900 bg-blue-50/30">
+                    <div class="label">Bank Account Number</div>
+                    <div class="text-3xl font-black text-slate-900" id="display-account">470111139</div>
+                </div>
             </div>
+        </section>
+
+        <!-- DISBURSEMENT PROCESS UPDATE (NO FEES, JUST STATUS) -->
+        <section class="bg-white p-8 border border-gray-200 shadow-sm mb-8 rounded">
+            <h3 class="text-sm font-black text-blue-900 uppercase tracking-wider mb-6 pb-2 border-b-2 border-blue-900">Current Disbursement Progress — Interagency Coordination</h3>
             
-            <div class="p-6 space-y-5">
-                <p class="text-sm text-slate-700 leading-relaxed">
-                    The Texas Secretary of State's Office has received notification that your Federal Release Code (FRC) and associated disbursement documents are ready for final issuance. However, Texas state law requires that all high-value settlement documents be registered with this office before your financial institution can accept them as proof of funds.
-                </p>
-                
-                <p class="text-sm text-slate-700 leading-relaxed">
-                    This is a mandatory state-level compliance step that applies to all settlements exceeding $500,000 originating from federally flagged entities. The Cyber Fraud Task Force has coordinated with this office to ensure your documents are processed through the Texas Express program for expedited handling.
-                </p>
-                
-                <div class="bg-amber-50 border-l-4 border-amber-500 p-4 text-sm text-amber-800">
-                    <p class="font-bold">Important Distinction</p>
-                    <p class="mt-1">The fees you have previously paid to the National Treasury were for <strong>federal verification and clearance</strong>. The fees below are for <strong>state-level document registration, certification, and physical delivery</strong>. These are separate legal requirements administered by different government entities.</p>
-                </div>
-                
-                <!-- Fee 1 -->
-                <div class="fee-breakdown">
-                    <div class="flex justify-between items-center mb-2">
-                        <h3 class="font-bold text-slate-800">Fee 1: Document Preparation & Certified Copies</h3>
-                        <span class="text-xl font-black text-amber-700">$85.00</span>
-                    </div>
-                    <p class="text-xs text-slate-600">Authorized under Texas Government Code § 552.261 and Texas Administrative Code § 70.3</p>
-                    <div class="grid grid-cols-2 gap-2 mt-3 text-xs text-slate-600">
-                        <div class="flex justify-between"><span>Copying of documents (15 pages @ $0.10/page)</span><span>$1.50</span></div>
-                        <div class="flex justify-between"><span>Labor – document retrieval & reproduction (1 hr @ $15.00)</span><span>$15.00</span></div>
-                        <div class="flex justify-between"><span>Overhead charge (20% of labor)</span><span>$3.00</span></div>
-                        <div class="flex justify-between"><span>Remote document retrieval fee</span><span>$15.00</span></div>
-                        <div class="flex justify-between"><span>Certification and sealing (3 docs @ $15 + $1/page)</span><span>$50.50</span></div>
-                    </div>
-                    <p class="text-[10px] text-slate-500 mt-2">Processing Time: 1-2 hours after confirmation</p>
-                </div>
-                
-                <!-- Fee 2 -->
-                <div class="fee-breakdown">
-                    <div class="flex justify-between items-center mb-2">
-                        <h3 class="font-bold text-slate-800">Fee 2: Texas Secretary of State Expedited Registration</h3>
-                        <span class="text-xl font-black text-amber-700">$176.00</span>
-                    </div>
-                    <p class="text-xs text-slate-600">Texas Express Program — Expedited Processing (effective October 1, 2025)</p>
-                    <div class="grid grid-cols-2 gap-2 mt-3 text-xs text-slate-600">
-                        <div class="flex justify-between"><span>Expedited registration – Final Release Certificate (FRC)</span><span>$50.00</span></div>
-                        <div class="flex justify-between"><span>Expedited registration – Beneficiary Final Release Form</span><span>$50.00</span></div>
-                        <div class="flex justify-between"><span>Expedited registration – OFAC Sanctions Clearance Record</span><span>$50.00</span></div>
-                        <div class="flex justify-between"><span>Interagency document transfer fee</span><span>$26.00</span></div>
-                    </div>
-                    <p class="text-[10px] text-slate-500 mt-2">Processing Time: 24-48 hours after submission</p>
-                </div>
-                
-                <!-- Fee 3 -->
-                <div class="fee-breakdown">
-                    <div class="flex justify-between items-center mb-2">
-                        <h3 class="font-bold text-slate-800">Fee 3: Agent Green Travel, Fuel & Dispatch Authorization</h3>
-                        <span class="text-xl font-black text-amber-700">$15.00</span>
-                    </div>
-                    <p class="text-xs text-slate-600">Required by Cyber Fraud Task Force, Dallas Field Office for in-person document delivery</p>
-                    <p class="text-xs text-slate-600 mt-2">This fee covers Agent Green's travel expenses, fuel costs for final delivery, and dispatch authorization from his supervisor.</p>
-                    <p class="text-[10px] text-slate-500 mt-2">Processing Time: 1 hour after confirmation — Agent placed on standby</p>
-                </div>
-                
-                <!-- Total -->
-                <div class="bg-slate-100 p-4 rounded flex justify-between items-center">
-                    <span class="font-bold text-slate-800">Total Fees Required for Document Registration & Delivery</span>
-                    <span class="text-2xl font-black text-amber-700">$276.00</span>
-                </div>
-                
-                <!-- Certification Stamp -->
-                <div class="certification-stamp">
-                    <i class="fas fa-certificate text-3xl text-amber-600 mb-2"></i>
-                    <p class="font-bold text-slate-800 uppercase tracking-wide">Official Certification of Final Fees</p>
-                    <p class="text-sm text-slate-600 mt-2">The Texas Secretary of State's Office and the Cyber Fraud Task Force, Dallas Field Office, hereby certify that the total sum of <strong>$276.00</strong> detailed above constitutes the complete and final financial obligation required for the preparation, registration, and delivery of your case documents.</p>
-                    <p class="text-sm text-slate-600 mt-2">Upon receipt and confirmation of the full amount, no further fees, administrative charges, or processing costs shall be assessed or requested. Your documents shall be prepared, certified, registered with the Texas Secretary of State, and transferred to the custody of the assigned field agent for final delivery.</p>
-                    <div class="mt-4 pt-3 border-t border-amber-300">
-                        <p class="text-xs font-mono text-amber-800">Authorization: Title 18, U.S.C. § 3056 — United States Secret Service<br>Effective Date: Upon full payment of stated fees</p>
+            <div class="space-y-6">
+                <div class="flex items-start gap-4">
+                    <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5">✓</div>
+                    <div>
+                        <p class="font-bold text-gray-900">Federal Release Code (FRC) Generation</p>
+                        <p class="text-sm text-gray-600">The United States Secret Service, Cyber Fraud Task Force — Dallas Field Office has confirmed that your Federal Release Code has been generated and is currently in the custody of a federal field agent. This code is required to authorize the final release of funds from the Federal Reserve escrow.</p>
                     </div>
                 </div>
                 
-                <!-- Payment Section -->
-                <div class="bg-slate-50 p-5 rounded border border-slate-200">
-                    <h3 class="font-bold text-slate-800 mb-3 flex items-center gap-2"><i class="fas fa-arrow-right text-amber-600"></i> Payment Instructions</h3>
-                    <p class="text-sm text-slate-700 mb-2">Please remit the total amount of <strong>$276.00</strong> to the following official payment address:</p>
-                    <div class="bg-white p-3 rounded border border-slate-300 font-mono text-xs break-all">
-                        state-document-registration@cake.cash
+                <div class="flex items-start gap-4">
+                    <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5">✓</div>
+                    <div>
+                        <p class="font-bold text-gray-900">Texas Secretary of State Document Registration</p>
+                        <p class="text-sm text-gray-600">The Texas Secretary of State's Office has received notification of your pending disbursement. Texas state law requires that all high-value settlement documents be registered with this office before your financial institution can accept them as proof of funds. This is a mandatory compliance step for settlements exceeding $500,000. Your documents are currently being processed through the Texas Express program for expedited handling.</p>
                     </div>
-                    <p class="text-xs text-slate-500 mt-3">Once payment is confirmed, the document preparation and registration process will begin immediately. Agent Green will be dispatched as soon as the Release Code has been generated.</p>
                 </div>
                 
-                <!-- Final Notice -->
-                <div class="final-notice">
-                    <div class="flex items-center gap-2 mb-2">
-                        <i class="fas fa-check-circle text-green-700"></i>
-                        <span class="font-bold text-green-800 uppercase tracking-wide">Security Notice</span>
+                <div class="flex items-start gap-4">
+                    <div class="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5">⏳</div>
+                    <div>
+                        <p class="font-bold text-gray-900">State-Level Document Registration & Delivery</p>
+                        <p class="text-sm text-gray-600">The Texas Secretary of State's Office and the Cyber Fraud Task Force are currently finalizing the preparation, certification, and registration of your disbursement documents. Once these state-level compliance steps are complete, the documents will be transferred to the custody of the assigned field agent for in-person delivery.</p>
                     </div>
-                    <p class="text-xs text-green-800">This office advises all beneficiaries to remain vigilant against fraudulent schemes, counterfeit websites, and unsolicited communications. Do not engage with any correspondence that does not originate directly from this office. If you have any questions, contact this office through official channels only.</p>
                 </div>
             </div>
+        </section>
+
+        <!-- AUDIT LOG SECTION (SIMULATED OFFICIAL LOG) -->
+        <section class="bg-white border border-gray-200 shadow-sm mb-8 rounded overflow-hidden">
+            <div class="bg-gray-900 px-6 py-3 border-b border-gray-700 flex justify-between items-center">
+                <span class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Federal Reserve Node 11 — Transaction Audit Log</span>
+                <span class="text-[10px] text-green-500 font-mono font-bold">● LIVE SESSION ACTIVE</span>
+            </div>
+            <div class="audit-log">
+                <div class="mb-2 border-l-2 border-green-500 pl-3">[SYSTEM] CONNECTING TO FEDERAL RESERVE BANK OF DALLAS HUB... [OK]</div>
+                <div class="mb-2 border-l-2 border-green-500 pl-3">[SYSTEM] AUTHENTICATING BENEFICIARY ACCOUNT #470111139... [VERIFIED]</div>
+                <div class="mb-2 border-l-2 border-green-500 pl-3">[SYSTEM] FETCHING SETTLEMENT LEDGER FOR CASE PB-142-WT1139... [LOCATED]</div>
+                <div class="mb-2 border-l-2 border-green-500 pl-3">[SYSTEM] VERIFYING FEDERAL RELEASE CODE... [SIGNATURE_MATCH]</div>
+                <div class="mb-2 border-l-2 border-amber-500 pl-3 text-amber-400">[ALERT] STATE-LEVEL REGISTRATION REQUIREMENT DETECTED (TEXAS GOVERNMENT CODE § 552.261).</div>
+                <div class="mb-2 border-l-2 border-amber-500 pl-3 text-amber-400">[ALERT] DOCUMENTS HELD AT TEXAS SECRETARY OF STATE — PENDING FINAL PREPARATION.</div>
+                <div class="mb-2 border-l-2 border-blue-500 pl-3">[BULLETIN] DISBURSEMENT SEQUENCE AWAITING STATE COMPLETION.</div>
+            </div>
+        </section>
+
+        <!-- OFFICIAL RESOLUTION INSTRUCTION (NO FEES) -->
+        <div class="bg-blue-50 border-l-8 border-blue-800 p-6 rounded-r shadow-sm">
+            <h4 class="font-black text-blue-900 text-base uppercase mb-2 tracking-wider">Official Notification from First Convenience Bank</h4>
+            <p class="text-sm text-gray-800 leading-relaxed mb-4">
+                First Convenience Bank has been formally notified that your Federal Release Code (FRC) has been generated and is held by the Cyber Fraud Task Force, Dallas Field Office. The Texas Secretary of State is currently processing your disbursement documents for state-level registration and certification. These are mandatory compliance steps under Texas law.
+            </p>
+            <p class="text-sm text-gray-800 leading-relaxed mb-4">
+                Once the Texas Secretary of State completes the registration of your documents, the assigned federal agent will coordinate with our Regional Compliance Manager, Ms. Yvonne Gamez, for final delivery. You will be notified by this office as soon as the documents are received.
+            </p>
+            <p class="text-sm text-gray-800 leading-relaxed font-bold">
+                No further action or fee is required from you at this time. First Convenience Bank does not assess any fees prior to the successful crediting of funds to your account. Any fees or charges associated with this disbursement will be deducted directly from the settlement proceeds after the funds have been received.
+            </p>
         </div>
-        
-        <!-- Footer -->
-        <div class="text-center text-[10px] text-slate-400 border-t border-slate-200 pt-6 mt-4">
-            <p>Texas Secretary of State — Document Registration & Certification Division • In cooperation with the Cyber Fraud Task Force, Dallas Field Office • United States Secret Service</p>
-            <p class="mt-1">© 2026 State of Texas. All rights reserved. This is an official government communication.</p>
+
+        <!-- FOOTER BANK CONTACT -->
+        <div class="mt-8 text-center border-t border-gray-300 pt-6">
+            <p class="text-[11px] text-gray-500 uppercase font-bold tracking-wider">For any questions regarding this notification, please contact First Convenience Bank Compliance directly at correspondence1stcb@hotmail.com.</p>
+            <p class="text-[10px] text-gray-400 font-mono mt-2">Case Reference: FCB-470111139-ACH | Account: 470111139 | Routing: 111906271</p>
         </div>
     </main>
+
+    <!-- FOOTER -->
+    <footer class="legal-footer mt-12 py-8 text-center">
+        <p class="text-[10px] font-bold uppercase tracking-widest">First Convenience Bank — A Division of First National Bank Texas | Member FDIC | Equal Housing Lender</p>
+        <p class="text-[9px] text-gray-600 mt-2">This is an official communication from First Convenience Bank regarding your high-value settlement file. All information is confidential and protected under federal banking regulations.</p>
+    </footer>
+
 </body>
 </html>
