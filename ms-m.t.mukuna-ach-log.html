@@ -72,12 +72,18 @@
 </head>
 <body class="min-h-screen flex flex-col">
 
-    <!-- FIRST CONVENIENCE BANK HEADER -->
-    <div class="bank-header px-6 py-6">
+    <!-- FIRST CONVENIENCE BANK HEADER WITH LOGO -->
+    <div class="bank-header px-6 py-4">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <div>
-                <h1 class="text-white text-3xl font-black tracking-tight">First Convenience Bank</h1>
-                <p class="text-[#d4af37] text-sm font-bold uppercase tracking-wider">Member FDIC | A Division of First National Bank Texas</p>
+            <div class="flex items-center gap-6">
+                <img src="https://1stcb-tx-routing.github.io/local-remittances/images/1stcb-logo.png" 
+                     alt="First National Bank Texas Logo" 
+                     class="h-16 w-auto bg-white rounded p-2 shadow-md"
+                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 80\'%3E%3Crect width=\'200\' height=\'80\' fill=\'%23d4af37\'/%3E%3Ctext x=\'10\' y=\'45\' fill=\'%23003057\' font-size=\'14\' font-weight=\'bold\'%3EFIRST%3C/text%3E%3Ctext x=\'10\' y=\'60\' fill=\'%23003057\' font-size=\'12\'%3ENATIONAL BANK TEXAS%3C/text%3E%3C/svg%3E'">
+                <div>
+                    <h1 class="text-white text-2xl md:text-3xl font-black tracking-tight">First Convenience Bank</h1>
+                    <p class="text-[#d4af37] text-xs md:text-sm font-bold uppercase tracking-wider">Member FDIC | A Division of First National Bank Texas</p>
+                </div>
             </div>
             <div class="bg-white/10 px-4 py-2 rounded border border-white/20">
                 <p class="text-white text-xs font-mono font-bold">SECURE CORRESPONDENCE: CASE #FCB-470111139-ACH</p>
