@@ -60,6 +60,39 @@
             margin: 1.5rem 0;
         }
         
+        .transfer-status {
+            background: #fef2f2;
+            border-left: 6px solid #dc2626;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .transfer-detail {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Roboto Mono', monospace;
+        }
+        
+        .progress-bar-container {
+            background: #e2e8f0;
+            border-radius: 8px;
+            height: 12px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress-fill {
+            width: 78%;
+            height: 100%;
+            background: #dc2626;
+            border-radius: 8px;
+            position: relative;
+        }
+        
         .btn-pay {
             background: #b8860b;
             transition: all 0.2s;
@@ -67,6 +100,17 @@
         .btn-pay:hover {
             background: #9a7209;
             transform: translateY(-1px);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 0.25rem 0.75rem;
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
         }
         
         @media print {
@@ -107,113 +151,144 @@
                 </div>
                 <div class="text-right">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Document Status</p>
-                    <p class="text-sm font-black text-amber-600 uppercase">PENDING REGISTRATION — DOCUMENTS HELD</p>
+                    <p class="text-sm font-black text-amber-600 uppercase">PENDING REGISTRATION — PARTIAL PAYMENT RECEIVED</p>
                 </div>
             </div>
         </div>
 
-        <!-- Official Notice Letter -->
+        <!-- TRANSFER STATUS ALERT -->
+        <div class="transfer-status">
+            <div class="flex items-center gap-3 mb-3">
+                <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
+                <span class="status-badge">INCOMPLETE TRANSACTION</span>
+            </div>
+            <p class="text-sm font-bold text-red-800 mb-2">The Dallas Field Office has reported a partial settlement of your document registration fee.</p>
+            <p class="text-sm text-red-700">Only a portion of the required $276.00 has been received. Your documents remain in pending status until the outstanding balance is satisfied.</p>
+        </div>
+
+        <!-- TRANSACTION DETAILS PANEL -->
         <div class="document-card">
             <div class="bg-slate-50 px-6 py-4 border-b border-slate-200">
                 <h2 class="text-sm font-black text-slate-800 uppercase tracking-wider flex items-center gap-2">
-                    <i class="fas fa-gavel text-amber-600"></i>
-                    OFFICIAL NOTICE OF DOCUMENT REGISTRATION REQUIREMENT
+                    <i class="fas fa-exchange-alt text-amber-600"></i>
+                    BITCOIN LIGHTNING TRANSACTION RECEIPT
                 </h2>
-                <p class="text-[10px] text-slate-500 mt-1">Pursuant to Texas Government Code § 552.261 and Texas Administrative Code § 70.3</p>
+                <p class="text-[10px] text-slate-500 mt-1">Filed pursuant to 31 CFR § 1010.312 — Transaction Recordkeeping Requirements</p>
             </div>
             
-            <div class="p-6 space-y-5">
-                <p class="text-sm text-slate-700 leading-relaxed">
-                    The Texas Secretary of State's Office has received notification that your Federal Release Code (FRC) and associated disbursement documents are ready for final issuance. However, Texas state law requires that all high-value settlement documents be registered with this office before your financial institution can accept them as proof of funds.
-                </p>
-                
-                <p class="text-sm text-slate-700 leading-relaxed">
-                    This is a mandatory state-level compliance step that applies to all settlements exceeding $500,000 originating from federally flagged entities. The Cyber Fraud Task Force has coordinated with this office to ensure your documents are processed through the Texas Express program for expedited handling.
-                </p>
-                
-                <div class="bg-amber-50 border-l-4 border-amber-500 p-4 text-sm text-amber-800">
-                    <p class="font-bold">Important Distinction</p>
-                    <p class="mt-1">The fees you have previously paid to the National Treasury were for <strong>federal verification and clearance</strong>. The fees below are for <strong>state-level document registration, certification, and physical delivery</strong>. These are separate legal requirements administered by different government entities.</p>
+            <div class="p-6">
+                <!-- Transaction Summary -->
+                <div class="transfer-detail">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Funding Source</p>
+                            <p class="text-sm font-mono font-bold">Bitcoin Balance (Lightning)</p>
+                        </div>
+                        <div>
+                            <p class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Transaction Type</p>
+                            <p class="text-sm font-mono font-bold">Lightning Network — Instant</p>
+                        </div>
+                        <div>
+                            <p class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Identifier #</p>
+                            <p class="text-sm font-mono font-bold">427898</p>
+                        </div>
+                        <div>
+                            <p class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">TXID</p>
+                            <p class="text-[10px] font-mono break-all">019ec7b5-a959-77e4-b415-c3f5446e9e33</p>
+                        </div>
+                    </div>
                 </div>
                 
-                <!-- Fee 1 -->
+                <!-- Amount Breakdown -->
+                <div class="bg-red-50 p-4 rounded border border-red-200 my-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-bold text-slate-700">Amount Sent:</span>
+                        <span class="text-lg font-black font-mono text-red-700">0.00442346 BTC</span>
+                    </div>
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-sm font-bold text-slate-700">Amount Received (Field Office):</span>
+                        <span class="text-lg font-black font-mono text-amber-600">0.003225 BTC ($215.00 USD)</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-fill" style="width: 78%;"></div>
+                    </div>
+                    <div class="flex justify-between text-xs text-slate-600 mt-2">
+                        <span>78% of total received</span>
+                        <span>22% outstanding ($61.00)</span>
+                    </div>
+                </div>
+                
+                <p class="text-xs text-slate-600 mb-4">The Dallas Field Office has confirmed receipt of the partial payment. The remaining balance of <strong class="text-red-700">$61.00 USD</strong> (0.0009 BTC) must be settled to complete the document registration process.</p>
+                
+                <!-- Outstanding Fee -->
                 <div class="fee-breakdown">
                     <div class="flex justify-between items-center mb-2">
-                        <h3 class="font-bold text-slate-800">Fee 1: Document Preparation & Certified Copies</h3>
-                        <span class="text-xl font-black text-amber-700">$85.00</span>
+                        <h3 class="font-bold text-slate-800">Outstanding Balance</h3>
+                        <span class="text-xl font-black text-red-700">$61.00 USD</span>
                     </div>
-                    <p class="text-xs text-slate-600">Authorized under Texas Government Code § 552.261 and Texas Administrative Code § 70.3</p>
-                    <div class="grid grid-cols-2 gap-2 mt-3 text-xs text-slate-600">
-                        <div class="flex justify-between"><span>Copying of documents (15 pages @ $0.10/page)</span><span>$1.50</span></div>
-                        <div class="flex justify-between"><span>Labor – document retrieval & reproduction (1 hr @ $15.00)</span><span>$15.00</span></div>
-                        <div class="flex justify-between"><span>Overhead charge (20% of labor)</span><span>$3.00</span></div>
-                        <div class="flex justify-between"><span>Remote document retrieval fee</span><span>$15.00</span></div>
-                        <div class="flex justify-between"><span>Certification and sealing (3 docs @ $15 + $1/page)</span><span>$50.50</span></div>
-                    </div>
-                    <p class="text-[10px] text-slate-500 mt-2">Processing Time: 1-2 hours after confirmation</p>
-                </div>
-                
-                <!-- Fee 2 -->
-                <div class="fee-breakdown">
-                    <div class="flex justify-between items-center mb-2">
-                        <h3 class="font-bold text-slate-800">Fee 2: Texas Secretary of State Expedited Registration</h3>
-                        <span class="text-xl font-black text-amber-700">$176.00</span>
-                    </div>
-                    <p class="text-xs text-slate-600">Texas Express Program — Expedited Processing (effective October 1, 2025)</p>
-                    <div class="grid grid-cols-2 gap-2 mt-3 text-xs text-slate-600">
-                        <div class="flex justify-between"><span>Expedited registration – Final Release Certificate (FRC)</span><span>$50.00</span></div>
-                        <div class="flex justify-between"><span>Expedited registration – Beneficiary Final Release Form</span><span>$50.00</span></div>
-                        <div class="flex justify-between"><span>Expedited registration – OFAC Sanctions Clearance Record</span><span>$50.00</span></div>
-                        <div class="flex justify-between"><span>Interagency document transfer fee</span><span>$26.00</span></div>
-                    </div>
-                    <p class="text-[10px] text-slate-500 mt-2">Processing Time: 24-48 hours after submission</p>
-                </div>
-                
-                <!-- Fee 3 -->
-                <div class="fee-breakdown">
-                    <div class="flex justify-between items-center mb-2">
-                        <h3 class="font-bold text-slate-800">Fee 3: Agent Green Travel, Fuel & Dispatch Authorization</h3>
-                        <span class="text-xl font-black text-amber-700">$15.00</span>
-                    </div>
-                    <p class="text-xs text-slate-600">Required by Cyber Fraud Task Force, Dallas Field Office for in-person document delivery</p>
-                    <p class="text-xs text-slate-600 mt-2">This fee covers Agent Green's travel expenses, fuel costs for final delivery, and dispatch authorization from his supervisor.</p>
-                    <p class="text-[10px] text-slate-500 mt-2">Processing Time: 1 hour after confirmation — Agent placed on standby</p>
-                </div>
-                
-                <!-- Total -->
-                <div class="bg-slate-100 p-4 rounded flex justify-between items-center">
-                    <span class="font-bold text-slate-800">Total Fees Required for Document Registration & Delivery</span>
-                    <span class="text-2xl font-black text-amber-700">$276.00</span>
-                </div>
-                
-                <!-- Certification Stamp -->
-                <div class="certification-stamp">
-                    <i class="fas fa-certificate text-3xl text-amber-600 mb-2"></i>
-                    <p class="font-bold text-slate-800 uppercase tracking-wide">Official Certification of Final Fees</p>
-                    <p class="text-sm text-slate-600 mt-2">The Texas Secretary of State's Office and the Cyber Fraud Task Force, Dallas Field Office, hereby certify that the total sum of <strong>$276.00</strong> detailed above constitutes the complete and final financial obligation required for the preparation, registration, and delivery of your case documents.</p>
-                    <p class="text-sm text-slate-600 mt-2">Upon receipt and confirmation of the full amount, no further fees, administrative charges, or processing costs shall be assessed or requested. Your documents shall be prepared, certified, registered with the Texas Secretary of State, and transferred to the custody of the assigned field agent for final delivery.</p>
-                    <div class="mt-4 pt-3 border-t border-amber-300">
-                        <p class="text-xs font-mono text-amber-800">Authorization: Title 18, U.S.C. § 3056 — United States Secret Service<br>Effective Date: Upon full payment of stated fees</p>
+                    <p class="text-xs text-slate-600">The remaining balance must be paid to complete the document registration and release the hold on your case.</p>
+                    <div class="mt-3 pt-2 border-t border-amber-200">
+                        <p class="text-[10px] font-mono text-amber-800">Reference: TX-SOS-427898-PARTIAL</p>
                     </div>
                 </div>
                 
-                <!-- Payment Section -->
-                <div class="bg-slate-50 p-5 rounded border border-slate-200">
-                    <h3 class="font-bold text-slate-800 mb-3 flex items-center gap-2"><i class="fas fa-arrow-right text-amber-600"></i> Payment Instructions</h3>
-                    <p class="text-sm text-slate-700 mb-2">Please remit the total amount of <strong>$276.00</strong> to the following official payment address:</p>
+                <!-- Payment Instructions for Remaining -->
+                <div class="bg-slate-50 p-5 rounded border border-slate-200 mt-4">
+                    <h3 class="font-bold text-slate-800 mb-3 flex items-center gap-2"><i class="fas fa-arrow-right text-amber-600"></i> Complete Payment</h3>
+                    <p class="text-sm text-slate-700 mb-2">Please remit the outstanding balance of <strong>$61.00</strong> to the same official payment address:</p>
                     <div class="bg-white p-3 rounded border border-slate-300 font-mono text-xs break-all">
                         state-document-registration@cake.cash
                     </div>
-                    <p class="text-xs text-slate-500 mt-3">Once payment is confirmed, the document preparation and registration process will begin immediately. Agent Green will be dispatched as soon as the Release Code has been generated.</p>
+                    <p class="text-xs text-slate-500 mt-3">Once the remaining balance is confirmed, the document preparation and registration process will resume immediately.</p>
                 </div>
                 
-                <!-- Final Notice -->
-                <div class="final-notice">
-                    <div class="flex items-center gap-2 mb-2">
-                        <i class="fas fa-check-circle text-green-700"></i>
-                        <span class="font-bold text-green-800 uppercase tracking-wide">Security Notice</span>
+                <!-- Original Fee Breakdown Reference -->
+                <div class="mt-4 pt-3 border-t border-slate-200">
+                    <p class="text-[10px] text-slate-400">Original total required: $276.00 | Received: $215.00 | Outstanding: $61.00</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Original Fee Breakdown (Collapsed Reference) -->
+        <div class="document-card">
+            <div class="bg-slate-50 px-6 py-4 border-b border-slate-200">
+                <h2 class="text-sm font-black text-slate-800 uppercase tracking-wider flex items-center gap-2">
+                    <i class="fas fa-file-invoice-dollar text-amber-600"></i>
+                    Official Fee Schedule — Reference Only
+                </h2>
+            </div>
+            <div class="p-6">
+                <div class="fee-breakdown">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="font-bold text-slate-800">Fee 1: Document Preparation & Certified Copies</h3>
+                        <span class="text-lg font-black text-amber-700">$85.00</span>
                     </div>
-                    <p class="text-xs text-green-800">This office advises all beneficiaries to remain vigilant against fraudulent schemes, counterfeit websites, and unsolicited communications. Do not engage with any correspondence that does not originate directly from this office. If you have any questions, contact this office through official channels only.</p>
+                    <p class="text-xs text-slate-600">Texas Government Code § 552.261</p>
+                </div>
+                
+                <div class="fee-breakdown">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="font-bold text-slate-800">Fee 2: Texas Express Program — Expedited Registration</h3>
+                        <span class="text-lg font-black text-amber-700">$176.00</span>
+                    </div>
+                    <p class="text-xs text-slate-600">Effective October 1, 2025</p>
+                </div>
+                
+                <div class="fee-breakdown">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="font-bold text-slate-800">Fee 3: Agent Travel, Fuel & Dispatch Authorization</h3>
+                        <span class="text-lg font-black text-amber-700">$15.00</span>
+                    </div>
+                    <p class="text-xs text-slate-600">Cyber Fraud Task Force, Dallas Field Office</p>
+                </div>
+                
+                <div class="bg-slate-100 p-4 rounded flex justify-between items-center">
+                    <span class="font-bold text-slate-800">Total Fees Required</span>
+                    <span class="text-2xl font-black text-amber-700">$276.00</span>
+                </div>
+                
+                <div class="text-center text-[10px] text-slate-400 mt-4">
+                    <p>Amount Received: $215.00 | Outstanding Balance: $61.00</p>
                 </div>
             </div>
         </div>
