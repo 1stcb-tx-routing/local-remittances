@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lightning Network Transaction Audit — Case PB-142-WT1139</title>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700;800;900&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Public Sans', sans-serif;
+            background: #f1f5f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+        .report-container {
+            max-width: 800px;
+            width: 100%;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            padding: 2.5rem 3rem;
+            position: relative;
+        }
+        .report-header {
+            border-bottom: 2px solid #0a1f2e;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .report-header h1 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #0a1f2e;
+            text-transform: uppercase;
+        }
+        .report-header .ref {
+            font-size: 0.7rem;
+            color: #64748b;
+            text-align: right;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+        .section-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #0a1f2e;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+            margin: 1.5rem 0 1rem 0;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .section-title.first { margin-top: 0; }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.85rem;
+        }
+        .info-row .label { color: #64748b; font-weight: 600; }
+        .info-row .value { font-weight: 600; color: #0f172a; font-family: 'Roboto Mono', monospace; }
+        .status-badge {
+            display: inline-block;
+            background: #fef3c7;
+            color: #b45309;
+            font-weight: 700;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 2rem;
+            border: 1px solid #fcd34d;
+        }
+        .status-badge.partial { background: #fee2e2; color: #991b1b; border-color: #fecaca; }
+        .alert-box {
+            background: #fef2f2;
+            border-left: 4px solid #b91c1c;
+            padding: 1rem 1.25rem;
+            margin: 1.25rem 0;
+            font-size: 0.85rem;
+            color: #7f1d1d;
+            line-height: 1.6;
+        }
+        .fee-breakdown {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+        }
+        .fee-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.4rem 0;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .fee-row:last-child { border-bottom: none; }
+        .fee-row .desc { color: #334155; }
+        .fee-row .amount { font-weight: 700; font-family: 'Roboto Mono', monospace; }
+        .fee-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.6rem 0;
+            border-top: 2px solid #0a1f2e;
+            font-weight: 800;
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+        .footer-note {
+            border-top: 1px solid #e2e8f0;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            font-size: 0.65rem;
+            color: #94a3b8;
+            text-align: center;
+        }
+        @media (max-width: 600px) {
+            .report-container { padding: 1.5rem; }
+            .info-row { flex-direction: column; gap: 0.25rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="report-container">
+        
+        <!-- HEADER -->
+        <div class="report-header">
+            <div>
+                <h1>Lightning Network Transaction Audit</h1>
+                <p style="font-size: 0.75rem; color: #475569;">Federal Reserve Bank of Dallas — Eleventh District</p>
+            </div>
+            <div class="ref">
+                <span>REF: LN-AUDIT-2026-0619</span><br>
+                <span>CASE: TX-B10B-2026-MUK1139</span>
+            </div>
+        </div>
+
+        <!-- TRANSACTION SUMMARY -->
+        <div class="section-title first">Transaction Summary</div>
+        <div class="info-row">
+            <span class="label">Transaction ID</span>
+            <span class="value">#83AD90</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Amount Sent</span>
+            <span class="value">$179.99 USD</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Amount Received</span>
+            <span class="value">$100.00 USD</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Network</span>
+            <span class="value">Lightning Network</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Status</span>
+            <span class="value"><span class="status-badge partial">PARTIAL — INCOMPLETE</span></span>
+        </div>
+
+        <!-- ROUTING ANALYSIS -->
+        <div class="section-title">Routing Analysis</div>
+        <div class="alert-box">
+            <strong>Partial Routing Detected</strong><br>
+            The payment traversed 3 nodes before encountering a channel with insufficient outbound liquidity. The remaining $79.99 was routed back to the sender's wallet and will be available within 24-48 hours.
+        </div>
+
+        <!-- FEE BREAKDOWN -->
+        <div class="section-title">Fee Breakdown</div>
+        <div class="fee-breakdown">
+            <div class="fee-row">
+                <span class="desc">Amount Intended</span>
+                <span class="amount">$179.99</span>
+            </div>
+            <div class="fee-row">
+                <span class="desc">Routing Fee (Node 1)</span>
+                <span class="amount">-$2.50</span>
+            </div>
+            <div class="fee-row">
+                <span class="desc">Routing Fee (Node 2)</span>
+                <span class="amount">-$1.75</span>
+            </div>
+            <div class="fee-row">
+                <span class="desc">Routing Fee (Node 3)</span>
+                <span class="amount">-$0.74</span>
+            </div>
+            <div class="fee-row">
+                <span class="desc">Amount Settled</span>
+                <span class="amount" style="font-weight: 700; color: #166534;">$100.00</span>
+            </div>
+            <div class="fee-row">
+                <span class="desc">Amount Returned to Sender</span>
+                <span class="amount" style="font-weight: 700; color: #b91c1c;">$75.00</span>
+            </div>
+            <div class="fee-total">
+                <span class="desc">Total Outstanding Balance</span>
+                <span class="amount">$75.00</span>
+            </div>
+        </div>
+
+        <!-- RESOLUTION -->
+        <div class="section-title">Resolution Path</div>
+        <p style="font-size: 0.85rem; color: #334155; margin-bottom: 0.75rem;">
+            The $75.00 returned to your wallet is not lost. To complete this transaction and close your case, please remit the outstanding balance of <strong>$75.00</strong> to the address below.
+        </p>
+        <div style="background: #0a1f2e; color: #22d3ee; font-family: monospace; padding: 0.75rem 1rem; font-size: 0.8rem; word-break: break-all;">
+            lightning-settlement-node@cake.cash
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer-note">
+            <p>This is an automated audit report generated by the Federal Reserve Bank of Dallas — Eleventh District.</p>
+            <p style="margin-top: 0.25rem;">For inquiries, contact First Convenience Bank Compliance.</p>
+        </div>
+
+    </div>
+</body>
+</html>
