@@ -1,1120 +1,482 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OCC Compliance Review — Case PB-142-WT1139</title>
+    <title>First Convenience Bank — Wire Transfer Processing</title>
     <style>
-        :root {
-            --navy: #0a1f33;
-            --navy-light: #132d48;
-            --gold: #b8860b;
-            --gold-light: #d4af37;
-            --gray-bg: #f0f2f5;
-            --white: #ffffff;
-            --card-border: #cdd5e0;
-            --text-primary: #1e2b3c;
-            --text-secondary: #4a5568;
-            --text-muted: #5e6f82;
-            --red: #c41010;
-            --red-dark: #951717;
-            --red-bg: #fff5f5;
-            --green: #166534;
-            --green-light: #1e6b2c;
-            --green-bg: #eaf7ee;
-            --yellow-bg: #fef9e7;
-            --blue: #1d4ed8;
-            --blue-dark: #143c9e;
-            --blue-hover: #1a3eaa;
-            --font-sans: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            --font-mono: 'Courier New', monospace;
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
-            --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.1);
-            --radius-sm: 3px;
-            --radius-md: 6px;
-            --transition: 0.25s ease;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
-            font-family: var(--font-sans);
-            background: var(--gray-bg);
-            color: var(--text-primary);
-            line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            background-image:
-                linear-gradient(180deg, rgba(10, 31, 51, 0.015) 0%, transparent 100%);
-            background-attachment: fixed;
-        }
-
-        .container {
-            max-width: 920px;
-            margin: 0 auto;
-            padding: 28px 16px 44px;
-            width: 100%;
-        }
-
-        /* ── HEADER ── */
-        .header {
-            background: var(--navy);
-            border-bottom: 5px solid var(--gold);
-            padding: 32px 24px 26px;
-            text-align: center;
-            border-radius: var(--radius-md) var(--radius-md) 0 0;
-            box-shadow: var(--shadow-md);
-            position: relative;
-            overflow: hidden;
-        }
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
-            opacity: 0.6;
-        }
-        .header h1 {
-            color: var(--white);
-            font-size: clamp(26px, 5.5vw, 32px);
-            font-weight: 500;
-            letter-spacing: 0.2px;
-            margin-bottom: 4px;
-        }
-        .header .subtitle {
-            color: var(--gold-light);
-            font-size: 14px;
-            font-weight: 400;
-            letter-spacing: 0.3px;
-        }
-        .header .subline {
-            color: #8a9bb5;
-            font-size: 11px;
-            margin-top: 6px;
-            font-weight: 400;
-            letter-spacing: 0.2px;
-        }
-        .header .seal {
-            display: inline-block;
-            width: 48px;
-            height: 48px;
-            border: 2px solid var(--gold);
-            border-radius: 50%;
-            margin-bottom: 8px;
-            line-height: 44px;
-            font-size: 22px;
-            color: var(--gold);
-            font-weight: 700;
-        }
-
-        /* ── CARD ── */
-        .card {
-            background: var(--white);
-            border: 1px solid var(--card-border);
-            border-top: 4px solid var(--gold);
-            margin-bottom: 24px;
-            box-shadow: var(--shadow-sm);
-            border-radius: 0 0 var(--radius-md) var(--radius-md);
-            transition: box-shadow var(--transition);
-        }
-        .card:hover {
-            box-shadow: var(--shadow-md);
-        }
-        .card-header {
-            background: #f4f7fc;
-            padding: 14px 20px;
-            border-bottom: 1px solid #dce3ec;
-            font-weight: 600;
-            color: var(--navy);
-            font-size: 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-        .card-header .ref {
-            font-weight: 400;
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-        .card-body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f0f4f8;
             padding: 20px;
-        }
-
-        /* ── BADGES ── */
-        .badge {
-            padding: 4px 14px;
-            font-size: 12px;
-            font-weight: 600;
-            display: inline-block;
-            letter-spacing: 0.3px;
-            border-radius: 2px;
-        }
-        .badge-green {
-            background: #eaf5ea;
-            color: var(--green-light);
-            border: 1px solid #b6d7b8;
-        }
-        .badge-yellow {
-            background: #fdf3d0;
-            color: #8a6f14;
-            border: 1px solid #e2cd7a;
-        }
-        .badge-red {
-            background: #fde8e8;
-            color: var(--red);
-            border: 1px solid #f0b0b0;
-        }
-
-        /* ── SUCCESS BOX ── */
-        .success-box {
-            background: #f2faf5;
-            border-left: 6px solid #15803d;
-            padding: 18px 22px;
-            margin-bottom: 24px;
-            border-radius: var(--radius-sm);
-            box-shadow: var(--shadow-sm);
-        }
-        .success-box .title {
-            font-weight: 700;
-            color: var(--green);
-            font-size: 16px;
-            margin: 6px 0 2px;
-        }
-
-        /* ── BLOCKED BOX ── */
-        .blocked-box {
-            background: #fef7f7;
-            border: 2px solid var(--red);
-            padding: 24px 22px;
-            text-align: center;
-            margin: 20px 0;
-            position: relative;
-            border-radius: var(--radius-sm);
-            transition: box-shadow 0.4s ease, border-color 0.4s ease, transform 0.4s ease;
-            will-change: box-shadow, border-color, transform;
-        }
-        .blocked-box .ribbon {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: var(--red);
-            color: #fff;
-            font-size: 11px;
-            font-weight: 600;
-            padding: 5px 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-radius: 0 var(--radius-sm) 0 var(--radius-sm);
-        }
-        .blocked-box .amount {
-            font-size: 34px;
-            font-weight: 700;
-            color: #b71c1c;
-            margin: 10px 0;
-            transition: transform 0.35s ease, color 0.35s ease, text-shadow 0.35s ease;
-            will-change: transform, color, text-shadow;
-        }
-        .progress-bar {
-            background: #e9ecef;
-            height: 14px;
-            margin: 14px 0;
-            overflow: hidden;
-            border-radius: 7px;
-        }
-        .progress-bar .fill {
-            background: #b71c1c;
-            height: 100%;
-            width: 100%;
-            border-radius: 7px;
-            transition: opacity 0.25s ease, transform 0.25s ease;
-            will-change: opacity, transform;
-        }
-
-        /* ── OCC NOTICE ── */
-        .occ-notice {
-            background: #fcfaf5;
-            border: 1px solid #dbca9b;
-            border-left: 6px solid var(--gold);
-            padding: 18px 22px;
-            margin: 20px 0;
-            font-family: var(--font-mono);
-            font-size: 14px;
-            color: #2d3b4a;
-            line-height: 1.75;
-            border-radius: var(--radius-sm);
-            animation: noticePulse 2.5s infinite alternate, noticeBorderGlow 1.8s infinite alternate;
-        }
-        @keyframes noticePulse {
-            0% {
-                background-color: #fcfaf5;
-            }
-            100% {
-                background-color: #f8f4e8;
-            }
-        }
-        @keyframes noticeBorderGlow {
-            0% {
-                border-left-color: var(--gold);
-            }
-            100% {
-                border-left-color: var(--gold-light);
-            }
-        }
-        .occ-notice .blink-text {
-            animation: softBlink 1.3s infinite;
-            color: var(--gold);
-            font-weight: 700;
-        }
-        @keyframes softBlink {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.45;
-            }
-        }
-        .occ-notice .pulse-text {
-            animation: textPulse 1.6s infinite;
-            display: inline-block;
-            color: #8b6914;
-            font-weight: 600;
-        }
-        @keyframes textPulse {
-            0%,
-            100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.025);
-            }
-        }
-
-        /* ── BLUE BUTTON ── */
-        .blue-btn {
-            display: block;
-            background: var(--blue);
-            border: 2px solid var(--blue-dark);
-            padding: 20px 24px;
-            margin: 28px 0;
-            text-align: center;
-            text-decoration: none;
-            color: #fff;
-            font-size: 17px;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-            border-radius: var(--radius-sm);
-            transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
-            box-shadow: 0 4px 14px rgba(29, 78, 216, 0.3);
-            cursor: pointer;
-        }
-        .blue-btn:hover {
-            background: var(--blue-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(29, 78, 216, 0.4);
-        }
-        .blue-btn .arrow {
-            display: block;
-            font-size: 24px;
-            margin-top: 6px;
-            animation: bounceDown 1.5s infinite;
-        }
-        @keyframes bounceDown {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(6px);
-            }
-        }
-
-        /* ── PAGE DIVIDER ── */
-        .page-divider {
-            text-align: center;
-            padding: 32px 0 20px;
-            border-bottom: 2px dashed #b0bec5;
-            margin-bottom: 30px;
-        }
-        .page-divider span {
-            background: var(--navy);
-            color: #fff;
-            padding: 8px 32px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            border-radius: 2px;
-        }
-
-        /* ── OPTIONS GRID ── */
-        .opt-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin: 18px 0;
-        }
-        .opt {
-            background: #fafbfd;
-            border: 1px solid var(--card-border);
-            padding: 20px 22px;
-            border-radius: var(--radius-sm);
-            transition: all var(--transition);
-        }
-        .opt:hover {
-            border-color: #a0aab8;
-            box-shadow: var(--shadow-sm);
-        }
-        .opt.rec {
-            border: 2px solid var(--navy);
-            background: #f1f4fa;
-            box-shadow: var(--shadow-sm);
-        }
-        .opt.rec:hover {
-            border-color: var(--navy);
-            box-shadow: var(--shadow-md);
-        }
-        .opt h4 {
-            font-size: 17px;
-            font-weight: 700;
-            color: var(--navy);
-            margin-bottom: 6px;
-            letter-spacing: 0.2px;
-        }
-        .opt h4 .tag {
-            background: var(--navy);
-            color: #fff;
-            font-size: 9px;
-            padding: 3px 10px;
-            margin-left: 6px;
-            font-weight: 600;
-            letter-spacing: 0.4px;
-            border-radius: 2px;
-            vertical-align: middle;
-        }
-        .opt .fee {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--navy);
-            margin: 8px 0;
-        }
-        .opt .fee small {
-            font-weight: 400;
-            font-size: 14px;
-            color: var(--text-muted);
-        }
-        .opt ul {
-            list-style: none;
-            padding: 0;
-            margin-top: 10px;
-        }
-        .opt ul li {
-            font-size: 13px;
-            padding: 5px 0;
             display: flex;
-            gap: 8px;
-            align-items: flex-start;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            transition: background 0.5s ease;
         }
-        .opt .highlight {
-            background: #e8edf6;
-            padding: 10px 14px;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--navy);
-            margin-top: 14px;
-            border-radius: var(--radius-sm);
-            border-left: 3px solid var(--navy);
-        }
-        .opt .note {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 14px;
-            border-top: 1px solid #dce3ec;
-            padding-top: 14px;
-            line-height: 1.6;
-        }
-
-        /* ── OCC OFFICE ── */
-        .occ-office {
-            background: #f8fafd;
-            border: 1px solid #dce3ec;
-            padding: 18px 22px;
-            margin-bottom: 20px;
-            border-radius: var(--radius-sm);
-        }
-        .occ-office h4 {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--navy);
-            margin-bottom: 6px;
-        }
-        .occ-office .address {
-            font-family: var(--font-mono);
-            font-size: 14px;
-            color: var(--text-primary);
-            line-height: 1.8;
-            margin: 8px 0;
-        }
-        .occ-office .details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px 22px;
-            font-size: 13px;
-            color: #3e4a5a;
-            padding-top: 14px;
-            border-top: 1px solid #dce3ec;
-        }
-        .occ-office .details strong {
-            color: var(--navy);
-        }
-
-        /* ── NBS BOX ── */
-        .nbs-box {
-            background: var(--blue);
-            border: 2px solid var(--blue-dark);
-            padding: 22px 22px;
-            margin: 24px 0;
-            text-align: center;
-            color: #fff;
-            border-radius: var(--radius-sm);
-            transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
-            box-shadow: 0 4px 16px rgba(29, 78, 216, 0.3);
-        }
-        .nbs-box:hover {
-            background: var(--blue-hover);
-            transform: scale(1.01);
-            box-shadow: 0 6px 22px rgba(29, 78, 216, 0.45);
-        }
-        .nbs-box .label {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            opacity: 0.85;
-            font-weight: 600;
-        }
-        .nbs-box .link {
-            font-size: 19px;
-            font-weight: 700;
-            color: #fff;
-            text-decoration: underline;
-            display: block;
-            margin: 12px 0;
-            word-break: break-word;
-            text-underline-offset: 4px;
-        }
-        .nbs-box .direct {
-            font-size: 12px;
-            margin-top: 10px;
-            opacity: 0.9;
-        }
-        .nbs-box .direct a {
-            color: #cbd5e1;
-            text-decoration: underline;
-            text-underline-offset: 3px;
-        }
-        .nbs-box .sub {
-            font-size: 13px;
-            margin-top: 8px;
-            opacity: 0.9;
-        }
-
-        /* ── WARNING BOX ── */
-        .warning-box {
-            background: #fff8f8;
-            border: 2px solid var(--red);
-            padding: 22px 26px;
-            margin: 18px 0;
-            border-radius: var(--radius-sm);
-        }
-        .warning-box h4 {
-            color: var(--red-dark);
-            font-size: 17px;
-            font-weight: 700;
-            margin-bottom: 14px;
-            letter-spacing: 0.3px;
-        }
-        .warning-box ul {
-            list-style: none;
-            padding: 0;
-        }
-        .warning-box ul li {
-            padding: 7px 0;
-            font-size: 14px;
-            color: #3b2e2e;
-            display: block;
-            padding-left: 2em;
-            text-indent: -2em;
-            line-height: 1.6;
-            border-bottom: 1px solid #fde8e8;
-        }
-        .warning-box ul li:last-child {
-            border-bottom: none;
-        }
-        .warning-box ul li::before {
-            content: "× ";
-            font-weight: 700;
-            color: var(--red);
-            margin-right: 8px;
-        }
-
-        /* ── COUNTDOWN ── */
-        #countdownWarning {
-            animation: countdownGlow 1.6s infinite alternate;
-            border-radius: var(--radius-sm);
-        }
-        @keyframes countdownGlow {
-            0% {
-                box-shadow: 0 0 10px rgba(196, 16, 16, 0.15);
-                border-color: var(--red);
-            }
-            100% {
-                box-shadow: 0 0 30px rgba(196, 16, 16, 0.55);
-                border-color: #ff3b3b;
-            }
-        }
-
-        /* ── STATUS GRID ── */
-        .status-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-        }
-        .status-item {
+        .container {
+            max-width: 750px;
+            width: 100%;
             background: #fff;
-            border: 1px solid #dce3ec;
-            padding: 11px 16px;
-            font-size: 13px;
+            padding: 35px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            border-top: 6px solid #0a1f2e;
+            transition: all 0.5s ease;
+        }
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 6px;
-            border-radius: var(--radius-sm);
+            border-bottom: 2px solid #e9edf2;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
         }
-
-        /* ── BACK BUTTON ── */
-        .back-top {
-            display: inline-block;
-            background: var(--navy);
-            color: #fff;
-            padding: 10px 28px;
-            text-decoration: none;
+        .header .logo {
+            font-size: 18px;
+            font-weight: 800;
+            color: #0a1f2e;
+            letter-spacing: 0.5px;
+        }
+        .header .logo small {
+            display: block;
+            font-weight: 400;
+            font-size: 10px;
+            color: #64748b;
+            letter-spacing: 0.3px;
+        }
+        .header .badge {
+            background: #dcfce7;
+            color: #166534;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 30px;
+            border: 1px solid #86efac;
+            transition: all 0.5s ease;
+        }
+        .status-section {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 24px;
+            margin: 15px 0;
+            text-align: center;
+            transition: all 0.5s ease;
+        }
+        .status-section .icon {
+            font-size: 40px;
+            margin-bottom: 8px;
+            transition: all 0.5s ease;
+        }
+        .status-section .title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0a1f2e;
+            transition: all 0.5s ease;
+        }
+        .status-section .sub {
             font-size: 13px;
+            color: #475569;
+            margin-top: 4px;
+            transition: all 0.5s ease;
+        }
+        .progress-bar-container {
+            background: #e5e7eb;
+            height: 14px;
+            border-radius: 30px;
+            overflow: hidden;
+            margin: 16px 0 8px 0;
+            position: relative;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 30px;
+            background: #22c55e;
+            transition: width 2.5s ease, background 0.5s ease, box-shadow 0.5s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+        }
+        .progress-bar-fill .bar-label {
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+        }
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #94a3b8;
+            transition: color 0.5s ease;
+        }
+        .status-message {
+            font-size: 14px;
             font-weight: 600;
-            letter-spacing: 0.4px;
-            border-radius: 2px;
-            transition: background var(--transition), transform var(--transition);
+            margin-top: 12px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #86efac;
+            display: inline-block;
+            color: #166534;
+            background: #f0fdf4;
+            transition: all 0.5s ease;
         }
-        .back-top:hover {
-            background: var(--gold);
-            transform: translateY(-1px);
+        .status-message .blink {
+            animation: blink 1.2s infinite;
         }
-
-        /* ── FOOTER ── */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 15px 0;
+            padding: 12px 16px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        .info-grid .item {
+            font-size: 13px;
+        }
+        .info-grid .item .label {
+            color: #94a3b8;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .info-grid .item .value {
+            font-weight: 700;
+            color: #0a1f2e;
+            margin-top: 2px;
+            font-size: 14px;
+        }
+        .info-grid .item .value.green {
+            color: #22c55e;
+        }
         .footer {
             text-align: center;
-            font-size: 11px;
-            color: #6b7b8e;
-            border-top: 1px solid var(--card-border);
-            padding-top: 24px;
-            margin-top: 30px;
-            line-height: 1.8;
-            letter-spacing: 0.2px;
+            font-size: 10px;
+            color: #94a3b8;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 15px;
+            margin-top: 20px;
         }
-
-        /* ── INFO BLOCKS ── */
-        .info-block {
-            background: #f4f7fc;
-            padding: 18px 22px;
-            border-left: 4px solid var(--gold);
-            margin: 18px 0;
-            border-radius: var(--radius-sm);
-        }
-        .info-block h4 {
+        .ref-btn {
+            display: inline-block;
+            background: #1d4ed8;
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 13px;
             font-weight: 700;
-            color: var(--navy);
-            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s ease;
         }
-        .fee-block {
-            background: var(--yellow-bg);
-            padding: 18px 22px;
-            border-left: 4px solid var(--gold);
-            margin: 18px 0;
-            border-radius: var(--radius-sm);
+        .ref-btn:hover {
+            background: #1e3a8a;
         }
-        .total-block {
-            background: var(--green-bg);
-            padding: 18px 22px;
-            border: 1px solid #b6d7b8;
-            margin: 18px 0;
-            border-radius: var(--radius-sm);
+        .bank-strip {
+            background: #0a1f2e;
+            padding: 8px 16px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            text-align: center;
         }
-        .action-box {
-            background: var(--red-bg);
-            padding: 18px 22px;
-            border-left: 6px solid var(--red);
-            margin-top: 14px;
-            border-radius: var(--radius-sm);
-        }
-        .instruction-block {
-            background: #f4f7fc;
-            padding: 14px 18px;
-            margin: 12px 0;
-            border-radius: var(--radius-sm);
-        }
-        .release-block {
-            background: var(--green-bg);
-            padding: 14px 18px;
+        .bank-strip span {
+            color: #fff;
+            font-size: 12px;
             font-weight: 600;
-            color: var(--green);
-            border-radius: var(--radius-sm);
+            letter-spacing: 0.5px;
+        }
+        .transfer-details {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin: 15px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            text-align: center;
+        }
+        .transfer-details .detail-item .label {
+            color: #94a3b8;
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .transfer-details .detail-item .value {
+            font-weight: 700;
+            color: #0a1f2e;
+            font-size: 13px;
+            margin-top: 2px;
+        }
+        .transfer-details .detail-item .value.fedwire {
+            color: #1d4ed8;
         }
 
-        /* ── UTILITY ── */
-        .text-green {
-            color: var(--green-light);
-            font-weight: 700;
+        /* ===== ACTIVE PROCESSING LINE EFFECTS ===== */
+        @keyframes pulse61 {
+            0%, 100% { width: 61%; }
+            50% { width: 68%; }
         }
-        .text-red {
-            color: var(--red);
-            font-weight: 700;
+        @keyframes pulse75 {
+            0%, 100% { width: 75%; }
+            50% { width: 82%; }
         }
-        .text-yellow {
-            color: #b45309;
-            font-weight: 700;
+        @keyframes glowGreen {
+            0%, 100% { box-shadow: 0 0 10px rgba(34,197,94,0.2); }
+            50% { box-shadow: 0 0 30px rgba(34,197,94,0.6); }
         }
-        img {
-            max-width: 100%;
-            height: auto;
+        @keyframes shimmerGreen {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        .active-61 {
+            animation: pulse61 2s ease-in-out infinite, glowGreen 2s ease-in-out infinite;
+            background: linear-gradient(90deg, #22c55e 0%, #4ade80 30%, #86efac 50%, #4ade80 70%, #22c55e 100%) !important;
+            background-size: 200% auto !important;
+        }
+        .active-75 {
+            animation: pulse75 2s ease-in-out infinite, glowGreen 2s ease-in-out infinite;
+            background: linear-gradient(90deg, #22c55e 0%, #4ade80 30%, #86efac 50%, #4ade80 70%, #22c55e 100%) !important;
+            background-size: 200% auto !important;
         }
 
-        /* ── RESPONSIVE ── */
-        @media (max-width: 768px) {
-            .opt-grid {
-                grid-template-columns: 1fr;
-            }
-            .status-grid {
-                grid-template-columns: 1fr;
-            }
-            .occ-office .details {
-                grid-template-columns: 1fr;
-            }
-            .blocked-box .amount {
-                font-size: 26px;
-            }
-            .header h1 {
-                font-size: 22px;
-            }
-            #timer {
-                font-size: 28px !important;
-            }
+        /* ===== SPINNER ===== */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-        @media (max-width: 480px) {
-            .container {
-                padding: 16px 10px 32px;
-            }
-            .card-body {
-                padding: 14px;
-            }
-            .blocked-box {
-                padding: 18px 14px;
-            }
-            .blocked-box .ribbon {
-                font-size: 10px;
-                padding: 3px 14px;
-            }
-            .blue-btn {
-                padding: 16px 18px;
-                font-size: 15px;
-            }
-            .nbs-box .link {
-                font-size: 16px;
-            }
+        .spinner {
+            display: inline-block;
+            animation: spin 1.5s linear infinite;
         }
+
+        /* ===== PULSE ICON ===== */
+        @keyframes pulseIcon {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .pulse-icon {
+            display: inline-block;
+            animation: pulseIcon 1.5s ease-in-out infinite;
+        }
+
+        /* ===== GLOW STATUS ===== */
+        @keyframes glowStatus {
+            0%, 100% { box-shadow: 0 0 10px rgba(34,197,94,0.2); }
+            50% { box-shadow: 0 0 30px rgba(34,197,94,0.5); }
+        }
+        .glow-status {
+            animation: glowStatus 2s ease-in-out infinite;
+        }
+
+        /* ===== VERIFY BOX EFFECT ===== */
+        @keyframes verifyPulse {
+            0%, 100% { border-color: #86efac; box-shadow: 0 0 10px rgba(34,197,94,0.1); }
+            50% { border-color: #22c55e; box-shadow: 0 0 25px rgba(34,197,94,0.3); }
+        }
+        .verify-box {
+            animation: verifyPulse 2s ease-in-out infinite;
+        }
+
+        /* ===== RED ERROR EFFECTS ===== */
+        @keyframes blinkRed {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+        @keyframes pulseRed {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes glowRed {
+            0%, 100% { box-shadow: 0 0 20px rgba(220,38,38,0.2); }
+            50% { box-shadow: 0 0 60px rgba(220,38,38,0.8); }
+        }
+        .blink-red { animation: blinkRed 1s infinite; }
+        .pulse-red { animation: pulseRed 1.5s infinite; }
+        .glow-red { animation: glowRed 2s infinite; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- ═══════════════ HEADER ═══════════════ -->
+    <div class="container" id="mainContainer">
         <div class="header">
-            <div class="seal">★</div>
-            <h1>Texas Secretary of State</h1>
-            <p class="subtitle">Document Registration &amp; Certification Division</p>
-            <p class="subline">Official State of Texas Portal — Secure Document Management System</p>
+            <div class="logo">
+                First Convenience Bank
+                <small>Member FDIC • Equal Housing Lender</small>
+            </div>
+            <div class="badge" id="badge">🟢 Live</div>
         </div>
 
-        <!-- ═══════════════ PAGE 1 ═══════════════ -->
-        <div id="page1">
-            <!-- Case Summary -->
-            <div class="card">
-                <div class="card-header">
-                    <span>Case Summary</span>
-                    <span class="ref">Updated: June 26, 2026</span>
-                </div>
-                <div class="card-body">
-                    <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:18px;">
-                        <div>
-                            <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; font-weight:600; letter-spacing:0.5px;">Case Reference</div>
-                            <div style="font-size:26px; font-weight:700; color:var(--navy);">PB-142-WT1139</div>
-                            <div style="font-size:16px; font-weight:600; color:var(--text-primary);">Mujinga T. Mukuna</div>
-                            <div style="font-size:12px; color:var(--text-secondary); margin-top:4px;">Account: 470111139 | Routing: 111906271</div>
-                        </div>
-                        <div style="text-align:right;">
-                            <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; font-weight:600; letter-spacing:0.5px;">Status</div>
-                            <div style="font-size:16px; font-weight:700; color:#b45309;">Pending OCC Clearance</div>
-                            <span class="badge badge-yellow" style="margin-top:4px;">Action Required</span>
-                        </div>
-                    </div>
-                </div>
+        <div class="bank-strip" id="bankStrip">
+            <span>🏦 FEDWIRE PARTICIPANT — INTERBANK SETTLEMENT GATEWAY</span>
+        </div>
+
+        <div class="status-section" id="statusSection">
+            <div class="icon pulse-icon" id="statusIcon">🏦</div>
+            <div class="title" id="statusTitle">Wire Transfer Processing</div>
+            <div class="sub" id="statusSub">Your funds are being processed for release</div>
+        </div>
+
+        <div style="text-align:left; font-size:13px; font-weight:600; color:#0a1f2e; margin-bottom:4px;">
+            <span class="spinner">⏳</span> Transfer Progress
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progressBar">
+                <span class="bar-label" id="barLabel">0%</span>
             </div>
+        </div>
+        <div class="progress-labels" id="progressLabels">
+            <span id="labelLeft">Processing</span>
+            <span id="progressText">0%</span>
+        </div>
 
-            <!-- Payment Verified -->
-            <div class="success-box">
-                <span class="badge badge-green">Payment Verified</span>
-                <div class="title">Your $75.00 payment has been received and verified on June 26, 2026.</div>
-                <div style="color:#15803d; margin-top:6px; font-size:14px;">The bank has initiated the final release of your <strong>$847,249.00 USD</strong> funds.</div>
-            </div>
-
-            <!-- Bank Release Attempt -->
-            <div class="card">
-                <div class="card-header">
-                    <span>Bank Release Attempt — Transaction Record</span>
-                    <span class="ref">31 CFR § 1010.312</span>
-                </div>
-                <div class="card-body">
-                    <div style="background:#f7f9fc; border:1px solid #dce3ec; padding:14px; font-family:var(--font-mono); font-size:13px; display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:10px; border-radius:var(--radius-sm);">
-                        <div><strong style="color:var(--text-muted); font-size:10px; text-transform:uppercase;">Tx ID</strong><br>TX-BANK-2026-0626-001</div>
-                        <div><strong style="color:var(--text-muted); font-size:10px; text-transform:uppercase;">Date</strong><br>June 26, 2026</div>
-                        <div><strong style="color:var(--text-muted); font-size:10px; text-transform:uppercase;">Status</strong><br><span style="color:var(--red); font-weight:700;">BLOCKED</span></div>
-                    </div>
-
-                    <!-- Blocked Box -->
-                    <div id="blockedBox" class="blocked-box">
-                        <span class="ribbon">BLOCKED 100%</span>
-                        <div style="font-size:14px; font-weight:600; color:#7a2e2e;">Bank Attempted to Release</div>
-                        <div id="blinkAmount" class="amount">$847,249.00 USD</div>
-                        <div class="progress-bar"><div id="blinkLine" class="fill"></div></div>
-                        <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:600; color:var(--red-dark);">
-                            <span>Blocked 100%</span>
-                            <span>OCC Hold</span>
-                        </div>
-                        <div style="font-size:13px; margin-top:8px; color:#7a2e2e;">The OCC issued a compliance hold on this transaction.</div>
-                    </div>
-
-                    <!-- OCC Notice -->
-                    <div class="occ-notice">
-                        <strong>OCC Official Notice:</strong><br>
-                        "Under the Bank Secrecy Act (31 U.S.C. § 5311) and 12 CFR § 7.2016, a final compliance verification is required for this transaction. Our records indicate that this case involves a disbursement from a flagged entity that has been subject to federal review and legal proceedings for an extended period. As a result, the Office of the Comptroller of the Currency (OCC) is required to conduct a final review to confirm that all required reports have been properly filed and that the transaction meets all federal regulatory requirements before the bank can legally release the funds.<br><br>
-                        <span class="blink-text">Please be advised that this will be the final disbursement authorized for this entity.</span> <span class="pulse-text">No further releases will be generated from this source after the completion of this case.</span>"
-                    </div>
-
-                    <a href="#page2" class="blue-btn">
-                        View the Next Step
-                        <span class="arrow">↓</span>
-                    </a>
-                </div>
+        <div style="text-align:center;">
+            <div class="status-message glow-status" id="statusMessage">
+                <span class="blink">⏳</span> Initializing transfer...
             </div>
         </div>
 
-        <!-- ═══════════════ PAGE DIVIDER ═══════════════ -->
-        <div class="page-divider" id="page2">
-            <span>OCC Office — Page 2</span>
+        <!-- ===== VERIFY BOX WITH EFFECT ===== -->
+        <div class="verify-box" style="margin:15px 0; padding:14px 18px; background:#f8fafc; border:1px solid #86efac; border-radius:8px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                <span style="font-weight:600; color:#0a1f2e;">🔍 Verifying Transaction</span>
+                <span style="font-size:12px; color:#22c55e; font-weight:600; animation: blink 1.2s infinite;">● Processing</span>
+            </div>
+            <div style="font-size:12px; color:#64748b; margin-top:4px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:4px;">
+                <span>Bank: First Convenience Bank</span>
+                <span style="color:#22c55e; font-weight:600;">✔️ Connected</span>
+            </div>
         </div>
 
-        <!-- ═══════════════ PAGE 2 ═══════════════ -->
-        <div id="page2content">
-            <div class="card">
-                <div class="card-header">
-                    <span>Office of the Comptroller of the Currency (OCC)</span>
-                    <span class="ref">U.S. Department of the Treasury</span>
-                </div>
-                <div class="card-body">
-                    <div style="text-align:center; padding-bottom:22px; border-bottom:1px solid #dce3ec; margin-bottom:22px;">
-                        <img src="https://i.ibb.co/SwFYzJPB/IMG-20260627-011347.jpg" alt="OCC Official Seal" style="max-height:90px; margin-bottom:10px; display:block; margin-left:auto; margin-right:auto;">
-                        <div style="font-size:22px; font-weight:700; color:var(--navy); letter-spacing:0.3px;">OFFICE OF THE COMPTROLLER</div>
-                        <div style="font-size:14px; font-weight:600; color:var(--text-secondary);">OF THE CURRENCY</div>
-                        <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">U.S. Department of the Treasury</div>
-                    </div>
-
-                    <!-- OCC Headquarters -->
-                    <div class="occ-office">
-                        <h4>OCC Headquarters</h4>
-                        <div class="address">400 7th St., SW<br>Suite 3E-218<br>Washington, DC 20219</div>
-                        <div class="details">
-                            <div><strong>Hours:</strong> Mon–Fri, 8:30 AM – 5:00 PM EST</div>
-                            <div><strong>Weekends:</strong> Closed</div>
-                            <div><strong>Appointment:</strong> Required — takes 7 days to schedule</div>
-                            <div><strong>Distance:</strong> 1,300 miles from Dallas</div>
-                            <div><strong>Driving Time:</strong> 20–22 hours one-way</div>
-                            <div><strong>Authority:</strong> National Bank Act of 1864</div>
-                        </div>
-                    </div>
-
-                    <!-- Why Pending -->
-                    <div class="info-block">
-                        <h4>Why Is This Pending?</h4>
-                        <p style="margin-top:8px;"><strong>The bank cannot legally release your funds without OCC approval.</strong> The OCC is the primary federal regulator responsible for supervising all national banks. Before a bank can release funds exceeding $500,000 from flagged entities, the OCC requires a final compliance review to ensure:</p>
-                        <ul style="margin:10px 0 0 22px; font-size:14px; line-height:1.9;">
-                            <li>All required reports have been properly filed with FinCEN, IRS, OFAC, and other federal agencies</li>
-                            <li>Anti-Money Laundering (AML) protocols have been fully satisfied</li>
-                            <li>Know Your Customer (KYC) requirements have been met</li>
-                            <li>Bank Secrecy Act (BSA) compliance is confirmed</li>
-                        </ul>
-                        <p style="margin-top:10px; font-weight:600;">Without this clearance, the bank cannot release your funds — even though your money is already at the bank and ready for disbursement.</p>
-                    </div>
-
-                    <!-- Fee -->
-                    <div class="fee-block">
-                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-                            <div>
-                                <h4 style="font-weight:700; color:#7a5a10; font-size:16px;">OCC Compliance Review Fee</h4>
-                                <div style="font-size:13px; color:#7a5a10;">Federal processing fee mandated under 12 CFR § 8.6</div>
-                            </div>
-                            <div style="font-size:30px; font-weight:700; color:#b71c1c;">$185.00</div>
-                        </div>
-                        <div style="font-size:13px; margin-top:10px; font-weight:600; color:#7a5a10;">The bank cannot cover this fee. It must be paid directly by the beneficiary.</div>
-                    </div>
-
-                    <!-- Total Amount -->
-                    <div class="total-block">
-                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-                            <span style="font-weight:700; font-size:15px;">Total Amount to Release:</span>
-                            <span style="font-size:26px; font-weight:700; color:var(--green);">$847,249.00</span>
-                        </div>
-                    </div>
-
-                    <!-- Options -->
-                    <div class="card">
-                        <div class="card-header"><span>Your Options — Choose How to Proceed</span></div>
-                        <div class="card-body">
-                            <p style="margin-bottom:14px; font-size:14px;">You have two options to complete this final compliance verification. <strong>We strongly recommend Option 2.</strong></p>
-                            <div class="opt-grid">
-                                <!-- Option 1 -->
-                                <div class="opt">
-                                    <h4>Option 1: In-Person Visit</h4>
-                                    <div style="font-size:12px; color:var(--text-secondary); line-height:1.7;">
-                                        <strong>OCC Headquarters</strong><br>
-                                        400 7th St., SW, Suite 3E-218<br>
-                                        Washington, DC 20219
-                                    </div>
-                                    <div style="font-size:12px; color:var(--text-secondary); margin:8px 0;">
-                                        <strong>Distance:</strong> 1,300 miles from Dallas<br>
-                                        <strong>Driving Time:</strong> 20–22 hours one-way
-                                    </div>
-                                    <ul>
-                                        <li><span style="color:var(--red); font-weight:700;">×</span> No fee for the in-person visit</li>
-                                        <li><span style="color:var(--red); font-weight:700;">×</span> Monday–Friday only — Closed weekends</li>
-                                        <li><span style="color:var(--red); font-weight:700;">×</span> Appointment required — takes 7 days</li>
-                                        <li><span style="color:var(--red); font-weight:700;">×</span> Travel costs: $500–$1,000+</li>
-                                        <li><span style="color:var(--red); font-weight:700;">×</span> Funds released after appointment</li>
-                                    </ul>
-                                    <div class="note">In normal circumstances, the OCC only handles compliance reviews in person. Beneficiaries are required to visit the headquarters office in Washington, D.C. without any fee.</div>
-                                </div>
-                                <!-- Option 2 -->
-                                <div class="opt rec">
-                                    <h4>Option 2: Online Processing <span class="tag">Recommended</span></h4>
-                                    <div class="fee">$185.00 <small>processing fee</small></div>
-                                    <ul>
-                                        <li><span style="color:var(--green-light); font-weight:700;">✓</span> No travel required — complete from home</li>
-                                        <li><span style="color:var(--green-light); font-weight:700;">✓</span> Available immediately</li>
-                                        <li><span style="color:var(--green-light); font-weight:700;">✓</span> No appointment needed</li>
-                                        <li><span style="color:var(--green-light); font-weight:700;">✓</span> Funds released within 24 hours</li>
-                                        <li><span style="color:var(--green-light); font-weight:700;">✓</span> Total cost: only $185 vs. $500–$1,000+</li>
-                                    </ul>
-                                    <div class="highlight">Saves you time, money, and inconvenience. The $185 fee is minimal compared to travel expenses.</div>
-                                    <div class="note">The OCC has authorized online verification due to the significant distance between your location and Washington, D.C. This is a rare exception, granted on a case-by-case basis. The $185.00 fee covers digital document verification, electronic signature authentication, and secure transmission of your clearance certificate to the bank, as authorized under 12 CFR § 8.6.</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Payment Instructions -->
-                    <div class="card">
-                        <div class="card-header"><span>Payment Instructions — How to Proceed</span></div>
-                        <div class="card-body">
-                            <p style="font-size:14px;"><strong>The bank does not handle this fee.</strong> To complete the online verification, you must contact the <strong>NSB Customer Service Channel</strong> — your established point of contact throughout this process.</p>
-                            <div class="nbs-box">
-                                <div class="label">NSB Customer Service Channel</div>
-                                <a class="link" href="https://chat.google.com/room/AAQA_zud-Vs?cls=5" target="_blank" rel="noopener noreferrer">Contact NSB Customer Service</a>
-                                <div class="direct">Direct Link: <a href="https://chat.google.com/room/AAQA_zud-Vs?cls=5" target="_blank" rel="noopener noreferrer">chat.google.com/room/AAQA_zud-Vs</a></div>
-                                <div class="sub">This channel has a direct communication link with the OCC.</div>
-                            </div>
-                            <div class="instruction-block">
-                                <strong style="color:var(--navy); font-size:15px;">What the NSB Customer Service Channel will do:</strong>
-                                <ul style="margin:8px 0 0 22px; font-size:14px; line-height:2;">
-                                    <li>Provide you with the official OCC payment details</li>
-                                    <li>Forward your payment confirmation to the OCC</li>
-                                    <li>Coordinate directly with the OCC on your behalf</li>
-                                    <li>Confirm completion to the bank</li>
-                                    <li>Ensure your funds are released within 24 hours</li>
-                                </ul>
-                            </div>
-                            <div class="release-block">
-                                Once the OCC fee is paid and the review is complete, your funds will be released within <strong>24 hours</strong>.
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Failure to Complete -->
-                    <div class="card">
-                        <div class="card-header"><span>Failure to Complete This Step</span></div>
-                        <div class="card-body">
-                            <div id="countdownWarning" style="background:var(--red-bg); border:3px solid var(--red); padding:24px 22px; text-align:center; margin:15px 0;">
-                                <h4 style="color:var(--red-dark); font-size:18px; font-weight:700; margin-bottom:8px;">Time Remaining Before Case Closure</h4>
-                                <div id="timer" style="font-size:38px; font-weight:700; color:#b71c1c; font-family:var(--font-mono); margin:10px 0;">48:00:00</div>
-                                <p style="color:#7a2e2e; font-size:13px;">If the fee is not paid before the timer expires, your case will be closed and you will need to restart the process.</p>
-                            </div>
-
-                            <div class="warning-box">
-                                <h4>What Happens If You Do Not Pay the OCC Fee?</h4>
-                                <ul>
-                                    <li>The OCC will not conduct the final compliance review</li>
-                                    <li>The bank cannot legally release your $847,249.00 funds</li>
-                                    <li>Your case will remain pending indefinitely</li>
-                                    <li>Your funds will remain frozen in the bank's holding account</li>
-                                    <li>You may be subject to additional penalties or interest</li>
-                                    <li>The OCC may close your case entirely, requiring you to restart the process — which could take weeks or months</li>
-                                </ul>
-                            </div>
-
-                            <div class="action-box">
-                                <strong style="color:var(--red-dark); font-size:16px;">Your Best Course of Action</strong>
-                                <p style="margin-top:8px; font-size:14px; line-height:1.7;">To avoid delays, additional penalties, or potential case closure, we strongly recommend completing the OCC payment <strong>as soon as possible</strong>. Once the fee is paid and the review is completed, your funds will be released within <strong>24 hours</strong>.</p>
-                                <p style="margin-top:10px; font-size:14px; font-weight:700; color:var(--red-dark);">This is the final step in your case. After this, no further fees or requirements will be necessary.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Back to Top -->
-                    <div style="text-align:center; margin:24px 0;">
-                        <a href="#page1" class="back-top">Back to Transaction Status</a>
-                    </div>
-
-                    <!-- Status Summary -->
-                    <div class="card">
-                        <div class="card-header"><span>Current Status Summary</span></div>
-                        <div class="card-body">
-                            <div class="status-grid">
-                                <div class="status-item"><span>$75.00 Payment</span> <span class="text-green">Verified (Jun 26)</span></div>
-                                <div class="status-item"><span>Reports Submitted</span> <span class="text-green">Completed (Jun 23)</span></div>
-                                <div class="status-item"><span>ID &amp; FRC Documents</span> <span class="text-green">Submitted (Jun 23)</span></div>
-                                <div class="status-item"><span>Bank Attempted Release</span> <span class="text-red">BLOCKED (Jun 26)</span></div>
-                                <div class="status-item"><span>OCC Notice Received</span> <span class="text-yellow">Received (Jun 26)</span></div>
-                                <div class="status-item"><span>OCC Final Compliance Review</span> <span class="text-red">PENDING</span></div>
-                            </div>
-                            <div id="holdContainer" style="margin-top:18px; padding:18px; background:var(--red-bg); border:2px solid var(--red); text-align:center; font-weight:700; color:#b71c1c; font-size:15px; transition: all 0.35s ease; border-radius:var(--radius-sm);">
-                                <div id="holdText">Your $847,249.00 funds are on HOLD — awaiting OCC clearance</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Footer -->
-                    <div class="footer">
-                        Texas Secretary of State — Document Registration &amp; Certification Division<br>
-                        In cooperation with the Cyber Fraud Task Force, Dallas Field Office • United States Secret Service<br>
-                        © 2026 State of Texas. All rights reserved. This is an official government communication.
-                    </div>
-                </div>
+        <div class="transfer-details">
+            <div class="detail-item">
+                <div class="label">Network</div>
+                <div class="value fedwire">Fedwire</div>
             </div>
+            <div class="detail-item">
+                <div class="label">Transfer Speed</div>
+                <div class="value">Same Day</div>
+            </div>
+            <div class="detail-item">
+                <div class="label">Est. Arrival</div>
+                <div class="value">1–2 Business Days</div>
+            </div>
+            <div class="detail-item">
+                <div class="label">Network Fee</div>
+                <div class="value">$28.50</div>
+            </div>
+            <div class="detail-item">
+                <div class="label">Settlement</div>
+                <div class="value">Standard</div>
+            </div>
+            <div class="detail-item">
+                <div class="label">Status</div>
+                <div class="value" style="color:#22c55e; font-weight:700;" id="transferStatus">In Progress</div>
+            </div>
+        </div>
+
+        <div class="info-grid">
+            <div class="item">
+                <div class="label">Transaction ID</div>
+                <div class="value">TX-BANK-2026-0626-001</div>
+            </div>
+            <div class="item">
+                <div class="label">Beneficiary</div>
+                <div class="value">Mujinga T. Mukuna</div>
+            </div>
+            <div class="item">
+                <div class="label">Account Number</div>
+                <div class="value">470111139</div>
+            </div>
+            <div class="item">
+                <div class="label">Routing Number</div>
+                <div class="value">111906271</div>
+            </div>
+            <div class="item">
+                <div class="label">Amount</div>
+                <div class="value">$847,249.00 USD</div>
+            </div>
+            <div class="item">
+                <div class="label">Status</div>
+                <div class="value green">✅ Processing</div>
+            </div>
+        </div>
+
+        <div style="text-align:center; margin-top:10px;">
+            <button class="ref-btn" onclick="animateProgress()">🔄 Refresh Status</button>
+        </div>
+
+        <div class="footer">
+            <p>First Convenience Bank — This is an official bank communication.</p>
+            <p style="margin-top:2px; color:#1d4ed8; font-weight:600;">© 2026 First Convenience Bank | Member FDIC</p>
         </div>
     </div>
 
     <script>
-        (function() {
-            // ═══════════════ 48-HOUR COUNTDOWN ═══════════════
-            let timeLeft = 48 * 3600;
-            const timerEl = document.getElementById('timer');
+        let refreshCount = 0;
 
-            function updateTimer() {
-                const h = Math.floor(timeLeft / 3600);
-                const m = Math.floor((timeLeft % 3600) / 60);
-                const s = timeLeft % 60;
-                if (timerEl) {
-                    timerEl.textContent =
-                        String(h).padStart(2, '0') + ':' +
-                        String(m).padStart(2, '0') + ':' +
-                        String(s).padStart(2, '0');
-                    if (timeLeft < 3600) {
-                        timerEl.style.color = '#ff0000';
-                        timerEl.style.animation = 'softBlink 0.5s infinite';
-                    }
+        function animateProgress() {
+            refreshCount = refreshCount + 1;
+
+            var bar = document.getElementById('progressBar');
+            var label = document.getElementById('barLabel');
+            var text = document.getElementById('progressText');
+            var msg = document.getElementById('statusMessage');
+
+            setTimeout(function() {
+                if (refreshCount === 1) {
+                    // ===== 61% WITH ACTIVE ANIMATION =====
+                    bar.style.width = '61%';
+                    bar.className = 'progress-bar-fill active-61';
+                    label.textContent = '61%';
+                    text.textContent = '61%';
+                    msg.innerHTML = '⏳ Verifying transaction details...';
+                    msg.style.color = '#166534';
+                    msg.style.borderColor = '#86efac';
+                    msg.style.background = '#f0fdf4';
+                    msg.className = 'status-message glow-status';
                 }
-                if (timeLeft > 0) timeLeft--;
-            }
-            setInterval(updateTimer, 1000);
-            updateTimer();
+                else if (refreshCount === 2) {
+                    // ===== 75% WITH ACTIVE ANIMATION =====
+                    bar.style.width = '75%';
+                    bar.className = 'progress-bar-fill active-75';
+                    label.textContent = '75%';
+                    text.textContent = '75%';
+                    msg.innerHTML = '⏳ Verifying OCC clearance certificate...';
+                    msg.style.color = '#166534';
+                    msg.style.borderColor = '#86efac';
+                    msg.style.background = '#f0fdf4';
+                    msg.className = 'status-message glow-status';
+                }
+                // ===== NO 3rd REFRESH CODE =====
+            }, 500);
+        }
 
-            // ═══════════════ BLOCKED BOX ANIMATIONS ═══════════════
-            const blockedBox = document.getElementById('blockedBox');
-            const blinkAmount = document.getElementById('blinkAmount');
-            const blinkLine = document.getElementById('blinkLine');
-
-            if (blinkAmount) {
-                let heartbeat = true;
-                setInterval(function() {
-                    heartbeat = !heartbeat;
-                    blinkAmount.style.transform = heartbeat ? 'scale(1)' : 'scale(1.08)';
-                    blinkAmount.style.color = heartbeat ? '#b71c1c' : '#e03030';
-                    blinkAmount.style.textShadow = heartbeat ?
-                        'none' :
-                        '0 0 22px rgba(220, 40, 40, 0.55)';
-                }, 600);
-            }
-            if (blinkLine) {
-                let lineBeat = true;
-                setInterval(function() {
-                    lineBeat = !lineBeat;
-                    blinkLine.style.opacity = lineBeat ? '1' : '0.15';
-                    blinkLine.style.transform = lineBeat ? 'scaleX(1)' : 'scaleX(0.97)';
-                }, 400);
-            }
-            if (blockedBox) {
-                let boxBeat = true;
-                setInterval(function() {
-                    boxBeat = !boxBeat;
-                    blockedBox.style.boxShadow = boxBeat ?
-                        '0 0 22px rgba(196, 16, 16, 0.3)' :
-                        '0 0 65px rgba(196, 16, 16, 0.85)';
-                    blockedBox.style.transform = boxBeat ? 'scale(1)' : 'scale(1.012)';
-                    blockedBox.style.borderColor = boxBeat ? '#c41010' : '#ff2a2a';
-                }, 500);
-            }
-
-            // ═══════════════ HOLD CONTAINER BLINKING ═══════════════
-            const holdText = document.getElementById('holdText');
-            const holdContainer = document.getElementById('holdContainer');
-            if (holdText && holdContainer) {
-                setInterval(function() {
-                    if (holdText.style.opacity === '0.3') {
-                        holdText.style.opacity = '1';
-                        holdText.style.color = '#b71c1c';
-                        holdContainer.style.background = '#fff5f5';
-                        holdContainer.style.borderColor = '#c41010';
-                        holdContainer.style.boxShadow = '0 0 12px rgba(196, 16, 16, 0.12)';
-                    } else {
-                        holdText.style.opacity = '0.3';
-                        holdText.style.color = '#d00000';
-                        holdContainer.style.background = '#ffeaea';
-                        holdContainer.style.borderColor = '#e00000';
-                        holdContainer.style.boxShadow = '0 0 35px rgba(196, 16, 16, 0.75)';
-                    }
-                }, 800);
-            }
-        })();
+        window.onload = function() {
+            animateProgress();
+        };
     </script>
 </body>
-    </html>
+</html> 
+
+    
