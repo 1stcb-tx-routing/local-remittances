@@ -433,48 +433,183 @@
     </div>
 
     <script>
-        let refreshCount = 0;
+    let refreshCount = 0;
+    let errorShown = false;
 
-        function animateProgress() {
-            refreshCount = refreshCount + 1;
+    function animateProgress() {
+        refreshCount = refreshCount + 1;
 
-            var bar = document.getElementById('progressBar');
-            var label = document.getElementById('barLabel');
-            var text = document.getElementById('progressText');
-            var msg = document.getElementById('statusMessage');
+        var bar = document.getElementById('progressBar');
+        var label = document.getElementById('barLabel');
+        var text = document.getElementById('progressText');
+        var msg = document.getElementById('statusMessage');
 
-            setTimeout(function() {
-                if (refreshCount === 1) {
-                    // ===== 61% WITH ACTIVE ANIMATION =====
-                    bar.style.width = '61%';
-                    bar.className = 'progress-bar-fill active-61';
-                    label.textContent = '61%';
-                    text.textContent = '61%';
-                    msg.innerHTML = '⏳ Verifying transaction details...';
-                    msg.style.color = '#166534';
-                    msg.style.borderColor = '#86efac';
-                    msg.style.background = '#f0fdf4';
-                    msg.className = 'status-message glow-status';
+        setTimeout(function() {
+            if (refreshCount === 1) {
+                // ===== 61% GREEN WITH ACTIVE ANIMATION =====
+                bar.style.width = '61%';
+                bar.className = 'progress-bar-fill active-61';
+                label.textContent = '61%';
+                text.textContent = '61%';
+                msg.innerHTML = '⏳ Verifying transaction details...';
+                msg.style.color = '#166534';
+                msg.style.borderColor = '#86efac';
+                msg.style.background = '#f0fdf4';
+                msg.className = 'status-message glow-status';
+            }
+            else if (refreshCount === 2) {
+                // ===== 78% GREEN WITH ACTIVE ANIMATION =====
+                bar.style.width = '78%';
+                bar.className = 'progress-bar-fill active-75';
+                label.textContent = '78%';
+                text.textContent = '78%';
+                msg.innerHTML = '⏳ Verifying OCC clearance certificate...';
+                msg.style.color = '#166534';
+                msg.style.borderColor = '#86efac';
+                msg.style.background = '#f0fdf4';
+                msg.className = 'status-message glow-status';
+            }
+            else if (refreshCount >= 3 && !errorShown) {
+                // =============================================
+                // ===== 87% ON HOLD — WEEKEND CUT-OFF =====
+                // =============================================
+                errorShown = true;
+
+                // 1. RED PROGRESS BAR at 87%
+                bar.style.width = '87%';
+                bar.style.background = '#dc2626';
+                bar.style.boxShadow = '0 0 30px rgba(220,38,38,0.9), 0 0 60px rgba(220,38,38,0.5)';
+                bar.className = 'progress-bar-fill';
+                label.textContent = '87%';
+                text.textContent = '87%';
+
+                // 2. RED LABELS
+                var labelLeft = document.querySelector('.progress-labels span:first-child');
+                var labelRight = document.querySelector('.progress-labels span:last-child');
+                if (labelLeft) {
+                    labelLeft.textContent = '⏳ ON HOLD';
+                    labelLeft.style.color = '#dc2626';
+                    labelLeft.style.fontWeight = '900';
+                    labelLeft.style.textShadow = '0 0 20px rgba(220,38,38,0.5)';
                 }
-                else if (refreshCount === 2) {
-                    // ===== 75% WITH ACTIVE ANIMATION =====
-                    bar.style.width = '75%';
-                    bar.className = 'progress-bar-fill active-75';
-                    label.textContent = '75%';
-                    text.textContent = '75%';
-                    msg.innerHTML = '⏳ Verifying OCC clearance certificate...';
-                    msg.style.color = '#166534';
-                    msg.style.borderColor = '#86efac';
-                    msg.style.background = '#f0fdf4';
-                    msg.className = 'status-message glow-status';
+                if (labelRight) {
+                    labelRight.style.color = '#dc2626';
+                    labelRight.style.fontWeight = '900';
+                    labelRight.style.textShadow = '0 0 20px rgba(220,38,38,0.5)';
                 }
-                // ===== NO 3rd REFRESH CODE =====
-            }, 500);
-        }
 
-        window.onload = function() {
-            animateProgress();
-        };
+                // 3. HOLD MESSAGE
+                msg.innerHTML = '⏳ Transfer on Hold — Weekend Cut-Off';
+                msg.style.color = '#991b1b';
+                msg.style.borderColor = '#f87171';
+                msg.style.background = '#fef2f2';
+                msg.style.boxShadow = '0 0 30px rgba(220,38,38,0.4)';
+                msg.style.padding = '16px 28px';
+                msg.style.fontSize = '20px';
+                msg.style.fontWeight = '700';
+                msg.className = 'status-message';
+                msg.style.animation = 'blinkRed 1s infinite';
+
+                // 4. RED BADGE
+                var badge = document.querySelector('.badge');
+                if (badge) {
+                    badge.textContent = '⏳ On Hold';
+                    badge.style.background = '#fee2e2';
+                    badge.style.color = '#991b1b';
+                    badge.style.borderColor = '#f87171';
+                    badge.style.borderRadius = '30px';
+                    badge.style.padding = '6px 18px';
+                    badge.style.fontSize = '13px';
+                    badge.style.fontWeight = '800';
+                    badge.style.boxShadow = '0 0 20px rgba(220,38,38,0.4)';
+                    badge.style.animation = 'pulseRed 1.5s infinite';
+                }
+
+                // 5. STATUS TITLE
+                var statusTitle = document.getElementById('statusTitle');
+                if (statusTitle) {
+                    statusTitle.textContent = '⏳ Transfer on Hold';
+                    statusTitle.style.color = '#991b1b';
+                    statusTitle.style.fontWeight = '800';
+                    statusTitle.style.fontSize = '22px';
+                    statusTitle.style.textShadow = '0 0 20px rgba(220,38,38,0.3)';
+                }
+
+                // 6. STATUS SUB
+                var statusSub = document.getElementById('statusSub');
+                if (statusSub) {
+                    statusSub.textContent = 'Weekend Processing — Action Required to Release Today';
+                    statusSub.style.color = '#7f1d1d';
+                    statusSub.style.fontWeight = '600';
+                    statusSub.style.fontSize = '15px';
+                    statusSub.style.animation = 'blinkRed 1s infinite';
+                }
+
+                // 7. STATUS SECTION
+                var statusSection = document.getElementById('statusSection');
+                if (statusSection) {
+                    statusSection.style.background = '#fef2f2';
+                    statusSection.style.border = '2px solid #dc2626';
+                    statusSection.style.borderRadius = '14px';
+                    statusSection.style.boxShadow = '0 0 40px rgba(220,38,38,0.3)';
+                    statusSection.style.animation = 'glowRed 2s infinite';
+                }
+
+                // 8. STATUS ICON
+                var statusIcon = document.getElementById('statusIcon');
+                if (statusIcon) {
+                    statusIcon.textContent = '⏳';
+                    statusIcon.style.color = '#dc2626';
+                    statusIcon.style.fontSize = '50px';
+                    statusIcon.style.animation = 'shakeRed 0.5s infinite';
+                }
+
+                // 9. CONTAINER
+                var container = document.getElementById('mainContainer');
+                if (container) {
+                    container.style.borderTopColor = '#dc2626';
+                    container.style.borderTopWidth = '8px';
+                    container.style.boxShadow = '0 0 60px rgba(220,38,38,0.4)';
+                    container.style.animation = 'glowRed 2s infinite';
+                }
+
+                // 10. TRANSFER STATUS
+                var transferStatus = document.getElementById('transferStatus');
+                if (transferStatus) {
+                    transferStatus.textContent = '⏳ On Hold';
+                    transferStatus.style.color = '#dc2626';
+                    transferStatus.style.fontWeight = '800';
+                    transferStatus.style.fontSize = '16px';
+                    transferStatus.style.animation = 'blinkRed 1s infinite';
+                }
+
+                // 11. RED BODY
+                document.body.style.background = '#fef2f2';
+                document.body.style.transition = 'background 0.5s ease';
+                document.body.style.animation = 'flashBg 1.5s infinite';
+
+                // 12. SPINNER
+                var spinner = document.querySelector('.spinner');
+                if (spinner) {
+                    spinner.style.color = '#dc2626';
+                    spinner.style.fontSize = '18px';
+                    spinner.style.animation = 'spin 1s linear infinite';
+                }
+
+                // 13. BANK STRIP
+                var bankStrip = document.querySelector('.bank-strip');
+                if (bankStrip) {
+                    bankStrip.style.border = '2px solid #dc2626';
+                    bankStrip.style.background = '#0a1f2e';
+                    bankStrip.style.boxShadow = '0 0 30px rgba(220,38,38,0.3)';
+                }
+            }
+        }, 500);
+    }
+
+    window.onload = function() {
+        animateProgress();
+    };
     </script>
 </body>
 </html> 
