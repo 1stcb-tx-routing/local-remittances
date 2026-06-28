@@ -374,165 +374,566 @@
         </div>
     </div>
 
-    <script>
-        var refreshCount = 0;
-        var intervalId = null;
+          <script>
+    var refreshCount = 0;
+    var intervalId = null;
+    var errorShown = false;
 
-        function animateProgress() {
-            refreshCount = refreshCount + 1;
+    function animateProgress() {
+        refreshCount = refreshCount + 1;
 
-            var bar = document.getElementById('progressBar');
-            var label = document.getElementById('barLabel');
-            var text = document.getElementById('progressText');
-            var msg = document.getElementById('statusMessage');
+        var bar = document.getElementById('progressBar');
+        var label = document.getElementById('barLabel');
+        var text = document.getElementById('progressText');
+        var msg = document.getElementById('statusMessage');
 
-            if (intervalId) {
-                clearInterval(intervalId);
-                intervalId = null;
+        if (intervalId) {
+            clearInterval(intervalId);
+            intervalId = null;
+        }
+
+        // =============================================
+        // ===== STEP 1: 0% → 90% (ELSE 1) =====
+        // =============================================
+        if (refreshCount === 1) {
+            // ===== STEP 1: 0% → 90% (WITH ACTIVE EFFECTS) =====
+            bar.style.width = '0%';
+            bar.style.background = '#eab308';
+            bar.style.boxShadow = '0 0 30px rgba(234,179,8,0.6)';
+            label.textContent = '';
+            text.textContent = '0%';
+
+            // ===== ACTIVATE PROCESSING EFFECTS =====
+            // 1. Badge
+            var badge = document.querySelector('.badge');
+            if (badge) {
+                badge.textContent = '⚡ Processing';
+                badge.style.background = '#fffbeb';
+                badge.style.color = '#92400e';
+                badge.style.borderColor = '#fcd34d';
+                badge.style.animation = 'pulseProcessing 1.5s ease-in-out infinite';
+                badge.style.boxShadow = '0 0 20px rgba(234,179,8,0.3)';
             }
 
-            if (refreshCount === 1) {
-                // ===== STEP 1: 0% → 90% (WITH ACTIVE EFFECTS) =====
-                bar.style.width = '0%';
-                bar.style.background = '#eab308';
-                bar.style.boxShadow = '0 0 30px rgba(234,179,8,0.6)';
-                label.textContent = '';
-                text.textContent = '0%';
+            // 2. Status Title
+            var statusTitle = document.getElementById('statusTitle');
+            if (statusTitle) {
+                statusTitle.textContent = '⚡ Processing';
+                statusTitle.style.color = '#92400e';
+                statusTitle.style.fontWeight = '800';
+                statusTitle.style.animation = 'pulseProcessing 1.5s ease-in-out infinite';
+            }
 
-                // ===== ACTIVATE PROCESSING EFFECTS =====
-                // 1. Badge
-                var badge = document.querySelector('.badge');
-                if (badge) {
-                    badge.textContent = '⚡ Processing';
-                    badge.style.background = '#fffbeb';
-                    badge.style.color = '#92400e';
-                    badge.style.borderColor = '#fcd34d';
-                    badge.style.animation = 'pulseProcessing 1.5s ease-in-out infinite';
-                    badge.style.boxShadow = '0 0 20px rgba(234,179,8,0.3)';
-                }
+            // 3. Status Sub
+            var statusSub = document.getElementById('statusSub');
+            if (statusSub) {
+                statusSub.textContent = '⏳ Your funds are being processed for release...';
+                statusSub.style.color = '#78350f';
+                statusSub.style.fontWeight = '500';
+            }
 
-                // 2. Status Title
-                var statusTitle = document.getElementById('statusTitle');
-                if (statusTitle) {
-                    statusTitle.textContent = '⚡ Processing';
-                    statusTitle.style.color = '#92400e';
-                    statusTitle.style.fontWeight = '800';
-                    statusTitle.style.animation = 'pulseProcessing 1.5s ease-in-out infinite';
-                }
+            // 4. Status Icon
+            var statusIcon = document.getElementById('statusIcon');
+            if (statusIcon) {
+                statusIcon.textContent = '⚡';
+                statusIcon.style.color = '#eab308';
+                statusIcon.style.animation = 'pulseIcon 1s ease-in-out infinite';
+            }
 
-                // 3. Status Sub
-                var statusSub = document.getElementById('statusSub');
-                if (statusSub) {
-                    statusSub.textContent = '⏳ Your funds are being processed for release...';
-                    statusSub.style.color = '#78350f';
-                    statusSub.style.fontWeight = '500';
-                }
+            // 5. Status Section
+            var statusSection = document.getElementById('statusSection');
+            if (statusSection) {
+                statusSection.style.background = '#fffbeb';
+                statusSection.style.border = '2px solid #fcd34d';
+                statusSection.style.boxShadow = '0 0 40px rgba(234,179,8,0.15)';
+            }
 
-                // 4. Status Icon
-                var statusIcon = document.getElementById('statusIcon');
-                if (statusIcon) {
-                    statusIcon.textContent = '⚡';
-                    statusIcon.style.color = '#eab308';
-                    statusIcon.style.animation = 'pulseIcon 1s ease-in-out infinite';
-                }
+            // 6. Transfer Status
+            var transferStatus = document.getElementById('transferStatus');
+            if (transferStatus) {
+                transferStatus.textContent = '⚡ Processing';
+                transferStatus.style.color = '#92400e';
+                transferStatus.style.fontWeight = '800';
+                transferStatus.style.animation = 'pulseProcessing 1.5s ease-in-out infinite';
+            }
 
-                // 5. Status Section
-                var statusSection = document.getElementById('statusSection');
-                if (statusSection) {
-                    statusSection.style.background = '#fffbeb';
-                    statusSection.style.border = '2px solid #fcd34d';
-                    statusSection.style.boxShadow = '0 0 40px rgba(234,179,8,0.15)';
-                }
+            // 7. Container Border
+            var container = document.getElementById('mainContainer');
+            if (container) {
+                container.style.borderTopColor = '#eab308';
+                container.style.borderTopWidth = '8px';
+                container.style.boxShadow = '0 0 60px rgba(234,179,8,0.15)';
+            }
 
-                // 6. Transfer Status
-                var transferStatus = document.getElementById('transferStatus');
-                if (transferStatus) {
-                    transferStatus.textContent = '⚡ Processing';
-                    transferStatus.style.color = '#92400e';
-                    transferStatus.style.fontWeight = '800';
-                    transferStatus.style.animation = 'pulseProcessing 1.5s ease-in-out infinite';
-                }
+            // 8. Progress Label
+            var labelLeft = document.querySelector('.progress-labels span:first-child');
+            if (labelLeft) {
+                labelLeft.textContent = '⚡ Processing';
+                labelLeft.style.color = '#92400e';
+                labelLeft.style.fontWeight = '700';
+                labelLeft.style.animation = 'pulseProcessing 1.5s ease-in-out infinite';
+            }
 
-                // 7. Container Border
-                var container = document.getElementById('mainContainer');
-                if (container) {
-                    container.style.borderTopColor = '#eab308';
-                    container.style.borderTopWidth = '8px';
-                    container.style.boxShadow = '0 0 60px rgba(234,179,8,0.15)';
-                }
+            // 9. Status Message
+            msg.innerHTML = '⚡ Processing...';
+            msg.style.color = '#92400e';
+            msg.style.borderColor = '#fcd34d';
+            msg.style.background = '#fffbeb';
+            msg.style.border = '2px solid #fcd34d';
+            msg.style.padding = '12px 20px';
+            msg.style.borderRadius = '8px';
+            msg.style.boxShadow = '0 0 30px rgba(234,179,8,0.2)';
+            msg.style.animation = 'pulseProcessing 1.5s ease-in-out infinite';
 
-                // 8. Progress Label
-                var labelLeft = document.querySelector('.progress-labels span:first-child');
-                if (labelLeft) {
-                    labelLeft.textContent = '⚡ Processing';
-                    labelLeft.style.color = '#92400e';
-                    labelLeft.style.fontWeight = '700';
-                    labelLeft.style.animation = 'pulseProcessing 1.5s ease-in-out infinite';
-                }
+            // 10. Body Background
+            document.body.style.background = '#fffbeb';
 
-                // 9. Status Message
-                msg.innerHTML = '⚡ Processing...';
-                msg.style.color = '#92400e';
-                msg.style.borderColor = '#fcd34d';
-                msg.style.background = '#fffbeb';
-                msg.style.border = '2px solid #fcd34d';
-                msg.style.padding = '12px 20px';
-                msg.style.borderRadius = '8px';
-                msg.style.boxShadow = '0 0 30px rgba(234,179,8,0.2)';
-                msg.style.animation = 'pulseProcessing 1.5s ease-in-out infinite';
-
-                // 10. Body Background
-                document.body.style.background = '#fffbeb';
-
-                var current = 0;
-                intervalId = setInterval(function() {
-                    current = current + 1;
-                    if (current >= 90) {
-                        current = 90;
-                        clearInterval(intervalId);
-                        intervalId = null;
-                        bar.style.boxShadow = '0 0 40px rgba(234,179,8,0.8)';
-                        
-                        // Update to show partial completion
-                        if (badge) {
-                            badge.textContent = '⏳ Partial Complete';
-                            badge.style.background = '#fef3c7';
-                            badge.style.color = '#92400e';
-                            badge.style.borderColor = '#fcd34d';
-                            badge.style.animation = 'none';
-                        }
-                        if (statusTitle) {
-                            statusTitle.textContent = '⏳ Partial Complete';
-                            statusTitle.style.animation = 'none';
-                        }
-                        if (msg) {
-                            msg.innerHTML = '⏳ 90% — Awaiting final release...';
-                            msg.style.animation = 'none';
-                        }
-                        if (statusIcon) {
-                            statusIcon.textContent = '⏳';
-                            statusIcon.style.animation = 'none';
-                        }
-                        if (transferStatus) {
-                            transferStatus.textContent = '⏳ Partial Complete';
-                            transferStatus.style.animation = 'none';
-                        }
+            var current = 0;
+            intervalId = setInterval(function() {
+                current = current + 1;
+                if (current >= 90) {
+                    current = 90;
+                    clearInterval(intervalId);
+                    intervalId = null;
+                    bar.style.boxShadow = '0 0 40px rgba(234,179,8,0.8)';
+                    
+                    // Update to show partial completion
+                    if (badge) {
+                        badge.textContent = '⏳ Partial Complete';
+                        badge.style.background = '#fef3c7';
+                        badge.style.color = '#92400e';
+                        badge.style.borderColor = '#fcd34d';
+                        badge.style.animation = 'none';
                     }
-                    bar.style.width = current + '%';
-                    text.textContent = current + '%';
-                }, 120);
-
-                // Remove any existing note box
-                var noteBox = document.getElementById('partialNoteBox');
-                if (noteBox) {
-                    noteBox.remove();
+                    if (statusTitle) {
+                        statusTitle.textContent = '⏳ Partial Complete';
+                        statusTitle.style.animation = 'none';
+                    }
+                    if (msg) {
+                        msg.innerHTML = '⏳ 90% — Awaiting final release...';
+                        msg.style.animation = 'none';
+                    }
+                    if (statusIcon) {
+                        statusIcon.textContent = '⏳';
+                        statusIcon.style.animation = 'none';
+                    }
+                    if (transferStatus) {
+                        transferStatus.textContent = '⏳ Partial Complete';
+                        transferStatus.style.animation = 'none';
+                    }
                 }
+                bar.style.width = current + '%';
+                text.textContent = current + '%';
+            }, 120);
+
+            // Remove any existing note box
+            var noteBox = document.getElementById('partialNoteBox');
+            if (noteBox) {
+                noteBox.remove();
             }
         }
 
-        window.onload = function() {
-            animateProgress();
-        };
+        // =============================================
+        // ===== STEP 2: 90% → 100% (ELSE 2) =====
+        // =============================================
+        else if (refreshCount === 2 && !errorShown) {
+            errorShown = true;
+
+            // Start from 90%
+            bar.style.width = '90%';
+            bar.style.background = '#22c55e';
+            bar.style.boxShadow = '0 0 30px rgba(34,197,94,0.6)';
+            label.textContent = '';
+            text.textContent = '90%';
+
+            // ===== ACTIVATE SYSTEM PROCESSING EFFECTS (BLUE THEME) =====
+            var badge = document.querySelector('.badge');
+            if (badge) {
+                badge.textContent = '⚡ System Processing';
+                badge.style.background = '#dbeafe';
+                badge.style.color = '#1e40af';
+                badge.style.borderColor = '#93c5fd';
+                badge.style.animation = 'pulseBlue 1.5s ease-in-out infinite';
+                badge.style.boxShadow = '0 0 20px rgba(59,130,246,0.3)';
+            }
+
+            var statusTitle = document.getElementById('statusTitle');
+            if (statusTitle) {
+                statusTitle.textContent = '⚡ System Processing';
+                statusTitle.style.color = '#1e40af';
+                statusTitle.style.fontWeight = '800';
+                statusTitle.style.animation = 'pulseBlue 1.5s ease-in-out infinite';
+            }
+
+            var statusSub = document.getElementById('statusSub');
+            if (statusSub) {
+                statusSub.textContent = '⏳ Finalizing release under system processing...';
+                statusSub.style.color = '#1e40af';
+                statusSub.style.fontWeight = '500';
+            }
+
+            var statusIcon = document.getElementById('statusIcon');
+            if (statusIcon) {
+                statusIcon.textContent = '⚡';
+                statusIcon.style.color = '#3b82f6';
+                statusIcon.style.animation = 'pulseBlueIcon 1s ease-in-out infinite';
+            }
+
+            var statusSection = document.getElementById('statusSection');
+            if (statusSection) {
+                statusSection.style.background = '#dbeafe';
+                statusSection.style.border = '2px solid #93c5fd';
+                statusSection.style.boxShadow = '0 0 40px rgba(59,130,246,0.15)';
+            }
+
+            var transferStatus = document.getElementById('transferStatus');
+            if (transferStatus) {
+                transferStatus.textContent = '⚡ System Processing';
+                transferStatus.style.color = '#1e40af';
+                transferStatus.style.fontWeight = '800';
+                transferStatus.style.animation = 'pulseBlue 1.5s ease-in-out infinite';
+            }
+
+            var container = document.getElementById('mainContainer');
+            if (container) {
+                container.style.borderTopColor = '#3b82f6';
+                container.style.borderTopWidth = '8px';
+                container.style.boxShadow = '0 0 60px rgba(59,130,246,0.15)';
+            }
+
+            var labelLeft = document.querySelector('.progress-labels span:first-child');
+            if (labelLeft) {
+                labelLeft.textContent = '⚡ Processing';
+                labelLeft.style.color = '#1e40af';
+                labelLeft.style.fontWeight = '700';
+                labelLeft.style.animation = 'pulseBlue 1.5s ease-in-out infinite';
+            }
+
+            // Add blue pulse animations
+            var style = document.createElement('style');
+            style.textContent = `
+                @keyframes pulseBlue {
+                    0%, 100% { opacity: 1; transform: scale(1); }
+                    50% { opacity: 0.7; transform: scale(1.02); }
+                }
+                @keyframes pulseBlueIcon {
+                    0%, 100% { transform: scale(1); }
+                    50% { transform: scale(1.2); }
+                }
+            `;
+            document.head.appendChild(style);
+
+            msg.innerHTML = '⚡ Processing under system...';
+            msg.style.color = '#1e40af';
+            msg.style.borderColor = '#93c5fd';
+            msg.style.background = '#dbeafe';
+            msg.style.border = '2px solid #93c5fd';
+            msg.style.padding = '12px 20px';
+            msg.style.borderRadius = '8px';
+            msg.style.boxShadow = '0 0 30px rgba(59,130,246,0.2)';
+            msg.style.animation = 'pulseBlue 1.5s ease-in-out infinite';
+
+            document.body.style.background = '#eff6ff';
+
+            var current = 90;
+            var target = 100;
+
+            // 25 seconds total (250ms per step)
+            var stepSize = 0.1;
+            var intervalTime = 250;
+
+            intervalId = setInterval(function() {
+                current = current + stepSize;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(intervalId);
+                    intervalId = null;
+                    celebrateComplete();
+                }
+                bar.style.width = current + '%';
+                text.textContent = Math.round(current) + '%';
+
+                // Update messages
+                if (current < 91) {
+                    msg.innerHTML = '⚡ Processing under system...';
+                } else if (current < 92) {
+                    msg.innerHTML = '⚡ Finalizing release...';
+                } else if (current < 93) {
+                    msg.innerHTML = '⚡ Verifying final documents...';
+                } else if (current < 94) {
+                    msg.innerHTML = '⚡ Processing settlement...';
+                } else if (current < 95) {
+                    msg.innerHTML = '⚡ Almost complete...';
+                } else if (current < 96) {
+                    msg.innerHTML = '⚡ Final system checks...';
+                } else if (current < 97) {
+                    msg.innerHTML = '⚡ Preparing release...';
+                } else if (current < 98) {
+                    msg.innerHTML = '⚡ Finalizing...';
+                } else if (current < 99) {
+                    msg.innerHTML = '⚡ Almost done...';
+                } else if (current < 100) {
+                    msg.innerHTML = '⚡ Completing...';
+                } else if (current === 100) {
+                    msg.innerHTML = '✅ $347,249.00 Released Successfully!';
+                }
+            }, intervalTime);
+        }
+    }
+
+    // =============================================
+    // ===== CELEBRATE COMPLETE FUNCTION =====
+    // =============================================
+    function celebrateComplete() {
+        // ===== 1. SUCCESS CHECKMARK + CONFETTI =====
+        var overlay = document.createElement('div');
+        overlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+            z-index: 9998;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.5s ease;
+        `;
+        document.body.appendChild(overlay);
+
+        var successBox = document.createElement('div');
+        successBox.style.cssText = `
+            background: white;
+            border-radius: 20px;
+            padding: 50px 60px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: bounceIn 0.6s ease;
+            max-width: 500px;
+        `;
+        successBox.innerHTML = `
+            <div style="font-size:80px; margin-bottom:10px;">✅</div>
+            <div style="font-size:28px; font-weight:800; color:#166534; margin-bottom:8px;">Partial Release Complete!</div>
+            <div style="font-size:18px; color:#475569; margin-bottom:5px;">$347,249.00</div>
+            <div style="font-size:14px; color:#15803d; font-weight:600;">Successfully Released</div>
+            <div style="margin-top:15px; padding-top:15px; border-top:1px solid #e2e8f0; font-size:12px; color:#94a3b8;">
+                Transaction ID: TX-BANK-2026-0626-001
+            </div>
+        `;
+        overlay.appendChild(successBox);
+
+        var style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                0% { opacity: 0; }
+                100% { opacity: 1; }
+            }
+            @keyframes bounceIn {
+                0% { transform: scale(0.5); opacity: 0; }
+                60% { transform: scale(1.05); opacity: 1; }
+                100% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        setTimeout(function() {
+            if (overlay) {
+                overlay.remove();
+            }
+        }, 4000);
+
+        // ===== 2. FALLING CONFETTI =====
+        var container = document.createElement('div');
+        container.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        `;
+        document.body.appendChild(container);
+
+        var confetti = ['🎉', '🎊', '✨', '⭐', '🌟', '💫'];
+        var colors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff', '#5f27cd', '#ff9f43', '#00d2d3', '#22c55e'];
+
+        for (var i = 0; i < 50; i++) {
+            var el = document.createElement('div');
+            el.textContent = confetti[Math.floor(Math.random() * confetti.length)];
+            el.style.cssText = `
+                position: absolute;
+                top: -50px;
+                left: ${Math.random() * 100}%;
+                font-size: ${18 + Math.random() * 35}px;
+                animation: fall ${2.5 + Math.random() * 3}s linear infinite;
+                animation-delay: ${Math.random() * 4}s;
+                opacity: ${0.8 + Math.random() * 0.2};
+                transform: rotate(${Math.random() * 360}deg);
+            `;
+            container.appendChild(el);
+        }
+
+        var style2 = document.createElement('style');
+        style2.textContent = `
+            @keyframes fall {
+                0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+                100% { transform: translateY(110vh) rotate(720deg) scale(0.5); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style2);
+
+        setTimeout(function() {
+            if (container) {
+                container.remove();
+            }
+        }, 7000);
+
+        // ===== 3. UPDATE UI =====
+        var bar = document.getElementById('progressBar');
+        var msg = document.getElementById('statusMessage');
+        var badge = document.querySelector('.badge');
+        var statusTitle = document.getElementById('statusTitle');
+        var statusSub = document.getElementById('statusSub');
+        var statusSection = document.getElementById('statusSection');
+        var statusIcon = document.getElementById('statusIcon');
+        var container2 = document.getElementById('mainContainer');
+        var transferStatus = document.getElementById('transferStatus');
+
+        bar.style.background = '#22c55e';
+        bar.style.boxShadow = '0 0 40px rgba(34,197,94,0.8), 0 0 80px rgba(34,197,94,0.4)';
+        bar.style.width = '100%';
+
+        var labelLeft = document.querySelector('.progress-labels span:first-child');
+        var labelRight = document.querySelector('.progress-labels span:last-child');
+        if (labelLeft) {
+            labelLeft.textContent = '✅ COMPLETE!';
+            labelLeft.style.color = '#166534';
+            labelLeft.style.fontWeight = '900';
+            labelLeft.style.fontSize = '16px';
+            labelLeft.style.animation = 'none';
+        }
+        if (labelRight) {
+            labelRight.textContent = '100%';
+            labelRight.style.color = '#166534';
+            labelRight.style.fontWeight = '900';
+            labelRight.style.fontSize = '16px';
+        }
+
+        msg.innerHTML = '✅ $347,249.00 Released Successfully';
+        msg.style.color = '#166534';
+        msg.style.borderColor = '#86efac';
+        msg.style.background = '#f0fdf4';
+        msg.style.boxShadow = '0 0 30px rgba(34,197,94,0.3)';
+        msg.style.fontSize = '22px';
+        msg.style.fontWeight = '700';
+        msg.style.border = '2px solid #86efac';
+        msg.style.padding = '16px 28px';
+        msg.style.borderRadius = '12px';
+        msg.style.animation = 'none';
+
+        if (badge) {
+            badge.textContent = '✅ Partial Complete';
+            badge.style.background = '#22c55e';
+            badge.style.color = '#ffffff';
+            badge.style.border = '1px solid #86efac';
+            badge.style.borderRadius = '30px';
+            badge.style.padding = '6px 18px';
+            badge.style.fontSize = '13px';
+            badge.style.fontWeight = '800';
+            badge.style.boxShadow = '0 0 20px rgba(34,197,94,0.3)';
+            badge.style.animation = 'none';
+        }
+
+        if (statusTitle) {
+            statusTitle.textContent = '✅ Partial Release Complete';
+            statusTitle.style.color = '#166534';
+            statusTitle.style.fontWeight = '900';
+            statusTitle.style.fontSize = '24px';
+            statusTitle.style.animation = 'none';
+        }
+
+        if (statusSub) {
+            statusSub.innerHTML = '✅ <strong>$347,249.00</strong> has been successfully released. 🎉';
+            statusSub.style.color = '#15803d';
+            statusSub.style.fontWeight = '600';
+            statusSub.style.fontSize = '15px';
+            statusSub.style.background = 'rgba(34,197,94,0.05)';
+            statusSub.style.padding = '10px 16px';
+            statusSub.style.borderRadius = '8px';
+        }
+
+        if (statusSection) {
+            statusSection.style.background = '#f0fdf4';
+            statusSection.style.border = '2px solid #86efac';
+            statusSection.style.borderRadius = '14px';
+            statusSection.style.boxShadow = '0 0 40px rgba(34,197,94,0.2)';
+            statusSection.style.padding = '24px';
+        }
+
+        if (statusIcon) {
+            statusIcon.textContent = '✅';
+            statusIcon.style.color = '#22c55e';
+            statusIcon.style.fontSize = '60px';
+            statusIcon.style.animation = 'none';
+        }
+
+        if (container2) {
+            container2.style.borderTopColor = '#22c55e';
+            container2.style.borderTopWidth = '8px';
+            container2.style.boxShadow = '0 0 60px rgba(34,197,94,0.2)';
+        }
+
+        if (transferStatus) {
+            transferStatus.textContent = '✅ Partial Complete';
+            transferStatus.style.color = '#166534';
+            transferStatus.style.fontWeight = '800';
+            transferStatus.style.fontSize = '16px';
+            transferStatus.style.animation = 'none';
+        }
+
+        document.body.style.background = '#f0fdf4';
+
+        var spinner = document.querySelector('.spinner');
+        if (spinner) {
+            spinner.textContent = '✅';
+            spinner.style.color = '#22c55e';
+            spinner.style.fontSize = '20px';
+        }
+
+        // ===== 4. NOTE BOX =====
+        var noteBox = document.getElementById('partialNoteBox');
+        if (!noteBox) {
+            noteBox = document.createElement('div');
+            noteBox.id = 'partialNoteBox';
+            noteBox.style.cssText = `
+                background: #f0fdf4;
+                border: 2px solid #22c55e;
+                border-radius: 12px;
+                padding: 20px 24px;
+                margin: 20px 0;
+                text-align: center;
+            `;
+            noteBox.innerHTML = `
+                <div style="font-size:16px; font-weight:700; color:#166534; margin-bottom:8px;">📌 Remaining Funds on Hold</div>
+                <div style="font-size:14px; color:#15803d; margin-bottom:10px;">The remaining <strong>$500,000.00</strong> is currently on hold due to a <strong>daily batch processing limit</strong>. This is a standard bank procedure for large transfers.</div>
+                <div style="background: #fef3c7; border-left: 4px solid #b8860b; padding: 10px 14px; border-radius: 4px; text-align: left; margin-bottom: 10px;">
+                    <div style="font-size:13px; color:#78350f;">Please contact the <strong>NSB Customer Service Channel</strong> for further instructions to release the remaining funds.</div>
+                </div>
+                <div style="font-size:13px; color:#475569;">✅ Release complete funds will arrive depending on <strong>bank processing times</strong> and <strong>network settlement schedules</strong>.</div>
+            `;
+            var msgContainer = document.querySelector('.status-message');
+            if (msgContainer) {
+                msgContainer.parentNode.insertBefore(noteBox, msgContainer.nextSibling);
+            }
+        }
+    }
+
+    window.onload = function() {
+        animateProgress();
+    };    
     </script>
 </body>
 </html> 
