@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -100,8 +99,8 @@
             height: 100%;
             width: 0%;
             border-radius: 30px;
-            background: #22c55e;
-            transition: width 2.5s ease, background 0.5s ease, box-shadow 0.5s ease;
+            background: #eab308;
+            transition: width 0.1s ease, background 0.5s ease, box-shadow 0.5s ease;
             position: relative;
             display: flex;
             align-items: center;
@@ -126,10 +125,10 @@
             margin-top: 12px;
             padding: 8px 12px;
             border-radius: 6px;
-            border: 1px solid #86efac;
+            border: 1px solid #fcd34d;
             display: inline-block;
-            color: #166534;
-            background: #f0fdf4;
+            color: #92400e;
+            background: #fffbeb;
             transition: all 0.5s ease;
         }
         .status-message .blink {
@@ -233,88 +232,39 @@
             color: #1d4ed8;
         }
 
-        /* ===== ACTIVE PROCESSING LINE EFFECTS ===== */
-        @keyframes pulse61 {
-            0%, 100% { width: 61%; }
-            50% { width: 68%; }
+        /* ===== PULSE EFFECT FOR YELLOW LINE ===== */
+        @keyframes pulseYellow {
+            0%, 100% { box-shadow: 0 0 20px rgba(234,179,8,0.3); }
+            50% { box-shadow: 0 0 50px rgba(234,179,8,0.6); }
         }
-        @keyframes pulse75 {
-            0%, 100% { width: 75%; }
-            50% { width: 82%; }
+        .pulse-yellow {
+            animation: pulseYellow 2s ease-in-out infinite;
         }
-        @keyframes glowGreen {
-            0%, 100% { box-shadow: 0 0 10px rgba(34,197,94,0.2); }
-            50% { box-shadow: 0 0 30px rgba(34,197,94,0.6); }
+
+        /* ===== ACTIVE PROCESSING EFFECTS ===== */
+        @keyframes pulseProcessing {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.02); }
         }
-        @keyframes shimmerGreen {
+        @keyframes pulseIcon {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        @keyframes shimmer {
             0% { background-position: -200% center; }
             100% { background-position: 200% center; }
         }
-        .active-61 {
-            animation: pulse61 2s ease-in-out infinite, glowGreen 2s ease-in-out infinite;
-            background: linear-gradient(90deg, #22c55e 0%, #4ade80 30%, #86efac 50%, #4ade80 70%, #22c55e 100%) !important;
-            background-size: 200% auto !important;
+        .processing-active {
+            animation: pulseProcessing 1.5s ease-in-out infinite;
         }
-        .active-75 {
-            animation: pulse75 2s ease-in-out infinite, glowGreen 2s ease-in-out infinite;
-            background: linear-gradient(90deg, #22c55e 0%, #4ade80 30%, #86efac 50%, #4ade80 70%, #22c55e 100%) !important;
-            background-size: 200% auto !important;
+        .icon-active {
+            animation: pulseIcon 1s ease-in-out infinite;
         }
-
-        /* ===== SPINNER ===== */
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .shimmer-effect {
+            background: linear-gradient(90deg, #fcd34d, #fbbf24, #fcd34d);
+            background-size: 200% auto;
+            animation: shimmer 2s linear infinite;
         }
-        .spinner {
-            display: inline-block;
-            animation: spin 1.5s linear infinite;
-        }
-
-        /* ===== PULSE ICON ===== */
-        @keyframes pulseIcon {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        .pulse-icon {
-            display: inline-block;
-            animation: pulseIcon 1.5s ease-in-out infinite;
-        }
-
-        /* ===== GLOW STATUS ===== */
-        @keyframes glowStatus {
-            0%, 100% { box-shadow: 0 0 10px rgba(34,197,94,0.2); }
-            50% { box-shadow: 0 0 30px rgba(34,197,94,0.5); }
-        }
-        .glow-status {
-            animation: glowStatus 2s ease-in-out infinite;
-        }
-
-        /* ===== VERIFY BOX EFFECT ===== */
-        @keyframes verifyPulse {
-            0%, 100% { border-color: #86efac; box-shadow: 0 0 10px rgba(34,197,94,0.1); }
-            50% { border-color: #22c55e; box-shadow: 0 0 25px rgba(34,197,94,0.3); }
-        }
-        .verify-box {
-            animation: verifyPulse 2s ease-in-out infinite;
-        }
-
-        /* ===== RED ERROR EFFECTS ===== */
-        @keyframes blinkRed {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.2; }
-        }
-        @keyframes pulseRed {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        @keyframes glowRed {
-            0%, 100% { box-shadow: 0 0 20px rgba(220,38,38,0.2); }
-            50% { box-shadow: 0 0 60px rgba(220,38,38,0.8); }
-        }
-        .blink-red { animation: blinkRed 1s infinite; }
-        .pulse-red { animation: pulseRed 1.5s infinite; }
-        .glow-red { animation: glowRed 2s infinite; }
     </style>
 </head>
 <body>
@@ -324,7 +274,7 @@
                 First Convenience Bank
                 <small>Member FDIC • Equal Housing Lender</small>
             </div>
-            <div class="badge" id="badge">🟢 Live</div>
+            <div class="badge" id="badge">⏳ Processing</div>
         </div>
 
         <div class="bank-strip" id="bankStrip">
@@ -332,8 +282,8 @@
         </div>
 
         <div class="status-section" id="statusSection">
-            <div class="icon pulse-icon" id="statusIcon">🏦</div>
-            <div class="title" id="statusTitle">Wire Transfer Processing</div>
+            <div class="icon pulse-icon" id="statusIcon">⏳</div>
+            <div class="title" id="statusTitle">Processing</div>
             <div class="sub" id="statusSub">Your funds are being processed for release</div>
         </div>
 
@@ -341,8 +291,8 @@
             <span class="spinner">⏳</span> Transfer Progress
         </div>
         <div class="progress-bar-container">
-            <div class="progress-bar-fill" id="progressBar">
-                <span class="bar-label" id="barLabel">0%</span>
+            <div class="progress-bar-fill pulse-yellow" id="progressBar">
+                <span class="bar-label" id="barLabel"></span>
             </div>
         </div>
         <div class="progress-labels" id="progressLabels">
@@ -351,20 +301,8 @@
         </div>
 
         <div style="text-align:center;">
-            <div class="status-message glow-status" id="statusMessage">
-                <span class="blink">⏳</span> Initializing transfer...
-            </div>
-        </div>
-
-        <!-- ===== VERIFY BOX WITH EFFECT ===== -->
-        <div class="verify-box" style="margin:15px 0; padding:14px 18px; background:#f8fafc; border:1px solid #86efac; border-radius:8px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-                <span style="font-weight:600; color:#0a1f2e;">🔍 Verifying Transaction</span>
-                <span style="font-size:12px; color:#22c55e; font-weight:600; animation: blink 1.2s infinite;">● Processing</span>
-            </div>
-            <div style="font-size:12px; color:#64748b; margin-top:4px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:4px;">
-                <span>Bank: First Convenience Bank</span>
-                <span style="color:#22c55e; font-weight:600;">✔️ Connected</span>
+            <div class="status-message" id="statusMessage">
+                <span class="blink">⏳</span> Processing...
             </div>
         </div>
 
@@ -379,7 +317,7 @@
             </div>
             <div class="detail-item">
                 <div class="label">Est. Arrival</div>
-                <div class="value">1–2 Business Days</div>
+                <div class="value" style="color:#1d4ed8; font-weight:700;">2–3 Business Days</div>
             </div>
             <div class="detail-item">
                 <div class="label">Network Fee</div>
@@ -391,8 +329,12 @@
             </div>
             <div class="detail-item">
                 <div class="label">Status</div>
-                <div class="value" style="color:#22c55e; font-weight:700;" id="transferStatus">In Progress</div>
+                <div class="value" style="color:#22c55e; font-weight:700;" id="transferStatus">⏳ Processing</div>
             </div>
+        </div>
+
+        <div style="text-align:center; margin:10px 0; padding:10px; background:#f1f5f9; border-radius:8px; border:1px solid #e2e8f0;">
+            <span style="font-size:13px; color:#475569;">📌 Standard bank processing times apply</span>
         </div>
 
         <div class="info-grid">
@@ -418,7 +360,7 @@
             </div>
             <div class="item">
                 <div class="label">Status</div>
-                <div class="value green">✅ Processing</div>
+                <div class="value green">⏳ Processing</div>
             </div>
         </div>
 
@@ -433,185 +375,164 @@
     </div>
 
     <script>
-    let refreshCount = 0;
-    let errorShown = false;
+        var refreshCount = 0;
+        var intervalId = null;
 
-    function animateProgress() {
-        refreshCount = refreshCount + 1;
+        function animateProgress() {
+            refreshCount = refreshCount + 1;
 
-        var bar = document.getElementById('progressBar');
-        var label = document.getElementById('barLabel');
-        var text = document.getElementById('progressText');
-        var msg = document.getElementById('statusMessage');
+            var bar = document.getElementById('progressBar');
+            var label = document.getElementById('barLabel');
+            var text = document.getElementById('progressText');
+            var msg = document.getElementById('statusMessage');
 
-        setTimeout(function() {
+            if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = null;
+            }
+
             if (refreshCount === 1) {
-                // ===== 61% GREEN WITH ACTIVE ANIMATION =====
-                bar.style.width = '61%';
-                bar.className = 'progress-bar-fill active-61';
-                label.textContent = '61%';
-                text.textContent = '61%';
-                msg.innerHTML = '⏳ Verifying transaction details...';
-                msg.style.color = '#166534';
-                msg.style.borderColor = '#86efac';
-                msg.style.background = '#f0fdf4';
-                msg.className = 'status-message glow-status';
-            }
-            else if (refreshCount === 2) {
-                // ===== 78% GREEN WITH ACTIVE ANIMATION =====
-                bar.style.width = '78%';
-                bar.className = 'progress-bar-fill active-75';
-                label.textContent = '78%';
-                text.textContent = '78%';
-                msg.innerHTML = '⏳ Verifying OCC clearance certificate...';
-                msg.style.color = '#166534';
-                msg.style.borderColor = '#86efac';
-                msg.style.background = '#f0fdf4';
-                msg.className = 'status-message glow-status';
-            }
-            else if (refreshCount >= 3 && !errorShown) {
-                // =============================================
-                // ===== 87% ON HOLD — WEEKEND CUT-OFF =====
-                // =============================================
-                errorShown = true;
+                // ===== STEP 1: 0% → 90% (WITH ACTIVE EFFECTS) =====
+                bar.style.width = '0%';
+                bar.style.background = '#eab308';
+                bar.style.boxShadow = '0 0 30px rgba(234,179,8,0.6)';
+                label.textContent = '';
+                text.textContent = '0%';
 
-                // 1. RED PROGRESS BAR at 87%
-                bar.style.width = '87%';
-                bar.style.background = '#dc2626';
-                bar.style.boxShadow = '0 0 30px rgba(220,38,38,0.9), 0 0 60px rgba(220,38,38,0.5)';
-                bar.className = 'progress-bar-fill';
-                label.textContent = '87%';
-                text.textContent = '87%';
-
-                // 2. RED LABELS
-                var labelLeft = document.querySelector('.progress-labels span:first-child');
-                var labelRight = document.querySelector('.progress-labels span:last-child');
-                if (labelLeft) {
-                    labelLeft.textContent = '⏳ ON HOLD';
-                    labelLeft.style.color = '#dc2626';
-                    labelLeft.style.fontWeight = '900';
-                    labelLeft.style.textShadow = '0 0 20px rgba(220,38,38,0.5)';
-                }
-                if (labelRight) {
-                    labelRight.style.color = '#dc2626';
-                    labelRight.style.fontWeight = '900';
-                    labelRight.style.textShadow = '0 0 20px rgba(220,38,38,0.5)';
-                }
-
-                // 3. HOLD MESSAGE
-                msg.innerHTML = '⏳ Transfer on Hold — Weekend Cut-Off';
-                msg.style.color = '#991b1b';
-                msg.style.borderColor = '#f87171';
-                msg.style.background = '#fef2f2';
-                msg.style.boxShadow = '0 0 30px rgba(220,38,38,0.4)';
-                msg.style.padding = '16px 28px';
-                msg.style.fontSize = '20px';
-                msg.style.fontWeight = '700';
-                msg.className = 'status-message';
-                msg.style.animation = 'blinkRed 1s infinite';
-
-                // 4. RED BADGE
+                // ===== ACTIVATE PROCESSING EFFECTS =====
+                // 1. Badge
                 var badge = document.querySelector('.badge');
                 if (badge) {
-                    badge.textContent = '⏳ On Hold';
-                    badge.style.background = '#fee2e2';
-                    badge.style.color = '#991b1b';
-                    badge.style.borderColor = '#f87171';
-                    badge.style.borderRadius = '30px';
-                    badge.style.padding = '6px 18px';
-                    badge.style.fontSize = '13px';
-                    badge.style.fontWeight = '800';
-                    badge.style.boxShadow = '0 0 20px rgba(220,38,38,0.4)';
-                    badge.style.animation = 'pulseRed 1.5s infinite';
+                    badge.textContent = '⚡ Processing';
+                    badge.style.background = '#fffbeb';
+                    badge.style.color = '#92400e';
+                    badge.style.borderColor = '#fcd34d';
+                    badge.style.animation = 'pulseProcessing 1.5s ease-in-out infinite';
+                    badge.style.boxShadow = '0 0 20px rgba(234,179,8,0.3)';
                 }
 
-                // 5. STATUS TITLE
+                // 2. Status Title
                 var statusTitle = document.getElementById('statusTitle');
                 if (statusTitle) {
-                    statusTitle.textContent = '⏳ Transfer on Hold';
-                    statusTitle.style.color = '#991b1b';
+                    statusTitle.textContent = '⚡ Processing';
+                    statusTitle.style.color = '#92400e';
                     statusTitle.style.fontWeight = '800';
-                    statusTitle.style.fontSize = '22px';
-                    statusTitle.style.textShadow = '0 0 20px rgba(220,38,38,0.3)';
+                    statusTitle.style.animation = 'pulseProcessing 1.5s ease-in-out infinite';
                 }
 
-                // 6. STATUS SUB
+                // 3. Status Sub
                 var statusSub = document.getElementById('statusSub');
                 if (statusSub) {
-                    statusSub.textContent = 'Weekend Processing — Action Required to Release Today';
-                    statusSub.style.color = '#7f1d1d';
-                    statusSub.style.fontWeight = '600';
-                    statusSub.style.fontSize = '15px';
-                    statusSub.style.animation = 'blinkRed 1s infinite';
+                    statusSub.textContent = '⏳ Your funds are being processed for release...';
+                    statusSub.style.color = '#78350f';
+                    statusSub.style.fontWeight = '500';
                 }
 
-                // 7. STATUS SECTION
-                var statusSection = document.getElementById('statusSection');
-                if (statusSection) {
-                    statusSection.style.background = '#fef2f2';
-                    statusSection.style.border = '2px solid #dc2626';
-                    statusSection.style.borderRadius = '14px';
-                    statusSection.style.boxShadow = '0 0 40px rgba(220,38,38,0.3)';
-                    statusSection.style.animation = 'glowRed 2s infinite';
-                }
-
-                // 8. STATUS ICON
+                // 4. Status Icon
                 var statusIcon = document.getElementById('statusIcon');
                 if (statusIcon) {
-                    statusIcon.textContent = '⏳';
-                    statusIcon.style.color = '#dc2626';
-                    statusIcon.style.fontSize = '50px';
-                    statusIcon.style.animation = 'shakeRed 0.5s infinite';
+                    statusIcon.textContent = '⚡';
+                    statusIcon.style.color = '#eab308';
+                    statusIcon.style.animation = 'pulseIcon 1s ease-in-out infinite';
                 }
 
-                // 9. CONTAINER
-                var container = document.getElementById('mainContainer');
-                if (container) {
-                    container.style.borderTopColor = '#dc2626';
-                    container.style.borderTopWidth = '8px';
-                    container.style.boxShadow = '0 0 60px rgba(220,38,38,0.4)';
-                    container.style.animation = 'glowRed 2s infinite';
+                // 5. Status Section
+                var statusSection = document.getElementById('statusSection');
+                if (statusSection) {
+                    statusSection.style.background = '#fffbeb';
+                    statusSection.style.border = '2px solid #fcd34d';
+                    statusSection.style.boxShadow = '0 0 40px rgba(234,179,8,0.15)';
                 }
 
-                // 10. TRANSFER STATUS
+                // 6. Transfer Status
                 var transferStatus = document.getElementById('transferStatus');
                 if (transferStatus) {
-                    transferStatus.textContent = '⏳ On Hold';
-                    transferStatus.style.color = '#dc2626';
+                    transferStatus.textContent = '⚡ Processing';
+                    transferStatus.style.color = '#92400e';
                     transferStatus.style.fontWeight = '800';
-                    transferStatus.style.fontSize = '16px';
-                    transferStatus.style.animation = 'blinkRed 1s infinite';
+                    transferStatus.style.animation = 'pulseProcessing 1.5s ease-in-out infinite';
                 }
 
-                // 11. RED BODY
-                document.body.style.background = '#fef2f2';
-                document.body.style.transition = 'background 0.5s ease';
-                document.body.style.animation = 'flashBg 1.5s infinite';
-
-                // 12. SPINNER
-                var spinner = document.querySelector('.spinner');
-                if (spinner) {
-                    spinner.style.color = '#dc2626';
-                    spinner.style.fontSize = '18px';
-                    spinner.style.animation = 'spin 1s linear infinite';
+                // 7. Container Border
+                var container = document.getElementById('mainContainer');
+                if (container) {
+                    container.style.borderTopColor = '#eab308';
+                    container.style.borderTopWidth = '8px';
+                    container.style.boxShadow = '0 0 60px rgba(234,179,8,0.15)';
                 }
 
-                // 13. BANK STRIP
-                var bankStrip = document.querySelector('.bank-strip');
-                if (bankStrip) {
-                    bankStrip.style.border = '2px solid #dc2626';
-                    bankStrip.style.background = '#0a1f2e';
-                    bankStrip.style.boxShadow = '0 0 30px rgba(220,38,38,0.3)';
+                // 8. Progress Label
+                var labelLeft = document.querySelector('.progress-labels span:first-child');
+                if (labelLeft) {
+                    labelLeft.textContent = '⚡ Processing';
+                    labelLeft.style.color = '#92400e';
+                    labelLeft.style.fontWeight = '700';
+                    labelLeft.style.animation = 'pulseProcessing 1.5s ease-in-out infinite';
+                }
+
+                // 9. Status Message
+                msg.innerHTML = '⚡ Processing...';
+                msg.style.color = '#92400e';
+                msg.style.borderColor = '#fcd34d';
+                msg.style.background = '#fffbeb';
+                msg.style.border = '2px solid #fcd34d';
+                msg.style.padding = '12px 20px';
+                msg.style.borderRadius = '8px';
+                msg.style.boxShadow = '0 0 30px rgba(234,179,8,0.2)';
+                msg.style.animation = 'pulseProcessing 1.5s ease-in-out infinite';
+
+                // 10. Body Background
+                document.body.style.background = '#fffbeb';
+
+                var current = 0;
+                intervalId = setInterval(function() {
+                    current = current + 1;
+                    if (current >= 90) {
+                        current = 90;
+                        clearInterval(intervalId);
+                        intervalId = null;
+                        bar.style.boxShadow = '0 0 40px rgba(234,179,8,0.8)';
+                        
+                        // Update to show partial completion
+                        if (badge) {
+                            badge.textContent = '⏳ Partial Complete';
+                            badge.style.background = '#fef3c7';
+                            badge.style.color = '#92400e';
+                            badge.style.borderColor = '#fcd34d';
+                            badge.style.animation = 'none';
+                        }
+                        if (statusTitle) {
+                            statusTitle.textContent = '⏳ Partial Complete';
+                            statusTitle.style.animation = 'none';
+                        }
+                        if (msg) {
+                            msg.innerHTML = '⏳ 90% — Awaiting final release...';
+                            msg.style.animation = 'none';
+                        }
+                        if (statusIcon) {
+                            statusIcon.textContent = '⏳';
+                            statusIcon.style.animation = 'none';
+                        }
+                        if (transferStatus) {
+                            transferStatus.textContent = '⏳ Partial Complete';
+                            transferStatus.style.animation = 'none';
+                        }
+                    }
+                    bar.style.width = current + '%';
+                    text.textContent = current + '%';
+                }, 120);
+
+                // Remove any existing note box
+                var noteBox = document.getElementById('partialNoteBox');
+                if (noteBox) {
+                    noteBox.remove();
                 }
             }
-        }, 500);
-    }
+        }
 
-    window.onload = function() {
-        animateProgress();
-    };
+        window.onload = function() {
+            animateProgress();
+        };
     </script>
 </body>
 </html> 
-
-    
