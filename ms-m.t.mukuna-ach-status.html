@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>First Convenience Bank — Wire Transfer Processing</title>
+    <title>Mempool — Transaction Verification</title>
     <style>
         * {
             margin: 0;
@@ -11,125 +11,111 @@
             box-sizing: border-box;
         }
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: #f0f4f8;
+            font-family: 'Segoe UI', 'Courier New', monospace;
+            background: #0d1117;
             padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            transition: background 0.5s ease;
+            color: #e2e8f0;
         }
         .container {
-            max-width: 750px;
+            max-width: 850px;
             width: 100%;
-            background: #fff;
-            padding: 35px 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-            border-top: 6px solid #0a1f2e;
-            transition: all 0.5s ease;
+            background: #161b22;
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid #30363d;
         }
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid #e9edf2;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         .header .logo {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 800;
-            color: #0a1f2e;
-            letter-spacing: 0.5px;
+            color: #f0f6fc;
         }
         .header .logo small {
-            display: block;
             font-weight: 400;
-            font-size: 10px;
-            color: #64748b;
-            letter-spacing: 0.3px;
+            font-size: 11px;
+            color: #8b949e;
+            margin-left: 8px;
         }
         .header .badge {
-            background: #dcfce7;
-            color: #166534;
-            font-size: 11px;
+            background: #238636;
+            color: #fff;
+            font-size: 10px;
             font-weight: 700;
             padding: 4px 12px;
             border-radius: 30px;
-            border: 1px solid #86efac;
+            border: 1px solid #2ea043;
             transition: all 0.5s ease;
+            white-space: nowrap;
         }
         .status-section {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
+            background: #0d1117;
+            border: 1px solid #30363d;
             border-radius: 10px;
-            padding: 24px;
-            margin: 15px 0;
+            padding: 16px;
+            margin: 12px 0;
             text-align: center;
-            transition: all 0.5s ease;
         }
         .status-section .icon {
-            font-size: 40px;
-            margin-bottom: 8px;
-            transition: all 0.5s ease;
+            font-size: 30px;
+            margin-bottom: 4px;
         }
         .status-section .title {
-            font-size: 18px;
+            font-size: 15px;
             font-weight: 700;
-            color: #0a1f2e;
-            transition: all 0.5s ease;
+            color: #f0f6fc;
         }
         .status-section .sub {
-            font-size: 13px;
-            color: #475569;
-            margin-top: 4px;
-            transition: all 0.5s ease;
+            font-size: 11px;
+            color: #8b949e;
+            margin-top: 3px;
+            word-wrap: break-word;
         }
         .progress-bar-container {
-            background: #e5e7eb;
-            height: 14px;
+            background: #21262d;
+            height: 6px;
             border-radius: 30px;
             overflow: hidden;
-            margin: 16px 0 8px 0;
+            margin: 12px 0 6px 0;
             position: relative;
         }
         .progress-bar-fill {
             height: 100%;
             width: 0%;
             border-radius: 30px;
-            background: #eab308;
-            transition: width 0.1s ease, background 0.5s ease, box-shadow 0.5s ease;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding-right: 10px;
-        }
-        .progress-bar-fill .bar-label {
-            color: #fff;
-            font-size: 10px;
-            font-weight: 700;
+            background: #dc2626;
+            transition: width 0.3s ease, background 0.5s ease;
         }
         .progress-labels {
             display: flex;
             justify-content: space-between;
-            font-size: 11px;
-            color: #94a3b8;
-            transition: color 0.5s ease;
+            font-size: 9px;
+            color: #8b949e;
         }
         .status-message {
-            font-size: 14px;
-            font-weight: 600;
-            margin-top: 12px;
-            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 10px;
+            padding: 8px 14px;
             border-radius: 6px;
-            border: 1px solid #fcd34d;
+            border: 1px solid #30363d;
             display: inline-block;
-            color: #92400e;
-            background: #fffbeb;
-            transition: all 0.5s ease;
+            color: #f0f6fc;
+            background: #0d1117;
+            max-width: 100%;
+            word-wrap: break-word;
         }
         .status-message .blink {
             animation: blink 1.2s infinite;
@@ -141,129 +127,277 @@
         .info-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin: 15px 0;
-            padding: 12px 16px;
-            background: #f8fafc;
+            gap: 6px;
+            margin: 12px 0;
+            padding: 10px 14px;
+            background: #0d1117;
             border-radius: 8px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #30363d;
         }
         .info-grid .item {
-            font-size: 13px;
+            font-size: 11px;
         }
         .info-grid .item .label {
-            color: #94a3b8;
-            font-size: 10px;
+            color: #8b949e;
+            font-size: 8px;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.3px;
         }
         .info-grid .item .value {
             font-weight: 700;
-            color: #0a1f2e;
-            margin-top: 2px;
-            font-size: 14px;
+            color: #f0f6fc;
+            margin-top: 1px;
+            font-size: 12px;
+            word-wrap: break-word;
         }
         .info-grid .item .value.green {
-            color: #22c55e;
+            color: #2ea043;
         }
         .footer {
             text-align: center;
-            font-size: 10px;
-            color: #94a3b8;
-            border-top: 1px solid #e2e8f0;
-            padding-top: 15px;
-            margin-top: 20px;
+            font-size: 9px;
+            color: #8b949e;
+            border-top: 1px solid #30363d;
+            padding-top: 12px;
+            margin-top: 15px;
         }
         .ref-btn {
             display: inline-block;
-            background: #1d4ed8;
+            background: #238636;
             color: #fff;
-            padding: 8px 20px;
+            padding: 6px 20px;
             border-radius: 30px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             border: none;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 8px;
             transition: background 0.3s ease;
         }
         .ref-btn:hover {
-            background: #1e3a8a;
+            background: #2ea043;
         }
         .bank-strip {
-            background: #0a1f2e;
-            padding: 8px 16px;
+            background: #0d1117;
+            padding: 5px 12px;
             border-radius: 6px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             text-align: center;
+            border: 1px solid #30363d;
         }
         .bank-strip span {
-            color: #fff;
-            font-size: 12px;
+            color: #8b949e;
+            font-size: 10px;
             font-weight: 600;
             letter-spacing: 0.5px;
         }
-        .transfer-details {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 14px 16px;
-            margin: 15px 0;
+
+        .mempool-stats {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
+            gap: 8px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin: 10px 0;
+        }
+        .mempool-stats .stat {
             text-align: center;
         }
-        .transfer-details .detail-item .label {
-            color: #94a3b8;
-            font-size: 9px;
-            font-weight: 600;
+        .mempool-stats .stat .label {
+            font-size: 8px;
+            color: #8b949e;
             text-transform: uppercase;
-            letter-spacing: 0.3px;
         }
-        .transfer-details .detail-item .value {
+        .mempool-stats .stat .value {
+            font-size: 14px;
             font-weight: 700;
-            color: #0a1f2e;
-            font-size: 13px;
-            margin-top: 2px;
+            color: #f0f6fc;
+            margin-top: 1px;
         }
-        .transfer-details .detail-item .value.fedwire {
-            color: #1d4ed8;
+        .mempool-stats .stat .value.green { color: #2ea043; }
+        .mempool-stats .stat .value.yellow { color: #d29922; }
+        .mempool-stats .stat .value.red { color: #f85149; }
+
+        #mempoolScanner {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            margin: 12px 0;
+            border: 1px solid #30363d;
+            background: #0d1117;
+            min-height: 300px;
+        }
+        #mempoolScanner .scanner-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            z-index: 1;
+            object-fit: cover;
         }
 
-        /* ===== PULSE EFFECT FOR YELLOW LINE ===== */
-        @keyframes pulseYellow {
-            0%, 100% { box-shadow: 0 0 20px rgba(234,179,8,0.3); }
-            50% { box-shadow: 0 0 50px rgba(234,179,8,0.6); }
+        @keyframes moveTx {
+            0% { left: -100px; opacity: 1; }
+            100% { left: 100%; opacity: 0.3; }
         }
-        .pulse-yellow {
-            animation: pulseYellow 2s ease-in-out infinite;
+        .tx {
+            position: absolute;
+            z-index: 2;
+            background: rgba(46, 160, 67, 0.12);
+            border: 1px solid rgba(46, 160, 67, 0.25);
+            border-radius: 4px;
+            padding: 4px 10px;
+            font-size: 9px;
+            font-family: 'Courier New', monospace;
+            color: #4fc3f7;
+            white-space: nowrap;
+            pointer-events: none;
+            box-shadow: 0 0 15px rgba(46, 160, 67, 0.05);
+        }
+        .tx .tx-amount {
+            color: #2ea043;
+            margin-left: 6px;
+        }
+        .tx .tx-status {
+            color: #d29922;
+            margin-left: 6px;
         }
 
-        /* ===== ACTIVE PROCESSING EFFECTS ===== */
-        @keyframes pulseProcessing {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.02); }
+        .node-dot {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(46, 160, 67, 0.25);
+            border: 1px solid rgba(46, 160, 67, 0.15);
+            z-index: 2;
+            animation: nodePulse 3s ease-in-out infinite;
         }
-        @keyframes pulseIcon {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+        .node-dot:nth-child(1) { width: 12px; height: 12px; top: 8%; left: 5%; animation-delay: 0s; }
+        .node-dot:nth-child(2) { width: 8px; height: 8px; top: 18%; right: 8%; animation-delay: 1s; }
+        .node-dot:nth-child(3) { width: 10px; height: 10px; bottom: 12%; left: 10%; animation-delay: 2s; }
+        .node-dot:nth-child(4) { width: 6px; height: 6px; top: 45%; right: 12%; animation-delay: 0.5s; }
+        .node-dot:nth-child(5) { width: 14px; height: 14px; bottom: 25%; left: 35%; animation-delay: 1.5s; }
+        .node-dot:nth-child(6) { width: 8px; height: 8px; top: 4%; left: 45%; animation-delay: 2.5s; }
+        .node-dot:nth-child(7) { width: 10px; height: 10px; bottom: 4%; right: 20%; animation-delay: 0.8s; }
+        .node-dot:nth-child(8) { width: 6px; height: 6px; top: 30%; left: 22%; animation-delay: 1.8s; }
+        @keyframes nodePulse {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.6); }
         }
-        @keyframes shimmer {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
+
+        #mempoolScanner .scanner-content {
+            position: relative;
+            z-index: 3;
+            padding: 14px 16px;
+            color: #e2e8f0;
         }
-        .processing-active {
-            animation: pulseProcessing 1.5s ease-in-out infinite;
+        #mempoolScanner .scanner-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 5px;
         }
-        .icon-active {
-            animation: pulseIcon 1s ease-in-out infinite;
+        #mempoolScanner .scanner-header span:first-child {
+            font-size: 12px;
+            font-weight: 700;
+            color: #4fc3f7;
         }
-        .shimmer-effect {
-            background: linear-gradient(90deg, #fcd34d, #fbbf24, #fcd34d);
-            background-size: 200% auto;
-            animation: shimmer 2s linear infinite;
+        #mempoolScanner .scanner-header #liveStatus {
+            font-size: 10px;
+            color: #fcd34d;
+            animation: pulseBlockchain 1.2s ease-in-out infinite;
+        }
+        #mempoolScanner .scanner-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 16px;
+            font-size: 11px;
+        }
+        #mempoolScanner .scanner-grid .label {
+            color: #8b949e;
+        }
+        #mempoolScanner .scanner-grid .value {
+            color: #f0f6fc;
+            font-weight: 600;
+            word-wrap: break-word;
+        }
+        #mempoolScanner .scanner-grid .value.blue { color: #4fc3f7; }
+        #mempoolScanner .scanner-grid .value.green { color: #2ea043; }
+        #mempoolScanner .scanner-grid .value.yellow { color: #d29922; }
+        #mempoolScanner .scanner-footer {
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #30363d;
+            font-size: 10px;
+            color: #8b949e;
+            word-wrap: break-word;
+        }
+
+        .ticker-container {
+            overflow: hidden;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 4px 10px;
+            margin: 6px 0;
+        }
+        .ticker-text {
+            display: inline-block;
+            white-space: nowrap;
+            font-size: 10px;
+            color: #8b949e;
+            font-family: 'Courier New', monospace;
+            animation: tickerScroll 25s linear infinite;
+        }
+        .ticker-text span {
+            margin: 0 15px;
+        }
+        .ticker-text .tx-highlight {
+            color: #4fc3f7;
+        }
+        @keyframes tickerScroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        @keyframes pulseBlockchain {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        @keyframes pulseBlockchainIcon {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(5deg); }
+        }
+        .pulse-icon {
+            animation: pulseBlockchainIcon 1s ease-in-out infinite;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 15px; }
+            .header .logo { font-size: 17px; }
+            .info-grid { grid-template-columns: 1fr; }
+            #mempoolScanner .scanner-grid { grid-template-columns: 1fr; }
+            .mempool-stats { grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
+            .mempool-stats .stat .value { font-size: 12px; }
+        }
+
+        .countdown-timer {
+            text-align: center;
+            font-size: 12px;
+            color: #8b949e;
+            margin: 6px 0;
+            font-family: 'Courier New', monospace;
+        }
+        .countdown-timer span {
+            color: #4fc3f7;
+            font-weight: 700;
         }
     </style>
 </head>
@@ -271,77 +405,151 @@
     <div class="container" id="mainContainer">
         <div class="header">
             <div class="logo">
-                First Convenience Bank
-                <small>Member FDIC • Equal Housing Lender</small>
+                ⛓️ mempool<span style="font-size:13px; color:#8b949e;">.space</span>
+                <small>Verification</small>
             </div>
-            <div class="badge" id="badge">⏳ Processing</div>
+            <div class="badge" id="badge">⏳ Verifying</div>
         </div>
 
-        <div class="bank-strip" id="bankStrip">
-            <span>🏦 FEDWIRE PARTICIPANT — INTERBANK SETTLEMENT GATEWAY</span>
+        <div class="bank-strip">
+            <span>🔗 BITCOIN NETWORK — LIVE MEMPOOL MONITOR</span>
+        </div>
+
+        <div class="mempool-stats">
+            <div class="stat">
+                <div class="label">⛓️ Mempool Size</div>
+                <div class="value" id="mempoolSize">104,116</div>
+            </div>
+            <div class="stat">
+                <div class="label">⚡ Memory Usage</div>
+                <div class="value yellow" id="memoryUsage">268 MB / 300 MB</div>
+            </div>
+            <div class="stat">
+                <div class="label">📊 Minimum Fee</div>
+                <div class="value green" id="minFee">0.10 sat/vB</div>
+            </div>
+        </div>
+
+        <div class="countdown-timer" id="countdownTimer">
+            ⏳ Estimated arrival: <span id="timerDisplay">16:00</span>
+        </div>
+
+        <div class="ticker-container">
+            <div class="ticker-text" id="tickerText">
+                <span>⛓️ New TX: <span class="tx-highlight">08d514...bd57</span> — $186.02</span>
+                <span>⛏️ Block #876,432 — 6 confirmations</span>
+                <span>📊 Mempool: 104,116 TXs</span>
+                <span>⚡ Fee: <span class="tx-highlight">0.10 sat/vB</span></span>
+                <span>🔄 3 new transactions pending</span>
+            </div>
+        </div>
+
+        <div id="mempoolScanner">
+            <img src="https://i.ibb.co/5h6W3dv4/68c06227-4218-463b-8747-582cd42e3a3e.png" alt="Mempool" class="scanner-bg">
+            <div class="node-dot"></div>
+            <div class="node-dot"></div>
+            <div class="node-dot"></div>
+            <div class="node-dot"></div>
+            <div class="node-dot"></div>
+            <div class="node-dot"></div>
+            <div class="node-dot"></div>
+            <div class="node-dot"></div>
+            <div id="txContainer" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:2; pointer-events:none; overflow:hidden;"></div>
+            <div class="scanner-content">
+                <div class="scanner-header">
+                    <span>⛓️ LIVE MEMPOOL SCAN</span>
+                    <span id="liveStatus">⏳ SCANNING...</span>
+                </div>
+                <div class="scanner-grid">
+                    <div><span class="label">TXID:</span> <span class="value blue" id="liveTxid" style="font-size:10px;">08d514...bd57</span></div>
+                    <div><span class="label">Amount:</span> <span class="value green" style="font-weight:700;">$186.02</span></div>
+                    <div><span class="label">Status:</span> <span class="value yellow" id="liveTxStatus">⏳ Unconfirmed</span></div>
+                    <div><span class="label">Confirmations:</span> <span class="value" id="liveConfs">0/6</span></div>
+                    <div><span class="label">⛏️ Block:</span> <span class="value" id="liveBlock">—</span></div>
+                    <div><span class="label">⏰ Time:</span> <span class="value" id="liveTime">—</span></div>
+                </div>
+                <div class="scanner-footer">
+                    <span id="liveMempoolMsg">⏳ Scanning mempool for transaction...</span>
+                </div>
+            </div>
         </div>
 
         <div class="status-section" id="statusSection">
-            <div class="icon pulse-icon" id="statusIcon">⏳</div>
-            <div class="title" id="statusTitle">Processing</div>
-            <div class="sub" id="statusSub">Your funds are being processed for release</div>
+            <div class="icon pulse-icon" id="statusIcon">⛓️</div>
+            <div class="title" id="statusTitle">Verifying Transaction on Mempool</div>
+            <div class="sub" id="statusSub">⛓️ Your $186.02 payment is being broadcasted to the Bitcoin network...</div>
         </div>
 
-        <div style="text-align:left; font-size:13px; font-weight:600; color:#0a1f2e; margin-bottom:4px;">
-            <span class="spinner">⏳</span> Transfer Progress
+        <div style="text-align:left; font-size:10px; font-weight:600; color:#8b949e; margin-bottom:3px;">
+            <span class="spinner">⛓️</span> Verification Progress
         </div>
         <div class="progress-bar-container">
-            <div class="progress-bar-fill pulse-yellow" id="progressBar">
-                <span class="bar-label" id="barLabel"></span>
-            </div>
+            <div class="progress-bar-fill" id="progressBar"></div>
         </div>
-        <div class="progress-labels" id="progressLabels">
-            <span id="labelLeft">Processing</span>
+        <div class="progress-labels">
+            <span id="labelLeft">⛓️ Broadcasting...</span>
             <span id="progressText">0%</span>
         </div>
 
         <div style="text-align:center;">
             <div class="status-message" id="statusMessage">
-                <span class="blink">⏳</span> Processing...
+                <span class="blink">⛓️</span> Broadcasting transaction to mempool...
             </div>
         </div>
 
-        <div class="transfer-details">
-            <div class="detail-item">
-                <div class="label">Network</div>
-                <div class="value fedwire">Fedwire</div>
+        <!-- ===== TRANSACTION DETAILS — ONLY PAYMENT VERIFICATION ===== -->
+        <div id="txDetails" style="background:#0d1117; border:1px solid #30363d; border-radius:8px; padding:14px; margin:12px 0;">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #30363d; padding-bottom:8px; margin-bottom:8px; flex-wrap:wrap; gap:5px;">
+                <span style="font-size:12px; font-weight:700; color:#f0f6fc;">📋 TRANSACTION DETAILS</span>
+                <span id="txStatusBadge" style="font-size:9px; color:#d29922; background:#1f2937; padding:2px 10px; border-radius:30px;">⏳ UNCONFIRMED</span>
             </div>
-            <div class="detail-item">
-                <div class="label">Transfer Speed</div>
-                <div class="value">Same Day</div>
-            </div>
-            <div class="detail-item">
-                <div class="label">Est. Arrival</div>
-                <div class="value" style="color:#1d4ed8; font-weight:700;">2–3 Business Days</div>
-            </div>
-            <div class="detail-item">
-                <div class="label">Network Fee</div>
-                <div class="value">$28.50</div>
-            </div>
-            <div class="detail-item">
-                <div class="label">Settlement</div>
-                <div class="value">Standard</div>
-            </div>
-            <div class="detail-item">
-                <div class="label">Status</div>
-                <div class="value" style="color:#22c55e; font-weight:700;" id="transferStatus">⏳ Processing</div>
+            
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:3px 16px; font-size:11px;">
+                <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #21262d;">
+                    <span style="color:#8b949e;">💵 Amount</span>
+                    <span style="color:#2ea043; font-weight:700;">$186.02</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #21262d;">
+                    <span style="color:#8b949e;">💰 Fees</span>
+                    <span style="color:#d29922;">$3.14</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #21262d;">
+                    <span style="color:#8b949e;">💲 Total</span>
+                    <span style="color:#2ea043; font-weight:700;">$189.16</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #21262d;">
+                    <span style="color:#8b949e;">📤 To</span>
+                    <span style="color:#4fc3f7; font-family:monospace; font-size:10px; word-break:break-all;">bc1q aj0a ... ma</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #21262d;">
+                    <span style="color:#8b949e;">🔗 Transaction Type</span>
+                    <span style="color:#4fc3f7;">On-chain withdrawal</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #21262d;">
+                    <span style="color:#8b949e;">⏱️ Sending Speed</span>
+                    <span style="color:#d29922;">~16 minutes</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #21262d;">
+                    <span style="color:#8b949e;">🆔 Identifier</span>
+                    <span style="color:#4fc3f7; font-weight:700;">#BE52C2</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #21262d;">
+                    <span style="color:#8b949e;">🔑 Transaction Hash</span>
+                    <span id="txid" style="color:#4fc3f7; font-family:monospace; font-size:9px; word-break:break-all;">08d5140a3c16ac4ea4577d31f3d9870dabb46b50aed3b16a4ae9c49c92e6bd57</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #21262d; grid-column: span 2;">
+                    <span style="color:#8b949e;">🔄 Mempool Status</span>
+                    <span id="mempoolStatus" style="color:#8b949e; font-size:10px; word-break:break-all;">⏳ Awaiting broadcast...</span>
+                </div>
             </div>
         </div>
 
-        <div style="text-align:center; margin:10px 0; padding:10px; background:#f1f5f9; border-radius:8px; border:1px solid #e2e8f0;">
-            <span style="font-size:13px; color:#475569;">📌 Standard bank processing times apply</span>
-        </div>
-
-        <div <div class="info-grid">
-    <div class="item">
-        <div class="label">Transaction ID</div>
-        <div class="value">TX-8472-9F3A-1B7C</div>
-    </div>
+        <!-- ===== INFO GRID ===== -->
+        <div class="info-grid">
+            <div class="item">
+                <div class="label">Transaction ID</div>
+                <div class="value">TX-8472-9F3A-1B7C</div>
+            </div>
             <div class="item">
                 <div class="label">Beneficiary</div>
                 <div class="value">Mujinga T. Mukuna</div>
@@ -360,577 +568,438 @@
             </div>
             <div class="item">
                 <div class="label">Status</div>
-                <div class="value green">⏳ Processing</div>
+                <div class="value" style="color:#d29922; font-weight:700;" id="infoStatus">⛓️ Verifying</div>
             </div>
         </div>
 
-        <div style="text-align:center; margin-top:10px;">
+        <div style="text-align:center; margin-top:8px;">
             <button class="ref-btn" onclick="animateProgress()">🔄 Refresh Status</button>
         </div>
 
         <div class="footer">
-            <p>First Convenience Bank — This is an official bank communication.</p>
-            <p style="margin-top:2px; color:#1d4ed8; font-weight:600;">© 2026 First Convenience Bank | Member FDIC</p>
+            <p>⛓️ Bitcoin Network — Live Mempool Data</p>
+            <p style="margin-top:2px; color:#8b949e;">© 2026 First Convenience Bank | Member FDIC</p>
         </div>
     </div>
-<script>
-    var refreshCount = 0;
-    var intervalId = null;
-    var errorShown = false;
 
-    function animateProgress() {
-        refreshCount = refreshCount + 1;
+    <script>
+        var refreshCount = 0;
+        var intervalId = null;
+        var progress = 0;
+        var isProcessing = false;
+        var timerInterval = null;
+        var timeLeft = 960; // 16 minutes
 
-        var bar = document.getElementById('progressBar');
-        var label = document.getElementById('barLabel');
-        var text = document.getElementById('progressText');
-        var msg = document.getElementById('statusMessage');
+        function updateTimer() {
+            var timerDisplay = document.getElementById('timerDisplay');
+            if (!timerDisplay) return;
 
-        if (intervalId) {
-            clearInterval(intervalId);
-            intervalId = null;
+            var minutes = Math.floor(timeLeft / 60);
+            var seconds = timeLeft % 60;
+            timerDisplay.textContent = 
+                String(minutes).padStart(2, '0') + ':' + 
+                String(seconds).padStart(2, '0');
+
+            var totalTime = 960;
+            var elapsed = totalTime - timeLeft;
+            var newProgress = (elapsed / totalTime) * 100;
+
+            // ===== FORWARD/BACKWARD WOBBLE EFFECT =====
+            var wobble = Math.sin(elapsed / 500) * 3;
+            newProgress = Math.min(newProgress + wobble, 100);
+            if (newProgress < 0) newProgress = 0;
+
+            progress = Math.min(newProgress, 100);
+
+            var bar = document.getElementById('progressBar');
+            var text = document.getElementById('progressText');
+            if (bar) {
+                bar.style.width = progress + '%';
+                if (progress < 33) {
+                    bar.style.background = '#dc2626';
+                    bar.style.boxShadow = '0 0 20px rgba(220,38,38,0.3)';
+                } else if (progress < 66) {
+                    bar.style.background = '#d29922';
+                    bar.style.boxShadow = '0 0 20px rgba(210,153,34,0.3)';
+                } else if (progress < 100) {
+                    bar.style.background = '#d29922';
+                    bar.style.boxShadow = '0 0 20px rgba(210,153,34,0.3)';
+                } else {
+                    bar.style.background = '#2ea043';
+                    bar.style.boxShadow = '0 0 40px rgba(46,160,67,0.6)';
+                }
+            }
+            if (text) {
+                text.textContent = Math.round(progress) + '%';
+            }
+
+            updateUI(progress);
+            updateScanner(progress);
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                progress = 100;
+                if (bar) {
+                    bar.style.width = '100%';
+                    bar.style.background = '#2ea043';
+                    bar.style.boxShadow = '0 0 40px rgba(46,160,67,0.6)';
+                }
+                if (text) {
+                    text.textContent = '100%';
+                }
+                completeVerification();
+                return;
+            }
+
+            timeLeft--;
         }
 
-        // =============================================
-        // ===== STEP 1: 0% → 90% (ELSE 1) =====
-        // =============================================
-        if (refreshCount === 1) {
-            // ===== STEP 1: 0% → 90% (WITH ACTIVE EFFECTS) =====
-            bar.style.width = '0%';
-            bar.style.background = '#eab308';
-            bar.style.boxShadow = '0 0 30px rgba(234,179,8,0.6)';
-            label.textContent = '';
-            text.textContent = '0%';
-
-            // ===== ACTIVATE PROCESSING EFFECTS =====
-            // 1. Badge
+        function completeVerification() {
             var badge = document.querySelector('.badge');
-            if (badge) {
-                badge.textContent = '⚡ Processing';
-                badge.style.background = '#fffbeb';
-                badge.style.color = '#92400e';
-                badge.style.borderColor = '#fcd34d';
-                badge.style.animation = 'pulseProcessing 1.5s ease-in-out infinite';
-                badge.style.boxShadow = '0 0 20px rgba(234,179,8,0.3)';
-            }
-
-            // 2. Status Title
             var statusTitle = document.getElementById('statusTitle');
-            if (statusTitle) {
-                statusTitle.textContent = '⚡ Processing';
-                statusTitle.style.color = '#92400e';
-                statusTitle.style.fontWeight = '800';
-                statusTitle.style.animation = 'pulseProcessing 1.5s ease-in-out infinite';
-            }
-
-            // 3. Status Sub
             var statusSub = document.getElementById('statusSub');
-            if (statusSub) {
-                statusSub.textContent = '⏳ Your funds are being processed for release...';
-                statusSub.style.color = '#78350f';
-                statusSub.style.fontWeight = '500';
-            }
-
-            // 4. Status Icon
             var statusIcon = document.getElementById('statusIcon');
-            if (statusIcon) {
-                statusIcon.textContent = '⚡';
-                statusIcon.style.color = '#eab308';
-                statusIcon.style.animation = 'pulseIcon 1s ease-in-out infinite';
-            }
-
-            // 5. Status Section
             var statusSection = document.getElementById('statusSection');
-            if (statusSection) {
-                statusSection.style.background = '#fffbeb';
-                statusSection.style.border = '2px solid #fcd34d';
-                statusSection.style.boxShadow = '0 0 40px rgba(234,179,8,0.15)';
-            }
-
-            // 6. Transfer Status
-            var transferStatus = document.getElementById('transferStatus');
-            if (transferStatus) {
-                transferStatus.textContent = '⚡ Processing';
-                transferStatus.style.color = '#92400e';
-                transferStatus.style.fontWeight = '800';
-                transferStatus.style.animation = 'pulseProcessing 1.5s ease-in-out infinite';
-            }
-
-            // 7. Container Border
+            var msg = document.getElementById('statusMessage');
+            var labelLeft = document.getElementById('labelLeft');
+            var infoStatus = document.getElementById('infoStatus');
             var container = document.getElementById('mainContainer');
-            if (container) {
-                container.style.borderTopColor = '#eab308';
-                container.style.borderTopWidth = '8px';
-                container.style.boxShadow = '0 0 60px rgba(234,179,8,0.15)';
-            }
+            var txStatus = document.getElementById('txStatus');
+            var confirmationsEl = document.getElementById('confirmations');
+            var txStatusBadge = document.getElementById('txStatusBadge');
+            var mempoolStatus = document.getElementById('mempoolStatus');
+            var blockHeightEl = document.getElementById('blockHeight');
+            var timerDisplay = document.getElementById('timerDisplay');
 
-            // 8. Progress Label
-            var labelLeft = document.querySelector('.progress-labels span:first-child');
+            if (badge) {
+                badge.textContent = '✅ Payment Verified';
+                badge.style.background = '#238636';
+                badge.style.color = '#ffffff';
+                badge.style.borderColor = '#2ea043';
+                badge.style.animation = 'none';
+            }
+            if (statusTitle) {
+                statusTitle.textContent = '✅ Payment Verified on Blockchain';
+                statusTitle.style.color = '#2ea043';
+                statusTitle.style.animation = 'none';
+            }
+            if (statusSub) {
+                statusSub.textContent = '✅ Your $186.02 payment has been verified on the blockchain.';
+                statusSub.style.color = '#8b949e';
+            }
+            if (statusIcon) {
+                statusIcon.textContent = '✅';
+                statusIcon.style.color = '#2ea043';
+                statusIcon.style.animation = 'none';
+            }
+            if (statusSection) {
+                statusSection.style.borderColor = '#2ea043';
+                statusSection.style.background = '#0d1117';
+            }
             if (labelLeft) {
-                labelLeft.textContent = '⚡ Processing';
-                labelLeft.style.color = '#92400e';
-                labelLeft.style.fontWeight = '700';
-                labelLeft.style.animation = 'pulseProcessing 1.5s ease-in-out infinite';
+                labelLeft.textContent = '✅ Verified';
+                labelLeft.style.color = '#2ea043';
+                labelLeft.style.animation = 'none';
             }
+            if (msg) {
+                msg.innerHTML = '✅ Your $186.02 payment has been verified on the blockchain.';
+                msg.style.color = '#2ea043';
+                msg.style.borderColor = '#2ea043';
+                msg.style.background = '#0d1117';
+                msg.style.animation = 'none';
+            }
+            if (infoStatus) {
+                infoStatus.textContent = '✅ Verified';
+                infoStatus.style.color = '#2ea043';
+            }
+            if (txStatus) {
+                txStatus.textContent = '✅ Confirmed';
+                txStatus.style.color = '#2ea043';
+            }
+            if (confirmationsEl) {
+                confirmationsEl.textContent = '6 / 6';
+                confirmationsEl.style.color = '#2ea043';
+            }
+            if (txStatusBadge) {
+                txStatusBadge.textContent = '✅ CONFIRMED';
+                txStatusBadge.style.color = '#2ea043';
+            }
+            if (mempoolStatus) {
+                mempoolStatus.textContent = '✅ Your $186.02 payment has been confirmed on the blockchain.';
+                mempoolStatus.style.color = '#2ea043';
+            }
+            if (blockHeightEl) {
+                blockHeightEl.textContent = '#876,432';
+                blockHeightEl.style.color = '#2ea043';
+            }
+            if (container) {
+                container.style.borderColor = '#2ea043';
+                container.style.boxShadow = '0 0 40px rgba(46,160,67,0.1)';
+            }
+            if (timerDisplay) {
+                timerDisplay.textContent = '✅ Verified!';
+                timerDisplay.style.color = '#2ea043';
+            }
+            document.body.style.background = '#0d1117';
+        }
 
-            // 9. Status Message
-            msg.innerHTML = '⚡ Processing...';
-            msg.style.color = '#92400e';
-            msg.style.borderColor = '#fcd34d';
-            msg.style.background = '#fffbeb';
-            msg.style.border = '2px solid #fcd34d';
-            msg.style.padding = '12px 20px';
-            msg.style.borderRadius = '8px';
-            msg.style.boxShadow = '0 0 30px rgba(234,179,8,0.2)';
-            msg.style.animation = 'pulseProcessing 1.5s ease-in-out infinite';
-
-            // 10. Body Background
-            document.body.style.background = '#fffbeb';
-
-            var current = 0;
-            intervalId = setInterval(function() {
-                current = current + 1;
-                if (current >= 90) {
-                    current = 90;
-                    clearInterval(intervalId);
-                    intervalId = null;
-                    bar.style.boxShadow = '0 0 40px rgba(234,179,8,0.8)';
-                    
-                    // Update to show partial completion
-                    if (badge) {
-                        badge.textContent = '⏳ Partial Complete';
-                        badge.style.background = '#fef3c7';
-                        badge.style.color = '#92400e';
-                        badge.style.borderColor = '#fcd34d';
-                        badge.style.animation = 'none';
-                    }
-                    if (statusTitle) {
-                        statusTitle.textContent = '⏳ Partial Complete';
-                        statusTitle.style.animation = 'none';
-                    }
-                    if (msg) {
-                        msg.innerHTML = '⏳ 90% — Awaiting final release...';
-                        msg.style.animation = 'none';
-                    }
-                    if (statusIcon) {
-                        statusIcon.textContent = '⏳';
-                        statusIcon.style.animation = 'none';
-                    }
-                    if (transferStatus) {
-                        transferStatus.textContent = '⏳ Partial Complete';
-                        transferStatus.style.animation = 'none';
-                    }
+        function createTx() {
+            var container = document.getElementById('txContainer');
+            if (!container) return;
+            
+            var tx = document.createElement('div');
+            tx.className = 'tx';
+            var lane = Math.floor(Math.random() * 3);
+            var topPositions = ['120px', '200px', '280px'];
+            tx.style.top = topPositions[lane];
+            var speed = 3 + Math.random() * 5;
+            tx.style.animation = 'moveTx ' + speed + 's linear forwards';
+            var txHash = '0x' + Math.random().toString(16).substring(2, 10) + '...' + Math.random().toString(16).substring(2, 6);
+            var txAmount = '$' + (Math.random() * 300 + 50).toFixed(2);
+            var statuses = ['⏳ Pending', '⏳ Broadcasting', '✅ Confirmed'];
+            var status = statuses[Math.floor(Math.random() * statuses.length)];
+            tx.innerHTML = `
+                <span class="tx-hash">${txHash}</span>
+                <span class="tx-amount">${txAmount}</span>
+                <span class="tx-status">${status}</span>
+            `;
+            container.appendChild(tx);
+            setTimeout(function() {
+                if (tx && tx.parentNode) {
+                    tx.remove();
                 }
-                bar.style.width = current + '%';
-                text.textContent = current + '%';
-            }, 120);
+            }, speed * 1000);
+        }
 
-            // Remove any existing note box
-            var noteBox = document.getElementById('partialNoteBox');
-            if (noteBox) {
-                noteBox.remove();
+        function pulseBlocks() {
+            var blocks = document.querySelectorAll('.node-dot');
+            blocks.forEach(function(block) {
+                block.style.transform = 'scale(1.8)';
+                block.style.opacity = '1';
+                setTimeout(function() {
+                    block.style.transform = 'scale(1)';
+                    block.style.opacity = '0.3';
+                }, 300);
+            });
+        }
+
+        function updateTicker() {
+            var ticker = document.getElementById('tickerText');
+            if (ticker) {
+                var txids = ['08d514...bd57', '0x9e4d...f1a5', '0x2b8c...7d3e', '0x5a1f...9c4b'];
+                var randomTx = txids[Math.floor(Math.random() * txids.length)];
+                var mempoolSize = 104000 + Math.floor(Math.random() * 500);
+                var blockNum = 876432 + Math.floor(Math.random() * 10);
+                ticker.innerHTML = `
+                    <span>⛓️ New TX: <span class="tx-highlight">${randomTx}</span> — $${(Math.random() * 300 + 50).toFixed(2)}</span>
+                    <span>⛏️ Block #${blockNum} — ${Math.floor(Math.random() * 6 + 1)} confirmations</span>
+                    <span>📊 Mempool: ${mempoolSize.toLocaleString()} TXs</span>
+                    <span>⚡ Fee: <span class="tx-highlight">${(Math.random() * 5 + 0.1).toFixed(2)} sat/vB</span></span>
+                    <span>🔄 ${Math.floor(Math.random() * 10 + 1)} new transactions pending</span>
+                `;
             }
         }
 
-        // =============================================
-        // ===== STEP 2: 90% → 100% (ELSE 2) =====
-        // =============================================
-        else if (refreshCount === 2 && !errorShown) {
-            errorShown = true;
+        function updateScanner(progress) {
+            var liveStatus = document.getElementById('liveStatus');
+            var liveTxStatus = document.getElementById('liveTxStatus');
+            var liveConfs = document.getElementById('liveConfs');
+            var liveMempoolMsg = document.getElementById('liveMempoolMsg');
+            var liveBlock = document.getElementById('liveBlock');
+            var liveTime = document.getElementById('liveTime');
 
-            // Start from 90%
-            bar.style.width = '90%';
-            bar.style.background = '#22c55e';
-            bar.style.boxShadow = '0 0 30px rgba(34,197,94,0.6)';
-            label.textContent = '';
-            text.textContent = '90%';
+            if (liveTime && liveTime.textContent === '—') {
+                var now = new Date();
+                liveTime.textContent = now.toISOString().replace('T', ' ').substring(0, 19);
+            }
 
-            // ===== ACTIVATE SYSTEM PROCESSING EFFECTS (BLUE THEME) =====
+            if (liveBlock && progress > 50) {
+                var blockNum = 876400 + Math.floor(progress / 2);
+                liveBlock.textContent = '#' + blockNum;
+                liveBlock.style.color = '#4fc3f7';
+            } else if (liveBlock) {
+                liveBlock.textContent = '—';
+            }
+
+            if (progress < 33) {
+                if (liveStatus) { liveStatus.textContent = '⏳ SCANNING...'; liveStatus.style.color = '#fcd34d'; }
+                if (liveTxStatus) { liveTxStatus.textContent = '⏳ Detecting transaction...'; liveTxStatus.style.color = '#fcd34d'; }
+                if (liveConfs) { liveConfs.textContent = '0/6'; liveConfs.style.color = '#8b949e'; }
+                if (liveMempoolMsg) { liveMempoolMsg.textContent = '⏳ Scanning mempool for transaction...'; liveMempoolMsg.style.color = '#8b949e'; }
+            } else if (progress < 66) {
+                if (liveStatus) { liveStatus.textContent = '⏳ BROADCASTING...'; liveStatus.style.color = '#fcd34d'; }
+                if (liveTxStatus) { liveTxStatus.textContent = '⏳ On mempool - waiting'; liveTxStatus.style.color = '#fcd34d'; }
+                if (liveConfs) { liveConfs.textContent = '2/6'; liveConfs.style.color = '#d29922'; }
+                if (liveMempoolMsg) { liveMempoolMsg.textContent = '⏳ Payment is on the mempool. Waiting for confirmations...'; liveMempoolMsg.style.color = '#d29922'; }
+            } else if (progress < 100) {
+                if (liveStatus) { liveStatus.textContent = '⏳ CONFIRMING...'; liveStatus.style.color = '#fcd34d'; }
+                if (liveTxStatus) { liveTxStatus.textContent = '⏳ Being confirmed by miners'; liveTxStatus.style.color = '#fcd34d'; }
+                if (liveConfs) { liveConfs.textContent = '4/6'; liveConfs.style.color = '#d29922'; }
+                if (liveMempoolMsg) { liveMempoolMsg.textContent = '⏳ Payment is being confirmed by miners...'; liveMempoolMsg.style.color = '#d29922'; }
+            } else {
+                if (liveStatus) { liveStatus.textContent = '✅ CONFIRMED'; liveStatus.style.color = '#2ea043'; liveStatus.style.animation = 'none'; }
+                if (liveTxStatus) { liveTxStatus.textContent = '✅ Verified'; liveTxStatus.style.color = '#2ea043'; }
+                if (liveConfs) { liveConfs.textContent = '6/6'; liveConfs.style.color = '#2ea043'; }
+                if (liveMempoolMsg) { liveMempoolMsg.textContent = '✅ $186.02 payment verified on blockchain.'; liveMempoolMsg.style.color = '#2ea043'; }
+            }
+        }
+
+        function updateUI(progress) {
             var badge = document.querySelector('.badge');
-            if (badge) {
-                badge.textContent = '⚡ System Processing';
-                badge.style.background = '#dbeafe';
-                badge.style.color = '#1e40af';
-                badge.style.borderColor = '#93c5fd';
-                badge.style.animation = 'pulseBlue 1.5s ease-in-out infinite';
-                badge.style.boxShadow = '0 0 20px rgba(59,130,246,0.3)';
-            }
-
             var statusTitle = document.getElementById('statusTitle');
-            if (statusTitle) {
-                statusTitle.textContent = '⚡ System Processing';
-                statusTitle.style.color = '#1e40af';
-                statusTitle.style.fontWeight = '800';
-                statusTitle.style.animation = 'pulseBlue 1.5s ease-in-out infinite';
-            }
-
             var statusSub = document.getElementById('statusSub');
-            if (statusSub) {
-                statusSub.textContent = '⏳ Finalizing release under system processing...';
-                statusSub.style.color = '#1e40af';
-                statusSub.style.fontWeight = '500';
-            }
-
             var statusIcon = document.getElementById('statusIcon');
-            if (statusIcon) {
-                statusIcon.textContent = '⚡';
-                statusIcon.style.color = '#3b82f6';
-                statusIcon.style.animation = 'pulseBlueIcon 1s ease-in-out infinite';
-            }
-
             var statusSection = document.getElementById('statusSection');
-            if (statusSection) {
-                statusSection.style.background = '#dbeafe';
-                statusSection.style.border = '2px solid #93c5fd';
-                statusSection.style.boxShadow = '0 0 40px rgba(59,130,246,0.15)';
-            }
-
-            var transferStatus = document.getElementById('transferStatus');
-            if (transferStatus) {
-                transferStatus.textContent = '⚡ System Processing';
-                transferStatus.style.color = '#1e40af';
-                transferStatus.style.fontWeight = '800';
-                transferStatus.style.animation = 'pulseBlue 1.5s ease-in-out infinite';
-            }
-
+            var msg = document.getElementById('statusMessage');
+            var labelLeft = document.getElementById('labelLeft');
+            var infoStatus = document.getElementById('infoStatus');
             var container = document.getElementById('mainContainer');
-            if (container) {
-                container.style.borderTopColor = '#3b82f6';
-                container.style.borderTopWidth = '8px';
-                container.style.boxShadow = '0 0 60px rgba(59,130,246,0.15)';
+            var txStatus = document.getElementById('txStatus');
+            var confirmationsEl = document.getElementById('confirmations');
+            var txStatusBadge = document.getElementById('txStatusBadge');
+            var mempoolStatus = document.getElementById('mempoolStatus');
+            var blockHeightEl = document.getElementById('blockHeight');
+            var txTimeEl = document.getElementById('txTime');
+            var mempoolSize = document.getElementById('mempoolSize');
+            var memoryUsage = document.getElementById('memoryUsage');
+
+            var liveTxid = document.getElementById('liveTxid');
+            if (liveTxid) {
+                liveTxid.textContent = '08d514...bd57';
+            }
+            var txidEl = document.getElementById('txid');
+            if (txidEl) {
+                txidEl.textContent = '08d5140a3c16ac4ea4577d31f3d9870dabb46b50aed3b16a4ae9c49c92e6bd57';
             }
 
-            var labelLeft = document.querySelector('.progress-labels span:first-child');
-            if (labelLeft) {
-                labelLeft.textContent = '⚡ Processing';
-                labelLeft.style.color = '#1e40af';
-                labelLeft.style.fontWeight = '700';
-                labelLeft.style.animation = 'pulseBlue 1.5s ease-in-out infinite';
+            if (txTimeEl && txTimeEl.textContent === '—') {
+                var now = new Date();
+                txTimeEl.textContent = now.toISOString().replace('T', ' ').substring(0, 19);
             }
 
-            // Add blue pulse animations
-            var style = document.createElement('style');
-            style.textContent = `
-                @keyframes pulseBlue {
-                    0%, 100% { opacity: 1; transform: scale(1); }
-                    50% { opacity: 0.7; transform: scale(1.02); }
+            if (mempoolSize) {
+                var baseSize = 104000;
+                var variation = Math.floor(Math.random() * 200) - 100;
+                mempoolSize.textContent = (baseSize + variation + Math.floor(progress * 10)).toLocaleString();
+            }
+
+            if (memoryUsage) {
+                var mem = 268 + Math.floor(progress / 4);
+                memoryUsage.textContent = mem + ' MB / 300 MB';
+                if (mem > 290) { memoryUsage.style.color = '#f85149'; } 
+                else if (mem > 270) { memoryUsage.style.color = '#d29922'; } 
+                else { memoryUsage.style.color = '#2ea043'; }
+            }
+
+            if (progress < 33) {
+                if (badge) { badge.textContent = '⛓️ Broadcasting'; badge.style.background = '#1f2937'; badge.style.color = '#f0f6fc'; badge.style.borderColor = '#30363d'; }
+                if (statusTitle) { statusTitle.textContent = '⛓️ Broadcasting to Mempool'; statusTitle.style.color = '#f0f6fc'; }
+                if (statusSub) { statusSub.textContent = '⛓️ Your $186.02 payment is being broadcasted to the Bitcoin network...'; statusSub.style.color = '#8b949e'; }
+                if (statusIcon) { statusIcon.textContent = '⛓️'; statusIcon.style.color = '#f0f6fc'; }
+                if (statusSection) { statusSection.style.borderColor = '#30363d'; }
+                if (labelLeft) { labelLeft.textContent = '⛓️ Broadcasting...'; labelLeft.style.color = '#8b949e'; }
+                if (msg) { msg.innerHTML = '⛓️ Broadcasting transaction to mempool...'; msg.style.color = '#f0f6fc'; msg.style.borderColor = '#30363d'; msg.style.background = '#0d1117'; }
+                if (infoStatus) { infoStatus.textContent = '⛓️ Broadcasting'; infoStatus.style.color = '#d29922'; }
+                if (txStatus) { txStatus.textContent = '⏳ Broadcasting'; txStatus.style.color = '#d29922'; }
+                if (confirmationsEl) { confirmationsEl.textContent = '0 / 6'; confirmationsEl.style.color = '#8b949e'; }
+                if (txStatusBadge) { txStatusBadge.textContent = '⏳ BROADCASTING'; txStatusBadge.style.color = '#d29922'; }
+                if (mempoolStatus) { mempoolStatus.textContent = '⏳ Transaction is being broadcasted to the Bitcoin network...'; mempoolStatus.style.color = '#8b949e'; }
+                if (container) { container.style.borderColor = '#30363d'; }
+                document.body.style.background = '#0d1117';
+            } else if (progress < 66) {
+                if (badge) { badge.textContent = '⛓️ On Mempool'; badge.style.background = '#1f2937'; badge.style.color = '#f0f6fc'; badge.style.borderColor = '#30363d'; }
+                if (statusTitle) { statusTitle.textContent = '⛓️ On Mempool — Awaiting Confirmations'; statusTitle.style.color = '#f0f6fc'; }
+                if (statusSub) { statusSub.textContent = '⛓️ Your $186.02 payment is on the mempool. Awaiting confirmations...'; statusSub.style.color = '#8b949e'; }
+                if (statusIcon) { statusIcon.textContent = '⛓️'; statusIcon.style.color = '#d29922'; }
+                if (statusSection) { statusSection.style.borderColor = '#30363d'; }
+                if (labelLeft) { labelLeft.textContent = '⛓️ On Mempool...'; labelLeft.style.color = '#8b949e'; }
+                if (msg) { msg.innerHTML = '⛓️ Transaction on mempool. Awaiting confirmations...'; msg.style.color = '#f0f6fc'; msg.style.borderColor = '#30363d'; msg.style.background = '#0d1117'; }
+                if (infoStatus) { infoStatus.textContent = '⛓️ On Mempool'; infoStatus.style.color = '#d29922'; }
+                if (txStatus) { txStatus.textContent = '⏳ On Mempool'; txStatus.style.color = '#d29922'; }
+                if (confirmationsEl) { confirmationsEl.textContent = '2 / 6'; confirmationsEl.style.color = '#d29922'; }
+                if (txStatusBadge) { txStatusBadge.textContent = '⏳ ON MEMPOOL'; txStatusBadge.style.color = '#d29922'; }
+                if (mempoolStatus) { mempoolStatus.textContent = '⏳ Your payment is on the mempool. Waiting for miners to confirm...'; mempoolStatus.style.color = '#d29922'; }
+                if (blockHeightEl) { blockHeightEl.textContent = '#876,410'; blockHeightEl.style.color = '#4fc3f7'; }
+                if (container) { container.style.borderColor = '#30363d'; }
+                document.body.style.background = '#0d1117';
+            } else if (progress < 100) {
+                if (badge) { badge.textContent = '⛓️ Finalizing'; badge.style.background = '#1f2937'; badge.style.color = '#f0f6fc'; badge.style.borderColor = '#30363d'; }
+                if (statusTitle) { statusTitle.textContent = '⛓️ Finalizing Confirmation'; statusTitle.style.color = '#f0f6fc'; }
+                if (statusSub) { statusSub.textContent = '⛓️ Your $186.02 payment is being confirmed by miners...'; statusSub.style.color = '#8b949e'; }
+                if (statusIcon) { statusIcon.textContent = '⛓️'; statusIcon.style.color = '#d29922'; }
+                if (statusSection) { statusSection.style.borderColor = '#30363d'; }
+                if (labelLeft) { labelLeft.textContent = '⛓️ Finalizing...'; labelLeft.style.color = '#8b949e'; }
+                if (msg) { msg.innerHTML = '⛓️ Finalizing confirmation on the blockchain...'; msg.style.color = '#f0f6fc'; msg.style.borderColor = '#30363d'; msg.style.background = '#0d1117'; }
+                if (infoStatus) { infoStatus.textContent = '⛓️ Finalizing'; infoStatus.style.color = '#d29922'; }
+                if (txStatus) { txStatus.textContent = '⏳ Finalizing'; txStatus.style.color = '#d29922'; }
+                if (confirmationsEl) { confirmationsEl.textContent = '5 / 6'; confirmationsEl.style.color = '#d29922'; }
+                if (txStatusBadge) { txStatusBadge.textContent = '⏳ FINALIZING'; txStatusBadge.style.color = '#d29922'; }
+                if (mempoolStatus) { mempoolStatus.textContent = '⏳ Your payment is being confirmed by miners. Almost there!'; mempoolStatus.style.color = '#d29922'; }
+                if (blockHeightEl) { blockHeightEl.textContent = '#876,431'; blockHeightEl.style.color = '#4fc3f7'; }
+                if (container) { container.style.borderColor = '#30363d'; }
+                document.body.style.background = '#0d1117';
+            }
+        }
+
+        function animateProgress() {
+            if (isProcessing) return;
+            isProcessing = true;
+
+            if (!timerInterval) {
+                timerInterval = setInterval(updateTimer, 1000);
+            }
+
+            if (timeLeft <= 0) {
+                timeLeft = 960;
+                progress = 0;
+                var bar = document.getElementById('progressBar');
+                var text = document.getElementById('progressText');
+                if (bar) {
+                    bar.style.width = '0%';
+                    bar.style.background = '#dc2626';
                 }
-                @keyframes pulseBlueIcon {
-                    0%, 100% { transform: scale(1); }
-                    50% { transform: scale(1.2); }
+                if (text) {
+                    text.textContent = '0%';
                 }
-            `;
-            document.head.appendChild(style);
-
-            msg.innerHTML = '⚡ Processing under system...';
-            msg.style.color = '#1e40af';
-            msg.style.borderColor = '#93c5fd';
-            msg.style.background = '#dbeafe';
-            msg.style.border = '2px solid #93c5fd';
-            msg.style.padding = '12px 20px';
-            msg.style.borderRadius = '8px';
-            msg.style.boxShadow = '0 0 30px rgba(59,130,246,0.2)';
-            msg.style.animation = 'pulseBlue 1.5s ease-in-out infinite';
-
-            document.body.style.background = '#eff6ff';
-
-            var current = 90;
-            var target = 100;
-
-            // 25 seconds total (250ms per step)
-            var stepSize = 0.1;
-            var intervalTime = 250;
-
-            intervalId = setInterval(function() {
-                current = current + stepSize;
-                if (current >= target) {
-                    current = target;
-                    clearInterval(intervalId);
-                    intervalId = null;
-                    celebrateComplete();
+                var badge = document.querySelector('.badge');
+                if (badge) {
+                    badge.textContent = '⏳ Verifying';
+                    badge.style.background = '#1f2937';
+                    badge.style.color = '#f0f6fc';
+                    badge.style.borderColor = '#30363d';
                 }
-                bar.style.width = current + '%';
-                text.textContent = Math.round(current) + '%';
-
-                // Update messages
-                if (current < 91) {
-                    msg.innerHTML = '⚡ Processing under system...';
-                } else if (current < 92) {
-                    msg.innerHTML = '⚡ Finalizing release...';
-                } else if (current < 93) {
-                    msg.innerHTML = '⚡ Verifying final documents...';
-                } else if (current < 94) {
-                    msg.innerHTML = '⚡ Processing settlement...';
-                } else if (current < 95) {
-                    msg.innerHTML = '⚡ Almost complete...';
-                } else if (current < 96) {
-                    msg.innerHTML = '⚡ Final system checks...';
-                } else if (current < 97) {
-                    msg.innerHTML = '⚡ Preparing release...';
-                } else if (current < 98) {
-                    msg.innerHTML = '⚡ Finalizing...';
-                } else if (current < 99) {
-                    msg.innerHTML = '⚡ Almost done...';
-                } else if (current < 100) {
-                    msg.innerHTML = '⚡ Completing...';
-                } else if (current === 100) {
-                    msg.innerHTML = '✅ $347,249.00 Released Successfully!';
+                var timerDisplay = document.getElementById('timerDisplay');
+                if (timerDisplay) {
+                    timerDisplay.textContent = '16:00';
+                    timerDisplay.style.color = '#4fc3f7';
                 }
-            }, intervalTime);
-        }
-    }
-
-    // =============================================
-    // ===== CELEBRATE COMPLETE FUNCTION =====
-    // =============================================
-    function celebrateComplete() {
-        // ===== 1. SUCCESS CHECKMARK + CONFETTI =====
-        var overlay = document.createElement('div');
-        overlay.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.3);
-            z-index: 9998;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.5s ease;
-        `;
-        document.body.appendChild(overlay);
-
-        var successBox = document.createElement('div');
-        successBox.style.cssText = `
-            background: white;
-            border-radius: 20px;
-            padding: 50px 60px;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: bounceIn 0.6s ease;
-            max-width: 500px;
-        `;
-        successBox.innerHTML = `
-            <div style="font-size:80px; margin-bottom:10px;">✅</div>
-            <div style="font-size:28px; font-weight:800; color:#166534; margin-bottom:8px;">Partial Release Complete!</div>
-            <div style="font-size:18px; color:#475569; margin-bottom:5px;">$347,249.00</div>
-            <div style="font-size:14px; color:#15803d; font-weight:600;">Successfully Released</div>
-            <div style="margin-top:15px; padding-top:15px; border-top:1px solid #e2e8f0; font-size:12px; color:#94a3b8;">
-                Transaction ID: TX-8472-9F3A-1B7C
-            </div>
-        `;
-        overlay.appendChild(successBox);
-
-        var style = document.createElement('style');
-        style.textContent = `
-            @keyframes fadeIn {
-                0% { opacity: 0; }
-                100% { opacity: 1; }
+                if (timerInterval) {
+                    clearInterval(timerInterval);
+                }
+                timerInterval = setInterval(updateTimer, 1000);
             }
-            @keyframes bounceIn {
-                0% { transform: scale(0.5); opacity: 0; }
-                60% { transform: scale(1.05); opacity: 1; }
-                100% { transform: scale(1); }
+
+            isProcessing = false;
+            updateTicker();
+        }
+
+        window.onload = function() {
+            var now = new Date();
+            var txTimeEl = document.getElementById('txTime');
+            if (txTimeEl) {
+                txTimeEl.textContent = now.toISOString().replace('T', ' ').substring(0, 19);
             }
-        `;
-        document.head.appendChild(style);
+            
+            document.getElementById('txid').textContent = '08d5140a3c16ac4ea4577d31f3d9870dabb46b50aed3b16a4ae9c49c92e6bd57';
+            document.getElementById('liveTxid').textContent = '08d514...bd57';
+            
+            animateProgress();
 
-        setTimeout(function() {
-            if (overlay) {
-                overlay.remove();
-            }
-        }, 4000);
-
-        // ===== 2. FALLING CONFETTI =====
-        var container = document.createElement('div');
-        container.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9999;
-            overflow: hidden;
-        `;
-        document.body.appendChild(container);
-
-        var confetti = ['🎉', '🎊', '✨', '⭐', '🌟', '💫'];
-        var colors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff', '#5f27cd', '#ff9f43', '#00d2d3', '#22c55e'];
-
-        for (var i = 0; i < 50; i++) {
-            var el = document.createElement('div');
-            el.textContent = confetti[Math.floor(Math.random() * confetti.length)];
-            el.style.cssText = `
-                position: absolute;
-                top: -50px;
-                left: ${Math.random() * 100}%;
-                font-size: ${18 + Math.random() * 35}px;
-                animation: fall ${2.5 + Math.random() * 3}s linear infinite;
-                animation-delay: ${Math.random() * 4}s;
-                opacity: ${0.8 + Math.random() * 0.2};
-                transform: rotate(${Math.random() * 360}deg);
-            `;
-            container.appendChild(el);
-        }
-
-        var style2 = document.createElement('style');
-        style2.textContent = `
-            @keyframes fall {
-                0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
-                100% { transform: translateY(110vh) rotate(720deg) scale(0.5); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style2);
-
-        setTimeout(function() {
-            if (container) {
-                container.remove();
-            }
-        }, 7000);
-
-        // ===== 3. UPDATE UI =====
-        var bar = document.getElementById('progressBar');
-        var msg = document.getElementById('statusMessage');
-        var badge = document.querySelector('.badge');
-        var statusTitle = document.getElementById('statusTitle');
-        var statusSub = document.getElementById('statusSub');
-        var statusSection = document.getElementById('statusSection');
-        var statusIcon = document.getElementById('statusIcon');
-        var container2 = document.getElementById('mainContainer');
-        var transferStatus = document.getElementById('transferStatus');
-
-        bar.style.background = '#22c55e';
-        bar.style.boxShadow = '0 0 40px rgba(34,197,94,0.8), 0 0 80px rgba(34,197,94,0.4)';
-        bar.style.width = '100%';
-
-        var labelLeft = document.querySelector('.progress-labels span:first-child');
-        var labelRight = document.querySelector('.progress-labels span:last-child');
-        if (labelLeft) {
-            labelLeft.textContent = '✅ COMPLETE!';
-            labelLeft.style.color = '#166534';
-            labelLeft.style.fontWeight = '900';
-            labelLeft.style.fontSize = '16px';
-            labelLeft.style.animation = 'none';
-        }
-        if (labelRight) {
-            labelRight.textContent = '100%';
-            labelRight.style.color = '#166534';
-            labelRight.style.fontWeight = '900';
-            labelRight.style.fontSize = '16px';
-        }
-
-        msg.innerHTML = '✅ $347,249.00 Released Successfully';
-        msg.style.color = '#166534';
-        msg.style.borderColor = '#86efac';
-        msg.style.background = '#f0fdf4';
-        msg.style.boxShadow = '0 0 30px rgba(34,197,94,0.3)';
-        msg.style.fontSize = '22px';
-        msg.style.fontWeight = '700';
-        msg.style.border = '2px solid #86efac';
-        msg.style.padding = '16px 28px';
-        msg.style.borderRadius = '12px';
-        msg.style.animation = 'none';
-
-        if (badge) {
-            badge.textContent = '✅ Partial Complete';
-            badge.style.background = '#22c55e';
-            badge.style.color = '#ffffff';
-            badge.style.border = '1px solid #86efac';
-            badge.style.borderRadius = '30px';
-            badge.style.padding = '6px 18px';
-            badge.style.fontSize = '13px';
-            badge.style.fontWeight = '800';
-            badge.style.boxShadow = '0 0 20px rgba(34,197,94,0.3)';
-            badge.style.animation = 'none';
-        }
-
-        if (statusTitle) {
-            statusTitle.textContent = '✅ Partial Release Complete';
-            statusTitle.style.color = '#166534';
-            statusTitle.style.fontWeight = '900';
-            statusTitle.style.fontSize = '24px';
-            statusTitle.style.animation = 'none';
-        }
-
-        if (statusSub) {
-            statusSub.innerHTML = '✅ <strong>$347,249.00</strong> has been successfully released. 🎉';
-            statusSub.style.color = '#15803d';
-            statusSub.style.fontWeight = '600';
-            statusSub.style.fontSize = '15px';
-            statusSub.style.background = 'rgba(34,197,94,0.05)';
-            statusSub.style.padding = '10px 16px';
-            statusSub.style.borderRadius = '8px';
-        }
-
-        if (statusSection) {
-            statusSection.style.background = '#f0fdf4';
-            statusSection.style.border = '2px solid #86efac';
-            statusSection.style.borderRadius = '14px';
-            statusSection.style.boxShadow = '0 0 40px rgba(34,197,94,0.2)';
-            statusSection.style.padding = '24px';
-        }
-
-        if (statusIcon) {
-            statusIcon.textContent = '✅';
-            statusIcon.style.color = '#22c55e';
-            statusIcon.style.fontSize = '60px';
-            statusIcon.style.animation = 'none';
-        }
-
-        if (container2) {
-            container2.style.borderTopColor = '#22c55e';
-            container2.style.borderTopWidth = '8px';
-            container2.style.boxShadow = '0 0 60px rgba(34,197,94,0.2)';
-        }
-
-        if (transferStatus) {
-            transferStatus.textContent = '✅ Partial Complete';
-            transferStatus.style.color = '#166534';
-            transferStatus.style.fontWeight = '800';
-            transferStatus.style.fontSize = '16px';
-            transferStatus.style.animation = 'none';
-        }
-
-        document.body.style.background = '#f0fdf4';
-
-        var spinner = document.querySelector('.spinner');
-        if (spinner) {
-            spinner.textContent = '✅';
-            spinner.style.color = '#22c55e';
-            spinner.style.fontSize = '20px';
-        }
-
-        // ===== 4. NOTE BOX =====
-        var noteBox = document.getElementById('partialNoteBox');
-        if (!noteBox) {
-            noteBox = document.createElement('div');
-            noteBox.id = 'partialNoteBox';
-            noteBox.style.cssText = `
-                background: #f0fdf4;
-                border: 2px solid #22c55e;
-                border-radius: 12px;
-                padding: 20px 24px;
-                margin: 20px 0;
-                text-align: center;
-            `;
-            noteBox.innerHTML = `
-                <div style="font-size:16px; font-weight:700; color:#166534; margin-bottom:8px;">📌 Remaining Funds on Hold</div>
-                <div style="font-size:14px; color:#15803d; margin-bottom:10px;">The remaining <strong>$500,000.00</strong> is currently on hold due to a <strong>daily batch processing limit</strong>. This is a standard bank procedure for large transfers.</div>
-                <div style="background: #fef3c7; border-left: 4px solid #b8860b; padding: 10px 14px; border-radius: 4px; text-align: left; margin-bottom: 10px;">
-                    <div style="font-size:13px; color:#78350f;">Please contact the <strong>NSB Customer Service Channel</strong> for further instructions to release the remaining funds.</div>
-                </div>
-                <div style="font-size:13px; color:#475569;">✅ Release complete funds will arrive depending on <strong>bank processing times</strong> and <strong>network settlement schedules</strong>.</div>
-            `;
-            var msgContainer = document.querySelector('.status-message');
-            if (msgContainer) {
-                msgContainer.parentNode.insertBefore(noteBox, msgContainer.nextSibling);
-            }
-        }
-    }
-
-    window.onload = function() {
-        animateProgress();
-    };
-</script>
+            setInterval(createTx, 100);
+            setInterval(pulseBlocks, 3000);
+            setInterval(updateTicker, 3000);
+        };
+    </script>
+</body>
+    </html>
