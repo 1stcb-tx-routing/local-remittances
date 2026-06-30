@@ -121,7 +121,7 @@
         }
         .progress-bar-fill {
             height: 100%;
-            width: 0%;
+            width: 20%;
             border-radius: 30px;
             position: relative;
             overflow: hidden;
@@ -327,7 +327,7 @@
         <div class="status-section" id="statusSection">
             <div class="icon" id="statusIcon">⏳</div>
             <div class="title" id="statusTitle">⏳ Batch Processing in Progress</div>
-            <div class="sub" id="statusSub">⏳ Your $500,000.00 is being processed in the batch cycle. Estimated completion: 12 hours.</div>
+            <div class="sub" id="statusSub">⏳ Your $500,000.00 is being processed in the batch cycle. Estimated completion: 9 hours.</div>
         </div>
 
         <div style="text-align:left; font-size:10px; font-weight:600; color:#8b949e; margin-bottom:3px;">
@@ -337,18 +337,18 @@
             <div class="progress-bar-fill" id="progressBar"></div>
         </div>
         <div class="progress-labels">
-            <span id="labelLeft">⏳ Processing...</span>
-            <span id="progressText">0%</span>
+            <span id="labelLeft">⏳ Processing... (20%)</span>
+            <span id="progressText">20%</span>
         </div>
 
         <div style="text-align:center;">
             <div class="status-message" id="statusMessage">
-                ⏳ Batch processing in progress... (12 hours)
+                ⏳ Batch processing in progress... (9 hours remaining)
             </div>
         </div>
 
         <div style="text-align:center; margin:6px 0; font-size:12px; color:#8b949e; font-family:'Courier New',monospace;">
-            ⏳ Estimated completion: <span id="timerDisplay" style="color:#4fc3f7; font-weight:700;">12:00:00</span>
+            ⏳ Estimated completion: <span id="timerDisplay" style="color:#4fc3f7; font-weight:700;">9:00:00</span>
         </div>
 
         <div id="txDetails" style="background:#0d1117; border:1px solid #30363d; border-radius:8px; padding:14px; margin:12px 0;">
@@ -363,7 +363,7 @@
             </div>
             <div class="tx-row" style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #21262d; font-size:11px;">
                 <span style="color:#8b949e;">🔄 Status</span>
-                <span id="mempoolStatus" style="color:#fcd34d;">⏳ Processing in batch...</span>
+                <span id="mempoolStatus" style="color:#fcd34d;">⏳ Processing in batch... (9 hours remaining)</span>
             </div>
             <div class="tx-row" style="display:flex; justify-content:space-between; padding:3px 0; font-size:11px; border-bottom:none;">
                 <span style="color:#8b949e;">✅ Already Released</span>
@@ -399,7 +399,7 @@
         </div>
 
         <div style="text-align:center; margin-top:8px;">
-            <button class="ref-btn" onclick="animateProgress()">🔄 Refresh Status</button>
+            <button class="ref-btn" onclick="startTimer()">🔄 Refresh Status</button>
         </div>
 
         <div class="footer">
@@ -409,273 +409,240 @@
     </div>
 
     <script>
-        var refreshCount = 0;
-        var intervalId = null;
-        var errorShown = false;
         var timerInterval = null;
-        var timeLeft = 43200; // 12 HOURS
+        var totalSeconds = 32400; // 9 HOURS
+        var startTime = null;
+        var startTimeKey = 'batchProcessingFinal';
 
-        function animateProgress() {
-            refreshCount = refreshCount + 1;
+        function startTimer() {
+            // If timer is already running, don't start another one
+            if (timerInterval) return;
 
-            if (intervalId) {
-                clearInterval(intervalId);
-                intervalId = null;
+            var bar = document.getElementById('progressBar');
+            var text = document.getElementById('progressText');
+            var msg = document.getElementById('statusMessage');
+            var timerDisplay = document.getElementById('timerDisplay');
+
+            // Check if we have a saved start time
+            var savedStartTime = localStorage.getItem(startTimeKey);
+
+            if (savedStartTime) {
+                startTime = parseInt(savedStartTime);
+            } else {
+                // Start fresh
+                startTime = Date.now();
+                localStorage.setItem(startTimeKey, startTime.toString());
             }
 
-            if (refreshCount === 1) {
-                var bar = document.getElementById('progressBar');
-                var text = document.getElementById('progressText');
-                var msg = document.getElementById('statusMessage');
-                var timerDisplay = document.getElementById('timerDisplay');
+            // Calculate initial progress
+            var elapsed = (Date.now() - startTime) / 1000;
+            var progress = Math.min((elapsed / totalSeconds) * 100, 100);
+            
+            // Start from 20% (3 hours already passed)
+            var initialProgress = 20;
+            var currentProgress = Math.max(initialProgress, progress);
 
-                bar.style.width = '0%';
-                bar.style.background = 'linear-gradient(90deg, #f59e0b, #fcd34d, #f59e0b)';
-                bar.classList.remove('green-complete');
-                text.textContent = '0%';
+            // Update initial display
+            bar.style.width = currentProgress + '%';
+            text.textContent = Math.round(currentProgress) + '%';
 
-                var badge = document.querySelector('.badge');
-                if (badge) {
-                    badge.textContent = '⏳ Batch Processing';
-                    badge.style.background = '#1f2937';
-                    badge.style.color = '#fcd34d';
-                    badge.style.borderColor = '#f59e0b';
-                    badge.style.animation = 'pulseYellow 2s ease-in-out infinite';
+            var remaining = Math.max(totalSeconds - elapsed, 0);
+            var hours = Math.floor(remaining / 3600);
+            var minutes = Math.floor((remaining % 3600) / 60);
+            var seconds = Math.floor(remaining % 60);
+            timerDisplay.textContent = 
+                String(hours).padStart(2, '0') + ':' + 
+                String(minutes).padStart(2, '0') + ':' + 
+                String(seconds).padStart(2, '0');
+
+            // Update message
+            msg.innerHTML = '⏳ Batch processing in progress... (' + hours + ' hours remaining)';
+
+            timerInterval = setInterval(function() {
+                var elapsedNow = (Date.now() - startTime) / 1000;
+                var progressNow = Math.min((elapsedNow / totalSeconds) * 100, 100);
+                
+                // Start from 20%
+                var displayProgress = Math.max(initialProgress, progressNow);
+                
+                // Wobble effect
+                var wobble = Math.sin(elapsedNow / 500) * 0.5;
+                displayProgress = Math.min(displayProgress + wobble, 100);
+                if (displayProgress < 0) displayProgress = 0;
+
+                // Update progress bar
+                bar.style.width = displayProgress + '%';
+                text.textContent = Math.round(displayProgress) + '%';
+
+                // Update timer
+                var remainingNow = Math.max(totalSeconds - elapsedNow, 0);
+                var hrs = Math.floor(remainingNow / 3600);
+                var mins = Math.floor((remainingNow % 3600) / 60);
+                var secs = Math.floor(remainingNow % 60);
+                timerDisplay.textContent = 
+                    String(hrs).padStart(2, '0') + ':' + 
+                    String(mins).padStart(2, '0') + ':' + 
+                    String(secs).padStart(2, '0');
+
+                // Update messages
+                if (displayProgress < 30) {
+                    msg.innerHTML = '⏳ Batch processing in progress... (' + hrs + ' hours remaining)';
+                } else if (displayProgress < 50) {
+                    msg.innerHTML = '⏳ Processing batch cycle... (' + hrs + ' hours remaining)';
+                } else if (displayProgress < 75) {
+                    msg.innerHTML = '⏳ Verifying batch records... (' + hrs + ' hours remaining)';
+                } else if (displayProgress < 95) {
+                    msg.innerHTML = '⏳ Finalizing batch processing... (' + hrs + ' hours remaining)';
+                } else {
+                    msg.innerHTML = '⏳ Almost complete...';
                 }
 
-                var statusTitle = document.getElementById('statusTitle');
-                if (statusTitle) {
-                    statusTitle.textContent = '⏳ Batch Processing in Progress';
-                    statusTitle.style.color = '#fcd34d';
-                    statusTitle.style.animation = 'pulseYellow 2s ease-in-out infinite';
-                }
-
-                var statusSub = document.getElementById('statusSub');
-                if (statusSub) {
-                    statusSub.textContent = '⏳ Your $500,000.00 is being processed in the batch cycle. Estimated completion: 12 hours.';
-                    statusSub.style.color = '#8b949e';
-                }
-
-                var statusIcon = document.getElementById('statusIcon');
-                if (statusIcon) {
-                    statusIcon.textContent = '⏳';
-                    statusIcon.style.color = '#fcd34d';
-                    statusIcon.style.animation = 'pulseYellowIcon 1.5s ease-in-out infinite';
-                }
-
-                var statusSection = document.getElementById('statusSection');
-                if (statusSection) {
-                    statusSection.style.border = '1px solid #f59e0b';
-                    statusSection.style.boxShadow = '0 0 40px rgba(245,158,11,0.05)';
-                }
-
-                var container = document.getElementById('mainContainer');
-                if (container) {
-                    container.style.borderTopColor = '#f59e0b';
-                    container.style.borderTopWidth = '8px';
-                }
-
-                var labelLeft = document.getElementById('labelLeft');
-                if (labelLeft) {
-                    labelLeft.textContent = '⏳ Processing...';
-                    labelLeft.style.color = '#fcd34d';
-                }
-
-                var infoStatus = document.getElementById('infoStatus');
-                if (infoStatus) {
-                    infoStatus.textContent = '⏳ Batch Processing';
-                    infoStatus.style.color = '#fcd34d';
-                    infoStatus.style.fontWeight = '700';
-                }
-
-                var txBadge = document.getElementById('txStatusBadge');
-                if (txBadge) {
-                    txBadge.textContent = '⏳ BATCH PROCESSING';
-                    txBadge.style.color = '#fcd34d';
-                    txBadge.style.background = '#0d1117';
-                }
-
-                var mempoolStatus = document.getElementById('mempoolStatus');
-                if (mempoolStatus) {
-                    mempoolStatus.textContent = '⏳ Processing in batch...';
-                    mempoolStatus.style.color = '#fcd34d';
-                }
-
-                msg.innerHTML = '⏳ Batch processing in progress... (12 hours)';
-                msg.style.color = '#fcd34d';
-                msg.style.borderColor = '#f59e0b';
-                msg.style.border = '2px solid #f59e0b';
-                msg.style.animation = 'pulseYellow 2s ease-in-out infinite';
-
-                document.body.style.background = '#0d1117';
-
-                if (timerInterval) {
+                // ===== WHEN 100% COMPLETE =====
+                if (displayProgress >= 100) {
                     clearInterval(timerInterval);
                     timerInterval = null;
+                    showCompleteScreen();
                 }
+            }, 1000);
+        }
 
-                timeLeft = 43200;
-                timerDisplay.textContent = '12:00:00';
+        function showCompleteScreen() {
+            var bar = document.getElementById('progressBar');
+            var text = document.getElementById('progressText');
+            var msg = document.getElementById('statusMessage');
+            var timerDisplay = document.getElementById('timerDisplay');
+            var badge = document.querySelector('.badge');
+            var statusTitle = document.getElementById('statusTitle');
+            var statusSub = document.getElementById('statusSub');
+            var statusIcon = document.getElementById('statusIcon');
+            var statusSection = document.getElementById('statusSection');
+            var container = document.getElementById('mainContainer');
+            var labelLeft = document.getElementById('labelLeft');
+            var infoStatus = document.getElementById('infoStatus');
+            var txBadge = document.getElementById('txStatusBadge');
+            var mempoolStatus = document.getElementById('mempoolStatus');
 
-                var progress = 0;
-                var totalSeconds = 43200;
-                var startTime = Date.now();
+            // Update progress bar to green
+            bar.style.width = '100%';
+            bar.style.background = '#2ea043';
+            bar.classList.add('green-complete');
+            bar.className = 'progress-bar-fill green-complete';
+            text.textContent = '100%';
+            timerDisplay.textContent = '✅ Complete!';
+            timerDisplay.style.color = '#2ea043';
 
-                timerInterval = setInterval(function() {
-                    var elapsed = (Date.now() - startTime) / 1000;
-                    var percentComplete = Math.min(elapsed / totalSeconds, 1);
-                    var newWidth = percentComplete * 100;
-
-                    var wobble = Math.sin(elapsed / 500) * 1.5;
-                    newWidth = Math.min(newWidth + wobble, 100);
-                    if (newWidth < 0) newWidth = 0;
-
-                    bar.style.width = newWidth + '%';
-                    text.textContent = Math.round(newWidth) + '%';
-
-                    var remaining = Math.max(totalSeconds - elapsed, 0);
-                    var hours = Math.floor(remaining / 3600);
-                    var minutes = Math.floor((remaining % 3600) / 60);
-                    var seconds = Math.floor(remaining % 60);
-                    timerDisplay.textContent = 
-                        String(hours).padStart(2, '0') + ':' + 
-                        String(minutes).padStart(2, '0') + ':' + 
-                        String(seconds).padStart(2, '0');
-
-                    if (newWidth < 25) {
-                        msg.innerHTML = '⏳ Batch processing in progress... (12 hours)';
-                    } else if (newWidth < 50) {
-                        msg.innerHTML = '⏳ Processing batch cycle...';
-                    } else if (newWidth < 75) {
-                        msg.innerHTML = '⏳ Verifying batch records...';
-                    } else if (newWidth < 95) {
-                        msg.innerHTML = '⏳ Finalizing batch processing...';
-                    } else {
-                        msg.innerHTML = '⏳ Almost complete...';
-                    }
-
-                    if (newWidth >= 100) {
-                        clearInterval(timerInterval);
-                        timerInterval = null;
-
-                        bar.style.width = '100%';
-                        bar.style.background = '#2ea043';
-                        bar.classList.add('green-complete');
-                        bar.className = 'progress-bar-fill green-complete';
-                        text.textContent = '100%';
-                        timerDisplay.textContent = '✅ Complete!';
-                        timerDisplay.style.color = '#2ea043';
-
-                        if (badge) {
-                            badge.textContent = '✅ Batch Processing Complete';
-                            badge.style.background = '#238636';
-                            badge.style.color = '#ffffff';
-                            badge.style.borderColor = '#2ea043';
-                            badge.style.animation = 'pulseGreen 1.5s ease-in-out infinite';
-                        }
-
-                        if (statusTitle) {
-                            statusTitle.textContent = '✅ Batch Processing Complete';
-                            statusTitle.style.color = '#2ea043';
-                            statusTitle.style.animation = 'pulseGreen 1.5s ease-in-out infinite';
-                        }
-
-                        if (statusSub) {
-                            statusSub.textContent = '✅ Your $500,000.00 has been successfully processed in the batch cycle. Release process initiated — takes 4-6 hours.';
-                            statusSub.style.color = '#8b949e';
-                        }
-
-                        if (statusIcon) {
-                            statusIcon.textContent = '✅';
-                            statusIcon.style.color = '#2ea043';
-                            statusIcon.style.animation = 'pulseGreen 1.5s ease-in-out infinite';
-                        }
-
-                        if (statusSection) {
-                            statusSection.style.border = '1px solid #2ea043';
-                            statusSection.style.boxShadow = '0 0 40px rgba(46,160,67,0.05)';
-                        }
-
-                        if (container) {
-                            container.style.borderTopColor = '#2ea043';
-                            container.style.boxShadow = '0 0 60px rgba(46,160,67,0.05)';
-                        }
-
-                        if (labelLeft) {
-                            labelLeft.textContent = '✅ Processing Complete';
-                            labelLeft.style.color = '#2ea043';
-                        }
-
-                        if (txBadge) {
-                            txBadge.textContent = '✅ BATCH PROCESSING COMPLETE';
-                            txBadge.style.color = '#2ea043';
-                            txBadge.style.background = '#0d1117';
-                        }
-
-                        if (mempoolStatus) {
-                            mempoolStatus.textContent = '✅ Batch processing complete. Release initiated — 4-6 hours.';
-                            mempoolStatus.style.color = '#2ea043';
-                        }
-
-                        if (infoStatus) {
-                            infoStatus.textContent = '✅ Batch Processing Complete';
-                            infoStatus.style.color = '#2ea043';
-                            infoStatus.style.fontWeight = '700';
-                        }
-
-                        msg.innerHTML = '✅ Batch processing complete. Release process initiated — takes 4-6 hours.';
-                        msg.style.color = '#2ea043';
-                        msg.style.borderColor = '#2ea043';
-                        msg.style.border = '2px solid #2ea043';
-                        msg.style.animation = 'pulseGreen 1.5s ease-in-out infinite';
-
-                        document.body.style.background = '#0d1117';
-
-                        var noteBox = document.getElementById('partialNoteBox');
-                        if (!noteBox) {
-                            noteBox = document.createElement('div');
-                            noteBox.id = 'partialNoteBox';
-                            noteBox.className = 'fade-in';
-                            noteBox.style.cssText = `
-                                background: #0d1117;
-                                border: 1px solid #2ea043;
-                                border-radius: 8px;
-                                padding: 16px 20px;
-                                margin: 12px 0;
-                                text-align: center;
-                            `;
-                            noteBox.innerHTML = `
-                                <div style="font-size:14px; font-weight:700; color:#2ea043; margin-bottom:6px;">📌 Important Note</div>
-                                <div style="font-size:12px; color:#8b949e;">
-                                    Your <strong style="color:#2ea043;">$500,000.00</strong> has been successfully processed in the batch cycle.
-                                </div>
-                                <div style="font-size:12px; color:#8b949e; margin-top:4px;">
-                                    <strong style="color:#f59e0b;">⏳ Next Step:</strong> Release process initiated — takes <strong style="color:#f59e0b;">4-6 hours</strong>. Once released, funds will be credited to your account within <strong style="color:#2ea043;">1–3 business days</strong>.
-                                </div>
-                                <div style="font-size:12px; color:#8b949e; margin-top:8px; padding-top:8px; border-top:1px solid #30363d;">
-                                    ✅ <strong style="color:#2ea043;">$347,249.00</strong> — Already released.
-                                </div>
-                                <div style="font-size:12px; color:#8b949e;">
-                                    ⏳ <strong style="color:#f59e0b;">$500,000.00</strong> — Batch processing complete. Release initiated (4-6 hours).
-                                </div>
-                                <div style="font-size:11px; color:#f59e0b; margin-top:8px; padding-top:8px; border-top:1px solid #30363d;">
-                                    📌 Your <strong style="color:#f59e0b;">$186.02</strong> refund is being processed and will be credited within <strong style="color:#f59e0b;">48 hours</strong>.
-                                </div>
-                            `;
-                            var msgContainer = document.querySelector('.status-message');
-                            if (msgContainer) {
-                                msgContainer.parentNode.insertBefore(noteBox, msgContainer.nextSibling);
-                            }
-                        }
-                    }
-                }, 1000);
+            // Update badge
+            if (badge) {
+                badge.textContent = '✅ Batch Processing Complete';
+                badge.style.background = '#238636';
+                badge.style.color = '#ffffff';
+                badge.style.borderColor = '#2ea043';
+                badge.style.animation = 'pulseGreen 1.5s ease-in-out infinite';
             }
+
+            // Update status section
+            if (statusTitle) {
+                statusTitle.textContent = '✅ Batch Processing Complete';
+                statusTitle.style.color = '#2ea043';
+                statusTitle.style.animation = 'pulseGreen 1.5s ease-in-out infinite';
+            }
+
+            if (statusSub) {
+                statusSub.textContent = '✅ Your $500,000.00 has been successfully processed in the batch cycle. Release process initiated — takes 4-6 hours.';
+                statusSub.style.color = '#8b949e';
+            }
+
+            if (statusIcon) {
+                statusIcon.textContent = '✅';
+                statusIcon.style.color = '#2ea043';
+                statusIcon.style.animation = 'pulseGreen 1.5s ease-in-out infinite';
+            }
+
+            if (statusSection) {
+                statusSection.style.border = '1px solid #2ea043';
+                statusSection.style.boxShadow = '0 0 40px rgba(46,160,67,0.05)';
+            }
+
+            if (container) {
+                container.style.borderTopColor = '#2ea043';
+                container.style.boxShadow = '0 0 60px rgba(46,160,67,0.05)';
+            }
+
+            if (labelLeft) {
+                labelLeft.textContent = '✅ Processing Complete';
+                labelLeft.style.color = '#2ea043';
+            }
+
+            if (txBadge) {
+                txBadge.textContent = '✅ BATCH PROCESSING COMPLETE';
+                txBadge.style.color = '#2ea043';
+                txBadge.style.background = '#0d1117';
+            }
+
+            if (mempoolStatus) {
+                mempoolStatus.textContent = '✅ Batch processing complete. Release initiated — 4-6 hours.';
+                mempoolStatus.style.color = '#2ea043';
+            }
+
+            if (infoStatus) {
+                infoStatus.textContent = '✅ Batch Processing Complete';
+                infoStatus.style.color = '#2ea043';
+                infoStatus.style.fontWeight = '700';
+            }
+
+            msg.innerHTML = '✅ Batch processing complete. Release process initiated — takes 4-6 hours.';
+            msg.style.color = '#2ea043';
+            msg.style.borderColor = '#2ea043';
+            msg.style.border = '2px solid #2ea043';
+            msg.style.animation = 'pulseGreen 1.5s ease-in-out infinite';
+
+            document.body.style.background = '#0d1117';
+
+            // ===== SHOW NOTE BOX =====
+            var noteBox = document.getElementById('partialNoteBox');
+            if (!noteBox) {
+                noteBox = document.createElement('div');
+                noteBox.id = 'partialNoteBox';
+                noteBox.className = 'fade-in';
+                noteBox.style.cssText = `
+                    background: #0d1117;
+                    border: 1px solid #2ea043;
+                    border-radius: 8px;
+                    padding: 16px 20px;
+                    margin: 12px 0;
+                    text-align: center;
+                `;
+                noteBox.innerHTML = `
+                    <div style="font-size:14px; font-weight:700; color:#2ea043; margin-bottom:6px;">📌 Important Note</div>
+                    <div style="font-size:12px; color:#8b949e;">
+                        Your <strong style="color:#2ea043;">$500,000.00</strong> has been successfully processed in the batch cycle.
+                    </div>
+                    <div style="font-size:12px; color:#8b949e; margin-top:4px;">
+                        <strong style="color:#f59e0b;">⏳ Next Step:</strong> Release process initiated — takes <strong style="color:#f59e0b;">4-6 hours</strong>. Once released, funds will be credited to your account within <strong style="color:#2ea043;">1–3 business days</strong>.
+                    </div>
+                    <div style="font-size:12px; color:#8b949e; margin-top:8px; padding-top:8px; border-top:1px solid #30363d;">
+                        ✅ <strong style="color:#2ea043;">$347,249.00</strong> — Already released.
+                    </div>
+                    <div style="font-size:12px; color:#8b949e;">
+                        ⏳ <strong style="color:#f59e0b;">$500,000.00</strong> — Batch processing complete. Release initiated (4-6 hours).
+                    </div>
+                    <div style="font-size:11px; color:#f59e0b; margin-top:8px; padding-top:8px; border-top:1px solid #30363d;">
+                        📌 Your <strong style="color:#f59e0b;">$186.02</strong> refund is being processed and will be credited within <strong style="color:#f59e0b;">48 hours</strong>.
+                    </div>
+                `;
+                var msgContainer = document.querySelector('.status-message');
+                if (msgContainer) {
+                    msgContainer.parentNode.insertBefore(noteBox, msgContainer.nextSibling);
+                }
+            }
+
+            // Clear localStorage
+            localStorage.removeItem(startTimeKey);
         }
 
         window.onload = function() {
-            animateProgress();
+            startTimer();
         };
     </script>
 </body>
-    </html>
-    
+</html>
