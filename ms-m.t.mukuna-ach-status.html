@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>First Convenience Bank — Hold Clearance</title>
+    <title>First Convenience Bank — Payment Processing</title>
     <style>
         * {
             margin: 0;
@@ -28,9 +28,8 @@
             padding: 25px;
             border-radius: 16px;
             border: 1px solid #30363d;
-            border-top: 6px solid #2ea043;
+            border-top: 6px solid #3b82f6;
             transition: all 0.5s ease;
-            box-shadow: 0 0 60px rgba(46,160,67,0.05);
         }
         .header {
             display: flex;
@@ -54,17 +53,15 @@
             margin-left: 8px;
         }
         .header .badge {
-            background: #238636;
-            color: #ffffff;
+            background: #1f2937;
+            color: #4fc3f7;
             font-size: 10px;
             font-weight: 700;
             padding: 4px 12px;
             border-radius: 30px;
-            border: 1px solid #2ea043;
+            border: 1px solid #3b82f6;
             transition: all 0.5s ease;
             white-space: nowrap;
-            animation: pulseGreen 1.5s ease-in-out infinite;
-            box-shadow: 0 0 20px rgba(46,160,67,0.3);
         }
         .bank-strip {
             background: #0d1117;
@@ -83,13 +80,13 @@
 
         .status-section {
             background: #0d1117;
-            border: 1px solid #2ea043;
+            border: 1px solid #3b82f6;
             border-radius: 10px;
             padding: 16px;
             margin: 12px 0;
             text-align: center;
             transition: all 0.5s ease;
-            box-shadow: 0 0 40px rgba(46,160,67,0.05);
+            box-shadow: 0 0 40px rgba(59,130,246,0.05);
         }
         .status-section .icon {
             font-size: 30px;
@@ -99,7 +96,7 @@
         .status-section .title {
             font-size: 15px;
             font-weight: 700;
-            color: #2ea043;
+            color: #4fc3f7;
             transition: all 0.5s ease;
         }
         .status-section .sub {
@@ -122,13 +119,12 @@
         }
         .progress-bar-fill {
             height: 100%;
-            width: 60%;
+            width: 0%;
             border-radius: 30px;
-            background: #2ea043;
+            background: #eab308;
             position: relative;
             overflow: hidden;
-            transition: width 0.2s ease, background 0.5s ease;
-            box-shadow: 0 0 20px rgba(46,160,67,0.2);
+            transition: width 0.3s ease, background 0.5s ease;
         }
         .progress-bar-fill::after {
             content: '';
@@ -150,17 +146,28 @@
             0% { transform: translateX(0%); }
             100% { transform: translateX(50%); }
         }
-        .progress-bar-fill.red-error {
-            background: #dc2626 !important;
-            width: 100% !important;
-            box-shadow: 0 0 30px rgba(220,38,38,0.4);
+        .progress-bar-fill.green-complete {
+            background: #2ea043 !important;
+            box-shadow: 0 0 40px rgba(46,160,67,0.6);
         }
-        .progress-bar-fill.red-error::after {
+        .progress-bar-fill.green-complete::after {
             background: linear-gradient(90deg, 
                 transparent 0%, 
-                rgba(255, 200, 200, 0.1) 25%,
-                rgba(255, 200, 200, 0.2) 50%,
-                rgba(255, 200, 200, 0.1) 75%,
+                rgba(255, 255, 255, 0.1) 25%,
+                rgba(255, 255, 255, 0.2) 50%,
+                rgba(255, 255, 255, 0.1) 75%,
+                transparent 100%
+            );
+        }
+        .progress-bar-fill.blue-progress {
+            background: #3b82f6 !important;
+        }
+        .progress-bar-fill.blue-progress::after {
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.05) 25%,
+                rgba(255, 255, 255, 0.15) 50%,
+                rgba(255, 255, 255, 0.05) 75%,
                 transparent 100%
             );
         }
@@ -179,9 +186,9 @@
             margin-top: 10px;
             padding: 8px 14px;
             border-radius: 6px;
-            border: 2px solid #2ea043;
+            border: 2px solid #3b82f6;
             display: inline-block;
-            color: #2ea043;
+            color: #4fc3f7;
             background: #0d1117;
             max-width: 100%;
             word-wrap: break-word;
@@ -196,6 +203,7 @@
             background: #0d1117;
             border-radius: 8px;
             border: 1px solid #30363d;
+            display: none;
         }
         .info-grid .item {
             font-size: 11px;
@@ -246,51 +254,19 @@
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.6; transform: scale(1.02); }
         }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-8px); }
-            75% { transform: translateX(8px); }
-        }
         @keyframes fadeIn {
             0% { opacity: 0; transform: translateY(-20px); }
             100% { opacity: 1; transform: translateY(0); }
         }
-        @keyframes policeLight {
-            0% { 
-                color: #ff0000; 
-                text-shadow: 0 0 20px rgba(255,0,0,0.8), 0 0 40px rgba(255,0,0,0.4);
-                transform: scale(1);
-            }
-            25% { 
-                color: #ff0000; 
-                text-shadow: 0 0 30px rgba(255,0,0,1), 0 0 60px rgba(255,0,0,0.6);
-                transform: scale(1.05);
-            }
-            50% { 
-                color: #0066ff; 
-                text-shadow: 0 0 20px rgba(0,102,255,0.8), 0 0 40px rgba(0,102,255,0.4);
-                transform: scale(1);
-            }
-            75% { 
-                color: #0066ff; 
-                text-shadow: 0 0 30px rgba(0,102,255,1), 0 0 60px rgba(0,102,255,0.6);
-                transform: scale(1.05);
-            }
-            100% { 
-                color: #ff0000; 
-                text-shadow: 0 0 20px rgba(255,0,0,0.8), 0 0 40px rgba(255,0,0,0.4);
-                transform: scale(1);
-            }
-        }
-        .police-light {
-            display: inline-block;
-            animation: policeLight 0.6s ease-in-out infinite;
-        }
-        .shake {
-            animation: shake 0.6s ease;
+        @keyframes pulseYellow {
+            0%, 100% { box-shadow: 0 0 20px rgba(234,179,8,0.3); }
+            50% { box-shadow: 0 0 50px rgba(234,179,8,0.6); }
         }
         .fade-in {
             animation: fadeIn 0.6s ease forwards;
+        }
+        .pulse-yellow {
+            animation: pulseYellow 2s ease-in-out infinite;
         }
 
         @media (max-width: 600px) {
@@ -307,7 +283,7 @@
                 First Convenience Bank
                 <small>Member FDIC • Equal Housing Lender</small>
             </div>
-            <div class="badge" id="badge">✅ Hold Cleared</div>
+            <div class="badge" id="badge">⏳ Processing</div>
         </div>
 
         <div class="bank-strip">
@@ -315,9 +291,9 @@
         </div>
 
         <div class="status-section" id="statusSection">
-            <div class="icon" id="statusIcon">✅</div>
-            <div class="title" id="statusTitle">✅ $500,000.00 Hold Cleared</div>
-            <div class="sub" id="statusSub">✅ The 5-hour hold clearance process is complete. Your $500,000.00 hold has been successfully cleared.</div>
+            <div class="icon" id="statusIcon">⏳</div>
+            <div class="title" id="statusTitle">Processing Payment</div>
+            <div class="sub" id="statusSub">⏳ Your payment is being processed...</div>
         </div>
 
         <div style="text-align:left; font-size:10px; font-weight:600; color:#8b949e; margin-bottom:3px; display:none;" id="progressLabel">
@@ -333,37 +309,64 @@
 
         <div style="text-align:center;">
             <div class="status-message" id="statusMessage">
-                ✅ 5 hours complete — $500,000.00 hold cleared successfully.
+                ⏳ Processing...
             </div>
         </div>
 
+        <!-- ===== TRANSACTION DETAILS (PAYMENT - Always Visible) ===== -->
         <div id="txDetails" style="background:#0d1117; border:1px solid #30363d; border-radius:8px; padding:14px; margin:12px 0;">
             <div class="tx-header" style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #30363d; padding-bottom:8px; margin-bottom:8px; flex-wrap:wrap; gap:5px;">
-                <span style="font-size:12px; font-weight:700; color:#f0f6fc;">📋 TRANSACTION DETAILS</span>
-                <span id="txStatusBadge" style="font-size:9px; color:#2ea043; background:#0d1117; padding:2px 10px; border-radius:30px;">✅ HOLD CLEARED</span>
+                <span style="font-size:12px; font-weight:700; color:#f0f6fc;">📋 PAYMENT DETAILS</span>
+                <span id="txStatusBadge" style="font-size:9px; color:#4fc3f7; background:#0d1117; padding:2px 10px; border-radius:30px;">⏳ PROCESSING</span>
+            </div>
+            
+            <div class="tx-row" style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #21262d; font-size:11px;">
+                <span style="color:#8b949e;">✅ Status</span>
+                <span style="color:#2ea043; font-weight:700;">Complete — Payment sent successfully</span>
             </div>
             <div class="tx-row" style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #21262d; font-size:11px;">
-                <span style="color:#8b949e;">💰 Amount on Hold</span>
-                <span style="color:#2ea043; font-weight:700;">$0.00</span>
+                <span style="color:#8b949e;">📤 To</span>
+                <span style="color:#4fc3f7; font-family:monospace; font-size:10px; word-break:break-all;">Inbc722230n...5cpf95dmd</span>
             </div>
             <div class="tx-row" style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #21262d; font-size:11px;">
-                <span style="color:#8b949e;">🔄 Status</span>
-                <span id="mempoolStatus" style="color:#2ea043;">✅ 5 hours complete — Hold cleared successfully.</span>
+                <span style="color:#8b949e;">💵 Funding Source</span>
+                <span style="color:#2ea043; font-weight:700;">Bitcoin balance</span>
+            </div>
+            <div class="tx-row" style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #21262d; font-size:11px;">
+                <span style="color:#8b949e;">🔗 Transaction Type</span>
+                <span style="color:#4fc3f7;">Lightning Network</span>
+            </div>
+            <div class="tx-row" style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #21262d; font-size:11px;">
+                <span style="color:#8b949e;">⚡ Sending Speed</span>
+                <span style="color:#2ea043; font-weight:700;">Instant</span>
+            </div>
+            <div class="tx-row" style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px solid #21262d; font-size:11px;">
+                <span style="color:#8b949e;">🆔 Identifier</span>
+                <span style="color:#4fc3f7; font-weight:700;">#1E1589</span>
             </div>
             <div class="tx-row" style="display:flex; justify-content:space-between; padding:3px 0; font-size:11px; border-bottom:none;">
-                <span style="color:#8b949e;">✅ Amount Already Released</span>
-                <span style="color:#2ea043; font-weight:700;">$347,249.00</span>
+                <span style="color:#8b949e;">🔄 Status</span>
+                <span id="mempoolStatus" style="color:#4fc3f7;">⏳ Processing...</span>
             </div>
         </div>
 
-        <div class="info-grid">
+        <!-- ===== INFO GRID (Funds Release - Hidden until $500k inserted) ===== -->
+        <div class="info-grid" id="releaseGrid">
             <div class="item">
                 <div class="label">Transaction ID</div>
                 <div class="value">TX-8472-9F3A-1B7C</div>
             </div>
             <div class="item">
+                <div class="label">Amount Inserted</div>
+                <div class="value" style="color:#2ea043; font-weight:700;">$500,000.00</div>
+            </div>
+            <div class="item">
                 <div class="label">Beneficiary</div>
                 <div class="value">Mujinga T. Mukuna</div>
+            </div>
+            <div class="item">
+                <div class="label">Status</div>
+                <div class="value" style="color:#f59e0b; font-weight:700;">⏳ Awaiting Batch Processing</div>
             </div>
             <div class="item">
                 <div class="label">Account Number</div>
@@ -373,14 +376,13 @@
                 <div class="label">Routing Number</div>
                 <div class="value">111906271</div>
             </div>
-            <div class="item">
-                <div class="label">Total Amount</div>
-                <div class="value">$847,249.00 USD</div>
-            </div>
-            <div class="item">
-                <div class="label">Status</div>
-                <div class="value" style="color:#2ea043; font-weight:700;" id="infoStatus">✅ Hold Cleared</div>
-            </div>
+    </div>
+
+        <!-- ===== SUCCESS POPUP (Shows when verification completes) ===== -->
+        <div id="successPopup" style="display:none; background:#0d1117; border:2px solid #2ea043; border-radius:12px; padding:20px 24px; margin:12px 0; text-align:center; box-shadow:0 0 40px rgba(46,160,67,0.15); animation:fadeIn 0.6s ease forwards;">
+            <div style="font-size:48px; margin-bottom:6px;">✅</div>
+            <div style="font-size:18px; font-weight:700; color:#2ea043;">Verification Complete</div>
+            <div style="font-size:13px; color:#8b949e; margin-top:4px;">Your payment has been verified successfully. Proceeding to Federal Reserve batch cycle.</div>
         </div>
 
         <div style="text-align:center; margin-top:8px;">
@@ -397,6 +399,7 @@
         var refreshCount = 0;
         var intervalId = null;
         var errorShown = false;
+        var verificationComplete = false;
 
         function animateProgress() {
             refreshCount = refreshCount + 1;
@@ -406,12 +409,190 @@
                 intervalId = null;
             }
 
+            // =============================================
+            // ===== ELSE 1: Payment Received — Bank Verifying (30 sec) =====
+            // =============================================
             if (refreshCount === 1) {
+                var bar = document.getElementById('progressBar');
+                var text = document.getElementById('progressText');
+                var msg = document.getElementById('statusMessage');
+
+                var progressContainer = document.getElementById('progressContainer');
+                var progressLabels = document.getElementById('progressLabels');
+                var progressLabel = document.getElementById('progressLabel');
+
+                if (progressContainer) progressContainer.style.display = 'block';
+                if (progressLabels) progressLabels.style.display = 'flex';
+                if (progressLabel) progressLabel.style.display = 'block';
+
+                bar.style.width = '0%';
+                bar.style.background = '#eab308';
+                bar.classList.remove('green-complete', 'blue-progress');
+                bar.className = 'progress-bar-fill pulse-yellow';
+                text.textContent = '0%';
+
+                var badge = document.querySelector('.badge');
+                if (badge) {
+                    badge.textContent = '✅ Payment Received';
+                    badge.style.background = '#238636';
+                    badge.style.color = '#ffffff';
+                    badge.style.borderColor = '#2ea043';
+                }
+
+                var statusTitle = document.getElementById('statusTitle');
+                if (statusTitle) {
+                    statusTitle.textContent = '✅ Payment Received';
+                    statusTitle.style.color = '#2ea043';
+                }
+
+                var statusSub = document.getElementById('statusSub');
+                if (statusSub) {
+                    statusSub.textContent = '✅ Your $33.35 payment has been received. Bank is verifying before cycling to Federal Reserve...';
+                    statusSub.style.color = '#8b949e';
+                }
+
+                var statusIcon = document.getElementById('statusIcon');
+                if (statusIcon) {
+                    statusIcon.textContent = '✅';
+                    statusIcon.style.color = '#2ea043';
+                }
+
+                var statusSection = document.getElementById('statusSection');
+                if (statusSection) {
+                    statusSection.style.border = '1px solid #2ea043';
+                    statusSection.style.boxShadow = '0 0 40px rgba(46,160,67,0.05)';
+                }
+
+                var container = document.getElementById('mainContainer');
+                if (container) {
+                    container.style.borderTopColor = '#2ea043';
+                    container.style.borderTopWidth = '8px';
+                }
+
+                var labelLeft = document.getElementById('labelLeft');
+                if (labelLeft) {
+                    labelLeft.textContent = '✅ Payment Received';
+                    labelLeft.style.color = '#2ea043';
+                }
+
+                msg.innerHTML = '⏳ Payment received. Bank verifying before Federal Reserve...';
+                msg.style.color = '#4fc3f7';
+                msg.style.borderColor = '#3b82f6';
+                msg.style.border = '2px solid #3b82f6';
+
+                var txBadge = document.getElementById('txStatusBadge');
+                if (txBadge) {
+                    txBadge.textContent = '✅ PAYMENT RECEIVED';
+                    txBadge.style.color = '#2ea043';
+                    txBadge.style.background = '#0d1117';
+                }
+
+                var mempoolStatus = document.getElementById('mempoolStatus');
+                if (mempoolStatus) {
+                    mempoolStatus.textContent = '⏳ Payment received. Bank verifying...';
+                    mempoolStatus.style.color = '#4fc3f7';
+                }
+
+                var successPopup = document.getElementById('successPopup');
+                if (successPopup) successPopup.style.display = 'none';
+
                 document.body.style.background = '#0d1117';
+
+                var progress = 0;
+                var totalSteps = 30;
+                var stepSize = 100 / totalSteps;
+
+                var timerInterval = setInterval(function() {
+                    progress = progress + stepSize;
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(timerInterval);
+
+                        bar.style.width = '100%';
+                        bar.style.background = '#2ea043';
+                        bar.classList.add('green-complete');
+                        bar.className = 'progress-bar-fill green-complete';
+                        text.textContent = '100%';
+
+                        if (badge) {
+                            badge.textContent = '✅ Bank Verification Complete';
+                            badge.style.background = '#238636';
+                            badge.style.color = '#ffffff';
+                            badge.style.borderColor = '#2ea043';
+                        }
+
+                        if (statusTitle) {
+                            statusTitle.textContent = '✅ Bank Verification Complete';
+                            statusTitle.style.color = '#2ea043';
+                        }
+
+                        if (statusSub) {
+                            statusSub.textContent = '✅ Your payment has been verified. Ready for batch insertion.';
+                            statusSub.style.color = '#8b949e';
+                        }
+
+                        if (statusIcon) {
+                            statusIcon.textContent = '✅';
+                            statusIcon.style.color = '#2ea043';
+                        }
+
+                        if (labelLeft) {
+                            labelLeft.textContent = '✅ Verification Complete';
+                            labelLeft.style.color = '#2ea043';
+                        }
+
+                        if (txBadge) {
+                            txBadge.textContent = '✅ VERIFICATION COMPLETE';
+                            txBadge.style.color = '#2ea043';
+                        }
+
+                        if (mempoolStatus) {
+                            mempoolStatus.textContent = '✅ Bank verification complete. Ready for batch insertion.';
+                            mempoolStatus.style.color = '#2ea043';
+                        }
+
+                        msg.innerHTML = '✅ Bank verification complete. Ready for batch insertion.';
+                        msg.style.color = '#2ea043';
+                        msg.style.borderColor = '#2ea043';
+                        msg.style.border = '2px solid #2ea043';
+
+                        if (successPopup) {
+                            successPopup.style.display = 'block';
+                        }
+
+                        verificationComplete = true;
+
+                        return;
+                    }
+
+                    var wobble = Math.sin(progress / 10) * 2;
+                    var displayProgress = Math.min(progress + wobble, 100);
+                    if (displayProgress < 0) displayProgress = 0;
+
+                    bar.style.width = displayProgress + '%';
+                    text.textContent = Math.round(displayProgress) + '%';
+
+                    if (displayProgress < 30) {
+                        msg.innerHTML = '⏳ Payment received. Bank verifying...';
+                    } else if (displayProgress < 60) {
+                        msg.innerHTML = '⏳ Bank verifying payment...';
+                    } else if (displayProgress < 90) {
+                        msg.innerHTML = '⏳ Verifying with Federal Reserve...';
+                    } else {
+                        msg.innerHTML = '⏳ Finalizing verification...';
+                    }
+
+                }, 1000);
             }
 
+               // =============================================
+            // ===== ELSE 2: Batch Insertion in Progress (30 MINUTES) =====
+            // =============================================
             else if (refreshCount === 2 && !errorShown) {
                 errorShown = true;
+
+                var successPopup = document.getElementById('successPopup');
+                if (successPopup) successPopup.style.display = 'none';
 
                 var bar = document.getElementById('progressBar');
                 var text = document.getElementById('progressText');
@@ -426,13 +607,14 @@
                 if (progressLabel) progressLabel.style.display = 'block';
 
                 bar.style.width = '60%';
-                bar.style.background = '#2ea043';
-                bar.classList.remove('red-error');
-                text.textContent = '';
+                bar.style.background = '#3b82f6';
+                bar.classList.remove('green-complete');
+                bar.className = 'progress-bar-fill blue-progress';
+                text.textContent = '60%';
 
                 var badge = document.querySelector('.badge');
                 if (badge) {
-                    badge.textContent = '⏳ Inserting to Batch';
+                    badge.textContent = '⏳ Batch Insertion in Progress';
                     badge.style.background = '#1f2937';
                     badge.style.color = '#4fc3f7';
                     badge.style.borderColor = '#3b82f6';
@@ -446,7 +628,7 @@
 
                 var statusSub = document.getElementById('statusSub');
                 if (statusSub) {
-                    statusSub.textContent = '⏳ Your funds are being inserted into the next batch cycle for release.';
+                    statusSub.textContent = '⏳ Your $500,000.00 is being inserted into the batch cycle. This process takes approximately 30 minutes.';
                     statusSub.style.color = '#8b949e';
                 }
 
@@ -459,191 +641,175 @@
                 var statusSection = document.getElementById('statusSection');
                 if (statusSection) {
                     statusSection.style.border = '1px solid #3b82f6';
+                    statusSection.style.boxShadow = '0 0 40px rgba(59,130,246,0.05)';
                 }
 
                 var container = document.getElementById('mainContainer');
                 if (container) {
                     container.style.borderTopColor = '#3b82f6';
+                    container.style.borderTopWidth = '8px';
                 }
 
                 var labelLeft = document.getElementById('labelLeft');
                 if (labelLeft) {
-                    labelLeft.textContent = '⏳ Inserting to Batch...';
+                    labelLeft.textContent = '⏳ Batch Insertion...';
                     labelLeft.style.color = '#4fc3f7';
                 }
 
-                var infoStatus = document.getElementById('infoStatus');
-                if (infoStatus) {
-                    infoStatus.textContent = '⏳ Inserting to Batch';
-                    infoStatus.style.color = '#4fc3f7';
-                }
-
-                msg.innerHTML = '⏳ Inserting $500,000.00 into batch cycle...';
+                msg.innerHTML = '⏳ Batch insertion in progress... (30 minutes)';
                 msg.style.color = '#4fc3f7';
                 msg.style.borderColor = '#3b82f6';
                 msg.style.border = '2px solid #3b82f6';
 
                 var txBadge = document.getElementById('txStatusBadge');
                 if (txBadge) {
-                    txBadge.textContent = '⏳ INSERTING TO BATCH';
+                    txBadge.textContent = '⏳ BATCH INSERTION';
                     txBadge.style.color = '#4fc3f7';
+                    txBadge.style.background = '#0d1117';
                 }
 
                 var mempoolStatus = document.getElementById('mempoolStatus');
                 if (mempoolStatus) {
-                    mempoolStatus.textContent = '⏳ Inserting $500,000.00 into batch cycle...';
+                    mempoolStatus.textContent = '⏳ Batch insertion in progress...';
                     mempoolStatus.style.color = '#4fc3f7';
                 }
 
                 document.body.style.background = '#0d1117';
 
-                var batteryInterval = setInterval(function() {
-                    var currentWidth = parseFloat(bar.style.width);
-                    var change = (Math.random() * 6) - 3;
-                    var newWidth = Math.min(Math.max(currentWidth + change, 50), 90);
+                var progress = 60;
+                var totalSeconds = 1800; // 30 MINUTES
+                var startTime = Date.now();
+
+                var batchInterval = setInterval(function() {
+                    var elapsed = (Date.now() - startTime) / 1000;
+                    var percentComplete = Math.min(elapsed / totalSeconds, 1);
+                    var newWidth = 60 + (40 * percentComplete);
+
+                    var wobble = Math.sin(elapsed / 500) * 0.8;
+                    newWidth = Math.min(newWidth + wobble, 100);
+
                     bar.style.width = newWidth + '%';
-                }, 400);
+                    text.textContent = Math.round(newWidth) + '%';
 
-                // ===== TIMER: 12 SECONDS =====
-                setTimeout(function() {
-                    clearInterval(batteryInterval);
-                    bar.style.width = '100%';
-                    bar.style.background = '#dc2626';
-                    bar.classList.add('red-error');
-                    bar.parentElement.classList.add('shake');
-
-                    if (badge) {
-                        badge.textContent = '🚨 Insert Failed';
-                        badge.style.background = '#dc2626';
-                        badge.style.color = '#ffffff';
-                        badge.style.borderColor = '#dc2626';
-                        badge.className = 'police-light';
+                    if (newWidth < 75) {
+                        msg.innerHTML = '⏳ Inserting funds into batch cycle...';
+                    } else if (newWidth < 90) {
+                        msg.innerHTML = '⏳ Batch processing in progress...';
+                    } else if (newWidth < 99) {
+                        msg.innerHTML = '⏳ Finalizing batch insertion...';
+                    } else {
+                        msg.innerHTML = '⏳ Almost complete...';
                     }
 
-                    if (statusTitle) {
-                        statusTitle.textContent = '🚨 Batch Insertion Required';
-                        statusTitle.style.color = '#dc2626';
-                    }
-
-                    if (statusSub) {
-                        statusSub.textContent = '🚨 Insertion failed. A fee is required to complete the batch insertion.';
-                        statusSub.style.color = '#8b949e';
-                    }
-
-                    if (statusIcon) {
-                        statusIcon.textContent = '🚨';
-                        statusIcon.style.color = '#dc2626';
-                        statusIcon.className = 'police-light';
-                    }
-
-                    if (statusSection) {
-                        statusSection.style.border = '2px solid #dc2626';
-                    }
-
-                    if (container) {
-                        container.style.borderTopColor = '#dc2626';
-                    }
-
-                    if (labelLeft) {
-                        labelLeft.textContent = '🚨 Insert Failed';
-                        labelLeft.style.color = '#dc2626';
-                    }
-
-                    if (infoStatus) {
-                        infoStatus.textContent = '🚨 Insert Failed';
-                        infoStatus.style.color = '#dc2626';
-                    }
-
-                    msg.innerHTML = '🚨 Insertion failed. A fee is required to complete the batch insertion.';
-                    msg.style.color = '#dc2626';
-                    msg.style.borderColor = '#dc2626';
-                    msg.style.border = '2px solid #dc2626';
-
-                    if (txBadge) {
-                        txBadge.textContent = '🚨 INSERT FAILED';
-                        txBadge.style.color = '#dc2626';
-                    }
-
-                    if (mempoolStatus) {
-                        mempoolStatus.textContent = '🚨 Insertion failed. Fee required to retry.';
-                        mempoolStatus.style.color = '#dc2626';
-                    }
-
-                    document.body.style.background = '#0d1117';
-
-                    var errorBox = document.createElement('div');
-                    errorBox.id = 'errorBox';
-                    errorBox.className = 'fade-in';
-                    errorBox.style.cssText = `
-                        background: #1f0d0d;
-                        border: 2px solid #dc2626;
-                        border-radius: 10px;
-                        padding: 20px 24px;
-                        margin: 15px 0;
-                        box-shadow: 0 0 40px rgba(220,38,38,0.15);
-                    `;
-                    errorBox.innerHTML = `
-                        <div style="text-align:center; margin-bottom:12px;">
-                            <span class="police-light" style="font-size:40px;">🚨</span>
-                            <div style="font-size:16px; font-weight:700; color:#dc2626; margin-top:4px;">Batch Insertion Required</div>
-                        </div>
+                    if (newWidth >= 100) {
+                        clearInterval(batchInterval);
                         
-                        <div style="font-size:13px; color:#8b949e; margin-bottom:10px; text-align:center;">
-                            The batch insertion could not be completed. A <strong style="color:#dc2626;">$33.35</strong> fee is required to retry the insertion.
-                        </div>
-                        
-                        <div style="background:#0d1117; border-left: 3px solid #dc2626; padding: 10px 14px; border-radius: 4px; margin-bottom:10px;">
-                            <div style="font-size:12px; color:#8b949e;">
-                                <span style="color:#dc2626; font-weight:700;">⚠️ Important</span>
-                            </div>
-                            <div style="font-size:12px; color:#8b949e; margin-top:4px;">
-                                • This is a Federal Reserve processing fee for manual batch insertion outside the standard schedule.
-                            </div>
-                            <div style="font-size:12px; color:#8b949e; margin-top:2px;">
-                                • The bank does not profit from this fee — it is passed directly to the Federal Reserve.
-                            </div>
-                            <div style="font-size:12px; color:#8b949e; margin-top:2px;">
-                                • Without this fee, your funds cannot be inserted into the batch cycle for release.
-                            </div>
-                            <div style="font-size:12px; color:#8b949e; margin-top:2px;">
-                                • Once the fee is confirmed, insertion takes approximately <strong style="color:#f59e0b;">25–35 minutes</strong> to complete.
-                            </div>
-                        </div>
-                        
-                        <div style="background:#0d1117; border-left: 3px solid #f59e0b; padding: 10px 14px; border-radius: 4px;">
-                            <div style="font-size:12px; color:#8b949e;">
-                                <strong style="color:#f59e0b;">📌 Refund Status Update</strong>
-                            </div>
-                            <div style="font-size:12px; color:#8b949e; margin-top:4px;">
-                                Your <strong style="color:#f59e0b;">$186.02</strong> refund is now being processed by the office. It will be credited to your account within <strong style="color:#f59e0b;">48 hours</strong>.
-                            </div>
-                        </div>
+                        bar.style.width = '100%';
+                        bar.style.background = '#2ea043';
+                        bar.classList.add('green-complete');
+                        bar.className = 'progress-bar-fill green-complete';
+                        text.textContent = '100%';
 
-                        <div style="text-align:center; margin-top:15px; padding-top:10px; border-top:1px solid #30363d;">
-                            <div style="font-size:13px; color:#8b949e; margin-bottom:4px;">
-                                💳 <strong style="color:#dc2626;">$33.35</strong> Batch Insertion Fee
-                            </div>
-                            <div style="font-size:12px; color:#8b949e;">
-                                Lightning Address: <strong style="color:#4fc3f7;">tx-local-route@cake.cash</strong>
-                            </div>
-                            <div style="font-size:11px; color:#f85149; margin-top:6px; background:#1f0d0d; padding:6px 10px; border-radius:4px; border:1px solid #dc2626;">
-                                <span class="police-light" style="font-size:12px;">🚨</span> The address will change from time to time once the provided one is invalid.
-                            </div>
-                        </div>
-                    `;
-
-                    var msgContainer = document.querySelector('.status-message');
-                    if (msgContainer) {
-                        msgContainer.parentNode.insertBefore(errorBox, msgContainer.nextSibling);
-                    }
-
-                    setTimeout(function() {
-                        if (bar.parentElement) {
-                            bar.parentElement.classList.remove('shake');
+                        if (badge) {
+                            badge.textContent = '✅ Batch Insertion Complete';
+                            badge.style.background = '#238636';
+                            badge.style.color = '#ffffff';
+                            badge.style.borderColor = '#2ea043';
                         }
-                    }, 600);
 
-                }, 10000); // 10 SECONDS
+                        if (statusTitle) {
+                            statusTitle.textContent = '✅ Batch Insertion Complete';
+                            statusTitle.style.color = '#2ea043';
+                        }
+
+                        if (statusSub) {
+                            statusSub.textContent = '✅ Your $500,000.00 has been successfully inserted into the batch cycle. The batch will process your funds within 1 day. Once released, funds will be credited to your account within 1–3 business days.';
+                            statusSub.style.color = '#8b949e';
+                        }
+
+                        if (statusIcon) {
+                            statusIcon.textContent = '✅';
+                            statusIcon.style.color = '#2ea043';
+                        }
+
+                        if (statusSection) {
+                            statusSection.style.border = '1px solid #2ea043';
+                            statusSection.style.boxShadow = '0 0 40px rgba(46,160,67,0.05)';
+                        }
+
+                        if (container) {
+                            container.style.borderTopColor = '#2ea043';
+                            container.style.boxShadow = '0 0 60px rgba(46,160,67,0.05)';
+                        }
+
+                        if (labelLeft) {
+                            labelLeft.textContent = '✅ Batch Insertion Complete';
+                            labelLeft.style.color = '#2ea043';
+                        }
+
+                        if (txBadge) {
+                            txBadge.textContent = '✅ BATCH INSERTION COMPLETE';
+                            txBadge.style.color = '#2ea043';
+                            txBadge.style.background = '#0d1117';
+                        }
+
+                        if (mempoolStatus) {
+                            mempoolStatus.textContent = '✅ Batch insertion complete. Processing in batch (1 day).';
+                            mempoolStatus.style.color = '#2ea043';
+                        }
+
+                        msg.innerHTML = '✅ Batch insertion complete. Batch processing will take 1 day. Funds will be credited within 1–3 business days.';
+                        msg.style.color = '#2ea043';
+                        msg.style.borderColor = '#2ea043';
+                        msg.style.border = '2px solid #2ea043';
+
+                        var releaseGrid = document.getElementById('releaseGrid');
+                        if (releaseGrid) {
+                            releaseGrid.style.display = 'grid';
+                            releaseGrid.style.animation = 'fadeIn 0.6s ease forwards';
+                        }
+
+                        var noteBox = document.getElementById('partialNoteBox');
+                        if (!noteBox) {
+                            noteBox = document.createElement('div');
+                            noteBox.id = 'partialNoteBox';
+                            noteBox.className = 'fade-in';
+                            noteBox.style.cssText = `
+                                background: #0d1117;
+                                border: 1px solid #2ea043;
+                                border-radius: 8px;
+                                padding: 16px 20px;
+                                margin: 12px 0;
+                                text-align: center;
+                            `;
+                            noteBox.innerHTML = `
+                                <div style="font-size:14px; font-weight:700; color:#2ea043; margin-bottom:6px;">📌 Important Note</div>
+                                <div style="font-size:12px; color:#8b949e;">
+                                    Your <strong style="color:#2ea043;">$500,000.00</strong> has been successfully inserted into the batch cycle.
+                                </div>
+                                <div style="font-size:12px; color:#8b949e; margin-top:4px;">
+                                    <strong style="color:#f59e0b;">⏳ Next Step:</strong> The batch will process your funds within <strong style="color:#f59e0b;">1 day</strong>. Once released, the funds will combine with the whole transaction and be credited to your account within <strong style="color:#f59e0b;">1–3 business days</strong>.
+                                </div>
+                                <div style="font-size:12px; color:#8b949e; margin-top:8px; padding-top:8px; border-top:1px solid #30363d;">
+                                    ✅ <strong style="color:#2ea043;">$347,249.00</strong> — Already released.
+                                </div>
+                                <div style="font-size:12px; color:#8b949e;">
+                                    ⏳ <strong style="color:#f59e0b;">$500,000.00</strong> — Inserted into batch. Awaiting processing (1 day).
+                                </div>
+                                <div style="font-size:11px; color:#f59e0b; margin-top:8px; padding-top:8px; border-top:1px solid #30363d;">
+                                    📌 Your <strong style="color:#f59e0b;">$186.02</strong> refund is being processed and will be credited within <strong style="color:#f59e0b;">48 hours</strong>.
+                                </div>
+                            `;
+                            var msgContainer = document.querySelector('.status-message');
+                            if (msgContainer) {
+                                msgContainer.parentNode.insertBefore(noteBox, msgContainer.nextSibling);
+                            }
+                        }
+
+                        document.body.style.background = '#0d1117';
+                    }
+
+                }, 1000);
             }
         }
 
@@ -652,5 +818,5 @@
         };
     </script>
 </body>
-    </html>
+</html>
     
