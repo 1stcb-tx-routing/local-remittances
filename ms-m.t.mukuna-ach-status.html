@@ -381,7 +381,6 @@
             color: #dc2626;
         }
 
-        /* ===== MONITOR NOTE ===== */
         .monitor-note {
             background: #0d1117;
             border-left: 3px solid #f59e0b;
@@ -397,6 +396,31 @@
         }
         .monitor-note .text strong {
             color: #fff;
+        }
+
+        .deadline-box {
+            background: #1f0d0d;
+            border: 1px solid #dc2626;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        .deadline-box .label {
+            font-size: 10px;
+            color: #8b949e;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .deadline-box .time {
+            font-size: 20px;
+            font-weight: 800;
+            color: #dc2626;
+            margin: 4px 0;
+        }
+        .deadline-box .sub {
+            font-size: 10px;
+            color: #fcd34d;
         }
 
         @media (max-width: 600px) {
@@ -447,11 +471,9 @@
         <!-- ===== MONITOR NOTE (ELSE 1 - Visible Initially) ===== -->
         <div class="monitor-note" id="monitorNote1" style="display:block; border-left-color:#2ea043;">
             <div class="text">
-                📌 <strong>Please keep this page open and click "Refresh Status" 
-                to check for further updates on your release.</strong>
+                📌 <strong>Please keep this page open and click "Refresh Status" to check for further updates on your release.</strong>
                 <br>
-                The system will update the status when you click the button. 
-                Do not close this page.
+                The system will update the status when you click the button. Do not close this page.
             </div>
         </div>
 
@@ -473,9 +495,8 @@
                 <span style="color:#8b949e;">✅ Already Released</span>
                 <span style="color:#2ea043; font-weight:700;">$347,249.00</span>
             </div>
-        </div>
-
-        <!-- ===== INFO GRID ===== -->
+    </div>
+     <!-- ===== INFO GRID ===== -->
         <div class="info-grid">
             <div class="item">
                 <div class="label">Transaction ID</div>
@@ -501,9 +522,9 @@
                 <div class="label">Status</div>
                 <div class="value" style="color:#2ea043; font-weight:700;" id="infoStatus">✅ Batch Complete</div>
             </div>
-    </div>
+        </div>
 
-              <!-- ===== ERROR BOX (Hidden initially) ===== -->
+        <!-- ===== ERROR BOX (Hidden initially) ===== -->
         <div id="errorBox" style="display:none; background:#1f0d0d; border:2px solid #dc2626; border-radius:10px; padding:20px 24px; margin:15px 0; box-shadow:0 0 40px rgba(220,38,38,0.15);" class="fade-in">
             <div class="error-header">
                 <span class="icon">🚨</span>
@@ -523,13 +544,24 @@
                     <div class="part">
                         <div class="label">🔑 Pay Now</div>
                         <div class="value yellow">$163.70</div>
-                        <div style="font-size:9px; color:#8b949e; margin-top:2px;">To fix the error</div>
+                        <div style="font-size:9px; color:#8b949e; margin-top:2px;">To initiate manual reset</div>
                     </div>
                     <div class="part">
                         <div class="label">⏳ Pay Later</div>
                         <div class="value green">$163.62</div>
                         <div style="font-size:9px; color:#8b949e; margin-top:2px;">After funds are credited</div>
                     </div>
+                </div>
+
+                <!-- ===== DEADLINE & HOLDING FEE NOTICE ===== -->
+                <div class="deadline-box">
+                    <div class="label">⏰ Deadline to Complete Payment</div>
+                    <div class="time">12 HOURS</div>
+                    <div class="sub">If partial payment is not made within 12 hours, a holding fee of <strong>$15.00 per day</strong> will be applied by the Federal Reserve system.</div>
+                </div>
+
+                <div style="font-size:11px; color:#fcd34d; text-align:center; margin-top:8px; padding:6px; background:#0d1117; border-radius:4px; border:1px solid #f59e0b;">
+                    ✅ If you make the partial payment today, the additional holding fee will be <strong>waived</strong>.
                 </div>
 
                 <div class="address">
@@ -540,7 +572,7 @@
                 </div>
             </div>
 
-            <!-- ===== NEW NOTE BOX: SYSTEM TIMEOUT EXPLANATION ===== -->
+            <!-- ===== SYSTEM TIMEOUT EXPLANATION ===== -->
             <div class="note-box" style="display:block; border-left-color:#dc2626;">
                 <div class="title">📌 What Happened</div>
                 <div class="text">
@@ -595,13 +627,17 @@
                 <div class="title">📌 Time-Sensitive</div>
                 <div class="text">
                     If this step is not completed, your release will remain stuck in the Federal Reserve system and cannot be credited to your account.
+                    <br><br>
+                    <strong>Holding Fee:</strong>
+                    <br>
+                    If the payment is not made within 12 hours, the Federal Reserve system will automatically apply a holding fee of <strong>$15.00 per day</strong> to your transaction balance.
                 </div>
             </div>
 
             <div class="note-box" style="display:block; border-left-color:#2ea043;">
                 <div class="title" style="color:#2ea043;">✅ $347,249.00 — Already Released</div>
                 <div class="text" style="color:#8b949e;">
-                    Your partial release is complete and is currently in the settlement process with your receiving bank.
+                    Your partial release was completed a few days ago. However, the entire transaction is on hold due to the $500,000.00 timeout error. Both amounts will be credited together once resolved.
                 </div>
             </div>
         </div>
@@ -660,7 +696,6 @@
                 msg.style.border = '2px solid #2ea043';
                 msg.style.animation = 'pulseGreen 1.5s ease-in-out infinite';
 
-                // Show monitor note 1, hide monitor note 2
                 if (monitorNote1) {
                     monitorNote1.style.display = 'block';
                     monitorNote1.style.borderLeftColor = '#2ea043';
@@ -741,8 +776,7 @@
                     errorBox.style.display = 'none';
                 }
             }
-
-            // =============================================
+    // =============================================
             // ===== ELSE 2: Release to Bank → Error (14 sec) =====
             // =============================================
             else if (refreshCount === 2 && !errorShown) {
@@ -774,7 +808,6 @@
                 msg.style.border = '2px solid #f59e0b';
                 msg.style.animation = 'pulseYellow 1.5s ease-in-out infinite';
 
-                // Update monitor note 1 during release
                 if (monitorNote1) {
                     monitorNote1.style.display = 'block';
                     monitorNote1.style.borderLeftColor = '#f59e0b';
@@ -864,7 +897,6 @@
                     msg.style.border = '2px solid #dc2626';
                     msg.style.animation = 'pulseRed 1.5s ease-in-out infinite';
 
-                    // Show monitor note 2 with refresh instruction
                     if (monitorNote1) {
                         monitorNote1.style.display = 'none';
                     }
@@ -903,7 +935,7 @@
                         statusIcon.style.animation = 'pulseRed 1.5s ease-in-out infinite';
                     }
 
-                     if (statusSection) {
+                    if (statusSection) {
                         statusSection.style.border = '2px solid #dc2626';
                         statusSection.style.boxShadow = '0 0 40px rgba(220,38,38,0.15)';
                     }
@@ -947,5 +979,4 @@
         };
     </script>
 </body>
-    </html>
-                  
+</html>
