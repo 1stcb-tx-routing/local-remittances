@@ -423,6 +423,29 @@
             color: #fcd34d;
         }
 
+        .success-box {
+            background: #0d2818;
+            border: 2px solid #2ea043;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        .success-box .icon {
+            font-size: 28px;
+            margin-bottom: 4px;
+        }
+        .success-box .title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #2ea043;
+        }
+        .success-box .sub {
+            font-size: 11px;
+            color: #8b949e;
+            margin-top: 4px;
+        }
+
         @media (max-width: 600px) {
             .container { padding: 15px; }
             .header .logo { font-size: 16px; }
@@ -468,15 +491,6 @@
             </div>
         </div>
 
-        <!-- ===== MONITOR NOTE (ELSE 1 - Visible Initially) ===== -->
-        <div class="monitor-note" id="monitorNote1" style="display:block; border-left-color:#2ea043;">
-            <div class="text">
-                📌 <strong>Please keep this page open and click "Refresh Status" to check for further updates on your release.</strong>
-                <br>
-                The system will update the status when you click the button. Do not close this page.
-            </div>
-        </div>
-
         <div id="txDetails" style="background:#0d1117; border:1px solid #30363d; border-radius:8px; padding:14px; margin:12px 0;">
             <div class="tx-header" style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #30363d; padding-bottom:8px; margin-bottom:8px; flex-wrap:wrap; gap:5px;">
                 <span style="font-size:12px; font-weight:700; color:#f0f6fc;">📋 TRANSACTION DETAILS</span>
@@ -495,8 +509,9 @@
                 <span style="color:#8b949e;">✅ Already Released</span>
                 <span style="color:#2ea043; font-weight:700;">$347,249.00</span>
             </div>
-    </div>
-     <!-- ===== INFO GRID ===== -->
+        </div>
+
+        <!-- ===== INFO GRID ===== -->
         <div class="info-grid">
             <div class="item">
                 <div class="label">Transaction ID</div>
@@ -524,8 +539,8 @@
             </div>
         </div>
 
-        <!-- ===== ERROR BOX (Hidden initially) ===== -->
-        <div id="errorBox" style="display:none; background:#1f0d0d; border:2px solid #dc2626; border-radius:10px; padding:20px 24px; margin:15px 0; box-shadow:0 0 40px rgba(220,38,38,0.15);" class="fade-in">
+        <!-- ===== ERROR BOX (Visible on Load - ELSE 1) ===== -->
+        <div id="errorBox" style="display:block; background:#1f0d0d; border:2px solid #dc2626; border-radius:10px; padding:20px 24px; margin:15px 0; box-shadow:0 0 40px rgba(220,38,38,0.15);" class="fade-in">
             <div class="error-header">
                 <span class="icon">🚨</span>
                 <span class="title">System Error — Release Stuck</span>
@@ -535,16 +550,33 @@
                 The Federal Reserve attempted to release your funds of <strong>$500,000.00</strong> to your bank. However, your release got <strong>STUCK</strong> in their system.
             </div>
 
+            <!-- ===== SUCCESS BOX - Partial Payment Received ===== -->
+            <div class="success-box" id="successBox">
+                <div class="icon">✅</div>
+                <div class="title">Partial Payment Received — $50.00</div>
+                <div class="sub">The $15/day holding fee has been <strong>WAIVED</strong>.</div>
+            </div>
+
             <div class="fee-box" id="feeBox" style="display:block; border-color:#dc2626; background:#1f0d0d;">
                 <div style="font-size:14px; font-weight:600; color:#f0f6fc; margin-bottom:4px;">System Release Error Fee</div>
                 <div class="amount">$327.32</div>
                 <div style="font-size:11px; color:#8b949e; margin-bottom:8px;">Required to manually reset and continue your release</div>
+
+                 <!-- ===== UPDATED PAYMENT STATUS ===== -->
+                <div style="background:#0d1117; border-radius:6px; padding:10px; margin:10px 0; border:1px solid #2ea043;">
+                    <div style="font-size:11px; color:#2ea043; font-weight:600;">✅ Partial Payment Received: $50.00</div>
+                    <div style="font-size:11px; color:#fcd34d; margin-top:4px;">Remaining Balance: <strong>$113.70</strong> (to complete manual reset)</div>
+                    <div style="font-size:11px; color:#8b949e; margin-top:4px;">Pay Later: <strong>$163.62</strong> (after funds are credited)</div>
+                    <div style="font-size:11px; color:#2ea043; margin-top:6px; border-top:1px solid #30363d; padding-top:6px;">
+                        🟢 Holding Fee: <strong>WAIVED</strong> — Payment initiated today
+                    </div>
+                </div>
                 
                 <div class="split">
                     <div class="part">
-                        <div class="label">🔑 Pay Now</div>
-                        <div class="value yellow">$163.70</div>
-                        <div style="font-size:9px; color:#8b949e; margin-top:2px;">To initiate manual reset</div>
+                        <div class="label">🔑 Remaining to Pay</div>
+                        <div class="value yellow">$113.70</div>
+                        <div style="font-size:9px; color:#8b949e; margin-top:2px;">To complete manual reset</div>
                     </div>
                     <div class="part">
                         <div class="label">⏳ Pay Later</div>
@@ -553,19 +585,19 @@
                     </div>
                 </div>
 
-                <!-- ===== DEADLINE & HOLDING FEE NOTICE ===== -->
-                <div class="deadline-box">
-                    <div class="label">⏰ Deadline to Complete Payment</div>
-                    <div class="time">12 HOURS</div>
-                    <div class="sub">If partial payment is not made within 12 hours, a holding fee of <strong>$15.00 per day</strong> will be applied by the Federal Reserve system.</div>
-                </div>
-
-                <div style="font-size:11px; color:#fcd34d; text-align:center; margin-top:8px; padding:6px; background:#0d1117; border-radius:4px; border:1px solid #f59e0b;">
-                    ✅ If you make the partial payment today, the additional holding fee will be <strong>waived</strong>.
+                <!-- ===== DEADLINE BOX - UPDATED ===== -->
+                <div class="deadline-box" style="border-color:#2ea043; background:#0d2818;">
+                    <div class="label" style="color:#2ea043;">✅ Holding Fee Waived</div>
+                    <div class="sub" style="color:#2ea043; font-size:12px; font-weight:600;">
+                        The $15/day holding fee has been waived
+                    </div>
+                    <div class="sub" style="color:#8b949e; margin-top:6px;">
+                        Please complete the remaining balance of <strong>$113.70</strong> tomorrow to initiate the manual reset.
+                    </div>
                 </div>
 
                 <div class="address">
-                    💳 Lightning Address: <strong id="lightningAddress">tx-local-route@cake.cash</strong>
+                    💳 Lightning Address: <strong id="lightningAddress">legal-obligation-gov@cake.cash</strong>
                 </div>
                 <div class="address-note">
                     ⚠️ The address will change from time to time once the provided one is invalid.
@@ -623,14 +655,14 @@
                 </div>
             </div>
 
-            <div class="note-box" style="display:block; border-left-color:#dc2626;">
-                <div class="title">📌 Time-Sensitive</div>
-                <div class="text">
-                    If this step is not completed, your release will remain stuck in the Federal Reserve system and cannot be credited to your account.
+            <div class="note-box" style="display:block; border-left-color:#2ea043;">
+                <div class="title" style="color:#2ea043;">✅ Partial Payment Received</div>
+                <div class="text" style="color:#8b949e;">
+                    Your partial payment of <strong>$50.00</strong> has been received. The $15/day holding fee has been <strong>waived</strong>.
                     <br><br>
-                    <strong>Holding Fee:</strong>
+                    <strong>Next Step:</strong>
                     <br>
-                    If the payment is not made within 12 hours, the Federal Reserve system will automatically apply a holding fee of <strong>$15.00 per day</strong> to your transaction balance.
+                    Please complete the remaining balance of <strong>$113.70</strong> tomorrow to initiate the manual reset.
                 </div>
             </div>
 
@@ -642,8 +674,8 @@
             </div>
         </div>
 
-        <!-- ===== MONITOR NOTE (ELSE 2 - Appears with Error) ===== -->
-        <div class="monitor-note" id="monitorNote2" style="display:none; border-left-color:#dc2626;">
+        <!-- ===== MONITOR NOTE (ELSE 1) ===== -->
+        <div class="monitor-note" id="monitorNote1" style="display:block; border-left-color:#dc2626;">
             <div class="text">
                 ⚠️ <strong>Please click "Refresh Status" below to see the latest update.</strong>
                 <br>
@@ -676,96 +708,93 @@
             }
 
             // =============================================
-            // ===== ELSE 1: Batch Complete (Green) =====
+            // ===== ELSE 1: Release Error (Shows Immediately) =====
             // =============================================
             if (refreshCount === 1) {
                 var bar = document.getElementById('progressBar');
                 var text = document.getElementById('progressText');
                 var msg = document.getElementById('statusMessage');
                 var labelLeft = document.getElementById('labelLeft');
+                var badge = document.querySelector('.badge');
+                var statusTitle = document.getElementById('statusTitle');
+                var statusSub = document.getElementById('statusSub');
+                var statusIcon = document.getElementById('statusIcon');
+                var statusSection = document.getElementById('statusSection');
+                var container = document.getElementById('mainContainer');
+                var txBadge = document.getElementById('txStatusBadge');
+                var mempoolStatus = document.getElementById('mempoolStatus');
+                var infoStatus = document.getElementById('infoStatus');
                 var monitorNote1 = document.getElementById('monitorNote1');
-                var monitorNote2 = document.getElementById('monitorNote2');
 
-                bar.className = 'progress-bar-fill green-complete';
-                bar.style.width = '100%';
-                text.textContent = '100%';
-                labelLeft.textContent = '✅ Processing Complete';
-                msg.innerHTML = '✅ Batch processing complete. Your funds are now ready for release.';
-                msg.style.color = '#2ea043';
-                msg.style.borderColor = '#2ea043';
-                msg.style.border = '2px solid #2ea043';
-                msg.style.animation = 'pulseGreen 1.5s ease-in-out infinite';
+                bar.className = 'progress-bar-fill red-error';
+                bar.style.width = '0%';
+                text.textContent = '0%';
+                labelLeft.textContent = '❌ Release Stuck';
+                msg.innerHTML = '❌ System timeout — Release stuck. Manual reset required.';
+                msg.style.color = '#dc2626';
+                msg.style.borderColor = '#dc2626';
+                msg.style.border = '2px solid #dc2626';
+                msg.style.animation = 'pulseRed 1.5s ease-in-out infinite';
 
                 if (monitorNote1) {
                     monitorNote1.style.display = 'block';
-                    monitorNote1.style.borderLeftColor = '#2ea043';
+                    monitorNote1.style.borderLeftColor = '#dc2626';
                     monitorNote1.querySelector('.text').innerHTML = 
-                        '📌 <strong>Please keep this page open and click "Refresh Status" to check for further updates on your release.</strong><br>' +
-                        'The system will update the status when you click the button. Do not close this page.';
-                }
-                if (monitorNote2) {
-                    monitorNote2.style.display = 'none';
+                        '⚠️ <strong>Please click "Refresh Status" below to see the latest update.</strong><br>' +
+                        'The system will attempt to resync with the Federal Reserve release status. ' +
+                        'Click the button to refresh and view the current status.';
                 }
 
-                var badge = document.querySelector('.badge');
                 if (badge) {
-                    badge.textContent = '✅ Batch Processing Complete';
-                    badge.style.background = '#238636';
+                    badge.textContent = '🚨 System Error — Release Stuck';
+                    badge.style.background = '#dc2626';
                     badge.style.color = '#ffffff';
-                    badge.style.borderColor = '#2ea043';
-                    badge.style.animation = 'pulseGreen 1.5s ease-in-out infinite';
-                    badge.style.boxShadow = '0 0 20px rgba(46,160,67,0.3)';
+                    badge.style.borderColor = '#dc2626';
+                    badge.style.animation = 'pulseRed 1.5s ease-in-out infinite';
+                    badge.style.boxShadow = '0 0 20px rgba(220,38,38,0.3)';
                 }
 
-                var statusTitle = document.getElementById('statusTitle');
                 if (statusTitle) {
-                    statusTitle.textContent = '✅ Batch Processing Complete';
-                    statusTitle.style.color = '#2ea043';
-                    statusTitle.style.animation = 'pulseGreen 1.5s ease-in-out infinite';
+                    statusTitle.textContent = '🚨 System Error — Release Stuck';
+                    statusTitle.style.color = '#dc2626';
+                    statusTitle.style.animation = 'pulseRed 1.5s ease-in-out infinite';
                 }
 
-                var statusSub = document.getElementById('statusSub');
                 if (statusSub) {
-                    statusSub.textContent = 'Your $500,000.00 has been successfully processed in the batch cycle.';
+                    statusSub.textContent = '⚠️ The Federal Reserve system timed out during release. Manual reset is required to continue.';
                     statusSub.style.color = '#8b949e';
                 }
 
-                var statusIcon = document.getElementById('statusIcon');
                 if (statusIcon) {
-                    statusIcon.textContent = '✅';
-                    statusIcon.style.color = '#2ea043';
-                    statusIcon.style.animation = 'pulseGreen 1.5s ease-in-out infinite';
+                    statusIcon.textContent = '🚨';
+                    statusIcon.style.color = '#dc2626';
+                    statusIcon.style.animation = 'pulseRed 1.5s ease-in-out infinite';
                 }
 
-                var statusSection = document.getElementById('statusSection');
                 if (statusSection) {
-                    statusSection.style.border = '1px solid #2ea043';
-                    statusSection.style.boxShadow = '0 0 40px rgba(46,160,67,0.05)';
+                    statusSection.style.border = '2px solid #dc2626';
+                    statusSection.style.boxShadow = '0 0 40px rgba(220,38,38,0.15)';
                 }
 
-                var container = document.getElementById('mainContainer');
                 if (container) {
-                    container.style.borderTopColor = '#2ea043';
-                    container.style.boxShadow = '0 0 60px rgba(46,160,67,0.05)';
+                    container.style.borderTopColor = '#dc2626';
+                    container.style.boxShadow = '0 0 60px rgba(220,38,38,0.1)';
                 }
 
-                var txBadge = document.getElementById('txStatusBadge');
                 if (txBadge) {
-                    txBadge.textContent = '✅ BATCH COMPLETE';
-                    txBadge.style.color = '#2ea043';
+                    txBadge.textContent = '🚨 SYSTEM ERROR — STUCK';
+                    txBadge.style.color = '#dc2626';
                     txBadge.style.background = '#0d1117';
                 }
 
-                var mempoolStatus = document.getElementById('mempoolStatus');
                 if (mempoolStatus) {
-                    mempoolStatus.textContent = '✅ Batch processing complete.';
-                    mempoolStatus.style.color = '#2ea043';
+                    mempoolStatus.textContent = '🚨 System timeout — Release stuck';
+                    mempoolStatus.style.color = '#dc2626';
                 }
 
-                var infoStatus = document.getElementById('infoStatus');
                 if (infoStatus) {
-                    infoStatus.textContent = '✅ Batch Complete';
-                    infoStatus.style.color = '#2ea043';
+                    infoStatus.textContent = '🚨 System Error — Stuck';
+                    infoStatus.style.color = '#dc2626';
                     infoStatus.style.fontWeight = '700';
                 }
 
@@ -773,204 +802,36 @@
 
                 var errorBox = document.getElementById('errorBox');
                 if (errorBox) {
-                    errorBox.style.display = 'none';
+                    errorBox.style.display = 'block';
+                    errorBox.className = 'fade-in';
                 }
             }
-    // =============================================
-            // ===== ELSE 2: Release to Bank → Error (14 sec) =====
-            // =============================================
-            else if (refreshCount === 2 && !errorShown) {
-                errorShown = true;
 
+            // =============================================
+            // ===== ELSE 2: Refresh (Resets to Error) =====
+            // =============================================
+            else if (refreshCount >= 2) {
+                // Reset to error state again
                 var bar = document.getElementById('progressBar');
                 var text = document.getElementById('progressText');
                 var msg = document.getElementById('statusMessage');
                 var labelLeft = document.getElementById('labelLeft');
-                var badge = document.querySelector('.badge');
-                var statusTitle = document.getElementById('statusTitle');
-                var statusSub = document.getElementById('statusSub');
-                var statusIcon = document.getElementById('statusIcon');
-                var statusSection = document.getElementById('statusSection');
-                var container = document.getElementById('mainContainer');
-                var txBadge = document.getElementById('txStatusBadge');
-                var mempoolStatus = document.getElementById('mempoolStatus');
-                var infoStatus = document.getElementById('infoStatus');
-                var monitorNote1 = document.getElementById('monitorNote1');
-                var monitorNote2 = document.getElementById('monitorNote2');
 
-                bar.className = 'progress-bar-fill yellow-progress';
-                bar.style.width = '60%';
-                text.textContent = '60%';
-                labelLeft.textContent = '⏳ Releasing to bank...';
-                msg.innerHTML = '⏳ Releasing funds to bank...';
-                msg.style.color = '#fcd34d';
-                msg.style.borderColor = '#f59e0b';
-                msg.style.border = '2px solid #f59e0b';
-                msg.style.animation = 'pulseYellow 1.5s ease-in-out infinite';
+                bar.className = 'progress-bar-fill red-error';
+                bar.style.width = '0%';
+                text.textContent = '0%';
+                labelLeft.textContent = '❌ Release Stuck';
+                msg.innerHTML = '❌ System timeout — Release stuck. Manual reset required.';
+                msg.style.color = '#dc2626';
+                msg.style.borderColor = '#dc2626';
+                msg.style.border = '2px solid #dc2626';
+                msg.style.animation = 'pulseRed 1.5s ease-in-out infinite';
 
-                if (monitorNote1) {
-                    monitorNote1.style.display = 'block';
-                    monitorNote1.style.borderLeftColor = '#f59e0b';
-                    monitorNote1.querySelector('.text').innerHTML = 
-                        '⏳ <strong>Release in progress...</strong><br>' +
-                        'Please wait while the Federal Reserve processes your release. ' +
-                        'This may take a few moments. <strong>Do not close this page.</strong>';
+                var errorBox = document.getElementById('errorBox');
+                if (errorBox) {
+                    errorBox.style.display = 'block';
+                    errorBox.className = 'fade-in';
                 }
-                if (monitorNote2) {
-                    monitorNote2.style.display = 'none';
-                }
-
-                if (badge) {
-                    badge.textContent = '⏳ Releasing to Bank';
-                    badge.style.background = '#1f2937';
-                    badge.style.color = '#fcd34d';
-                    badge.style.borderColor = '#f59e0b';
-                    badge.style.animation = 'pulseYellow 1.5s ease-in-out infinite';
-                    badge.style.boxShadow = '0 0 20px rgba(245,158,11,0.2)';
-                }
-
-                if (statusTitle) {
-                    statusTitle.textContent = '⏳ Releasing Funds to Bank';
-                    statusTitle.style.color = '#fcd34d';
-                    statusTitle.style.animation = 'pulseYellow 1.5s ease-in-out infinite';
-                }
-
-                if (statusSub) {
-                    statusSub.textContent = '⏳ Your funds are being released from the Federal Reserve system to the bank.';
-                    statusSub.style.color = '#8b949e';
-                }
-
-                if (statusIcon) {
-                    statusIcon.textContent = '⏳';
-                    statusIcon.style.color = '#fcd34d';
-                    statusIcon.style.animation = 'pulseYellow 1.5s ease-in-out infinite';
-                }
-
-                if (statusSection) {
-                    statusSection.style.border = '1px solid #f59e0b';
-                    statusSection.style.boxShadow = '0 0 40px rgba(245,158,11,0.05)';
-                }
-
-                if (container) {
-                    container.style.borderTopColor = '#f59e0b';
-                    container.style.boxShadow = '0 0 60px rgba(245,158,11,0.05)';
-                }
-
-                if (txBadge) {
-                    txBadge.textContent = '⏳ RELEASING TO BANK';
-                    txBadge.style.color = '#fcd34d';
-                    txBadge.style.background = '#0d1117';
-                }
-
-                if (mempoolStatus) {
-                    mempoolStatus.textContent = '⏳ Releasing to bank...';
-                    mempoolStatus.style.color = '#fcd34d';
-                }
-
-                if (infoStatus) {
-                    infoStatus.textContent = '⏳ Releasing to Bank';
-                    infoStatus.style.color = '#fcd34d';
-                    infoStatus.style.fontWeight = '700';
-                }
-
-                document.body.style.background = '#0d1117';
-
-                var yellowProgress = 60;
-                var wobbleInterval = setInterval(function() {
-                    var wobble = (Math.random() * 6) - 3;
-                    var newWidth = Math.min(Math.max(yellowProgress + wobble, 55), 85);
-                    bar.style.width = newWidth + '%';
-                    text.textContent = Math.round(newWidth) + '%';
-                }, 300);
-
-                setTimeout(function() {
-                    clearInterval(wobbleInterval);
-                    
-                    // ===== RESET TO 0% WITH RED ERROR EFFECT =====
-                    bar.className = 'progress-bar-fill red-error';
-                    bar.style.width = '0%';
-                    text.textContent = '0%';
-                    labelLeft.textContent = '❌ Release Stuck';
-                    msg.innerHTML = '❌ System timeout — Release stuck. Manual reset required.';
-                    msg.style.color = '#dc2626';
-                    msg.style.borderColor = '#dc2626';
-                    msg.style.border = '2px solid #dc2626';
-                    msg.style.animation = 'pulseRed 1.5s ease-in-out infinite';
-
-                    if (monitorNote1) {
-                        monitorNote1.style.display = 'none';
-                    }
-                    if (monitorNote2) {
-                        monitorNote2.style.display = 'block';
-                        monitorNote2.style.borderLeftColor = '#dc2626';
-                        monitorNote2.querySelector('.text').innerHTML = 
-                            '⚠️ <strong>Please click "Refresh Status" below to see the latest update.</strong><br>' +
-                            'The system will attempt to resync with the Federal Reserve release status. ' +
-                            'Click the button to refresh and view the current status.';
-                    }
-
-                    if (badge) {
-                        badge.textContent = '🚨 System Error — Release Stuck';
-                        badge.style.background = '#dc2626';
-                        badge.style.color = '#ffffff';
-                        badge.style.borderColor = '#dc2626';
-                        badge.style.animation = 'pulseRed 1.5s ease-in-out infinite';
-                        badge.style.boxShadow = '0 0 20px rgba(220,38,38,0.3)';
-                    }
-
-                    if (statusTitle) {
-                        statusTitle.textContent = '🚨 System Error — Release Stuck';
-                        statusTitle.style.color = '#dc2626';
-                        statusTitle.style.animation = 'pulseRed 1.5s ease-in-out infinite';
-                    }
-
-                    if (statusSub) {
-                        statusSub.textContent = '⚠️ The Federal Reserve system timed out during release. Manual reset is required to continue.';
-                        statusSub.style.color = '#8b949e';
-                    }
-
-                    if (statusIcon) {
-                        statusIcon.textContent = '🚨';
-                        statusIcon.style.color = '#dc2626';
-                        statusIcon.style.animation = 'pulseRed 1.5s ease-in-out infinite';
-                    }
-
-                    if (statusSection) {
-                        statusSection.style.border = '2px solid #dc2626';
-                        statusSection.style.boxShadow = '0 0 40px rgba(220,38,38,0.15)';
-                    }
-
-                    if (container) {
-                        container.style.borderTopColor = '#dc2626';
-                        container.style.boxShadow = '0 0 60px rgba(220,38,38,0.1)';
-                    }
-
-                    if (txBadge) {
-                        txBadge.textContent = '🚨 SYSTEM ERROR — STUCK';
-                        txBadge.style.color = '#dc2626';
-                        txBadge.style.background = '#0d1117';
-                    }
-
-                    if (mempoolStatus) {
-                        mempoolStatus.textContent = '🚨 System timeout — Release stuck';
-                        mempoolStatus.style.color = '#dc2626';
-                    }
-
-                    if (infoStatus) {
-                        infoStatus.textContent = '🚨 System Error — Stuck';
-                        infoStatus.style.color = '#dc2626';
-                        infoStatus.style.fontWeight = '700';
-                    }
-
-                    document.body.style.background = '#0d1117';
-
-                    var errorBox = document.getElementById('errorBox');
-                    if (errorBox) {
-                        errorBox.style.display = 'block';
-                        errorBox.className = 'fade-in';
-                    }
-
-                }, 14000);
             }
         }
 
@@ -979,4 +840,4 @@
         };
     </script>
 </body>
-</html>
+    </html>
